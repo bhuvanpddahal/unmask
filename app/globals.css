@@ -81,5 +81,5 @@ html, body {
 }
 
 .sticky-nav {
-  @apply sticky top-0 bg-gray-100/50 backdrop-blur z-10 transition-all;
+  @apply sticky top-0 bg-gray-200/50 backdrop-blur-sm z-10 transition-all;
 }

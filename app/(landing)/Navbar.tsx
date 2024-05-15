@@ -29,7 +29,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav ref={navRef} className="pl-2 pr-4 py-3 bg-muted">
+        <nav ref={navRef} className="pl-2 pr-4 py-3 bg-primary-foreground">
             <div className="max-w-7xl w-full mx-auto flex items-center justify-between">
                 <Link
                     href="/"
