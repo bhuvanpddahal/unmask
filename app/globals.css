@@ -75,3 +75,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+html, body {
+  @apply scroll-smooth;
+}
+
+.sticky-nav {
+  @apply sticky top-0 bg-gray-100/50 backdrop-blur z-10 transition-all;
+}

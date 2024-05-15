@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 
 export async function middleware(req: NextRequest) {
     const user = (await auth())?.user;
-    console.log("user:", user);
     const response = NextResponse.next();
 
     if (!user || !user.id) {

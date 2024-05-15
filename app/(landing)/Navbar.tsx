@@ -2,16 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { signOut } from "next-auth/react";
 import { useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/Button";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import Sidebar from "./Sidebar";
+import NavItems from "./NavItems";
+import NavButtons from "./NavButtons";
 
 const Navbar = () => {
-    const router = useRouter();
-    const user = useCurrentUser();
     const navRef = useRef<HTMLElement>(null);
 
     const adjustNavbar = () => {
@@ -32,7 +29,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav ref={navRef} className="pl-2 pr-4 py-3">
+        <nav ref={navRef} className="pl-2 pr-4 py-3 bg-muted">
             <div className="max-w-7xl w-full mx-auto flex items-center justify-between">
                 <Link
                     href="/"
@@ -48,25 +45,12 @@ const Navbar = () => {
                         QuickCodeKit
                     </span>
                 </Link>
-                <div className="space-x-2">
-                    {user && user.id ? (
-                        <>
-                            <Button
-                                variant="ghost"
-                                onClick={() => signOut()}
-                            >
-                                Sign Out
-                            </Button>
-                            <Button onClick={() => router.push("/dashboard")}>
-                                Dashboard
-                            </Button>
-                        </>
-                    ) : (
-                        <Button onClick={() => router.push("/signin")}>
-                            Sign In
-                        </Button>
-                    )}
-                </div>
+
+                <NavItems className="hidden lg:flex gap-x-16" />
+
+                <NavButtons className="space-x-2 hidden lg:block" />
+
+                <Sidebar />
             </div>
         </nav>
     )
