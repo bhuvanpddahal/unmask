@@ -1,3 +1,7 @@
+export const metadata = {
+    title: "Dashboard - QuickCodeKit"
+};
+
 const DashboardPage = () => {
     return (
         <div className="h-screen w-screen bg-muted flex items-center justify-center">

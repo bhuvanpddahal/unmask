@@ -4,6 +4,10 @@ import SigninForm from "./SigninForm";
 import SocialButtons from "./SocialButtons";
 import { Separator } from "@/components/ui/Separator";
 
+export const metadata = {
+    title: "Sign In - QuickCodeKit"
+};
+
 const SigninPage = () => {
     return (
         <div className="min-h-screen w-full bg-muted flex items-center justify-center px-2 py-4">

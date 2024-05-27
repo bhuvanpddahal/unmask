@@ -30,7 +30,7 @@ const Navbar = () => {
 
     return (
         <nav ref={navRef} className="pl-2 pr-4 py-3 bg-primary-foreground">
-            <div className="max-w-7xl w-full mx-auto flex items-center justify-between">
+            <div className="relative max-w-7xl w-full mx-auto flex items-center justify-between">
                 <Link
                     href="/"
                     className="flex items-center justify-center"
@@ -46,7 +46,7 @@ const Navbar = () => {
                     </span>
                 </Link>
 
-                <NavItems className="hidden lg:flex gap-x-16" />
+                <NavItems className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden lg:flex gap-x-16" />
 
                 <NavButtons className="space-x-2 hidden lg:block" />
 
