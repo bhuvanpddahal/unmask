@@ -92,9 +92,6 @@ export const verifyEmail = async (payload: VerifyEmailPayload) => {
 
         const user = await getUserById(userId);
         if (!user) return { error: "User not found" };
-        if (user.emailVerified) {
-            return { success: "Email is already verified" };
-        }
 
         const verificationToken = await getVerificationTokenByEmail(user.email);
         if (!verificationToken) return { error: "Token not found" };
@@ -168,7 +165,7 @@ export const getUserEmail = async (payload: GetUserEmailPayload) => {
         const user = await getUserById(userId);
         if (!user) return { error: "User not found" };
 
-        return { email: user.email };
+        return { email: user.email, emailVerified: user.emailVerified };
     } catch (error) {
         return { error: "Something went wrong" };
     }

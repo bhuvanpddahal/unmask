@@ -2,21 +2,18 @@
 
 import Image from "next/image";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
 import VerificationForm from "./VerificationForm";
 import { getUserEmail } from "@/actions/auth";
-
-type Data = {
-    error: string;
-    email?: undefined;
-} | {
-    email: string;
-    error?: undefined;
-};
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const VerifyEmailContent = () => {
+    const router = useRouter();
+    const user = useCurrentUser();
+    const isSignedIn = user?.id && user.email;
     const searchParams = useSearchParams();
     const userId = searchParams.get("userId");
 
@@ -24,14 +21,18 @@ const VerifyEmailContent = () => {
         data,
         status
     } = useQuery({
+        enabled: !!userId && !isSignedIn,
         queryKey: ["verify-email", { userId }],
         queryFn: async () => {
             const payload = { userId: userId || "" };
             const data = await getUserEmail(payload);
-            return data as Data;
+            return data;
         }
     });
 
+    if (isSignedIn) {
+        router.push("/dashboard");
+    }
     if (!userId) return (
         <div className="flex flex-col items-center gap-y-2">
             <Image
@@ -72,6 +73,9 @@ const VerifyEmailContent = () => {
             </div>
         </div>
     )
+    if (data.emailVerified) {
+        router.push("/signin");
+    }
 
     return (
         <>
