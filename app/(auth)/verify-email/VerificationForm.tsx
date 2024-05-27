@@ -31,10 +31,6 @@ const VerificationForm = ({ userId }: VerificationFormProps) => {
 
         startConfirmTransition(() => {
             verifyEmail(payload).then((data) => {
-                if (data?.success) {
-                    setSuccess(data.success);
-                    router.push("/dashboard");
-                }
                 if (data?.error) {
                     setError(data.error);
                 }
