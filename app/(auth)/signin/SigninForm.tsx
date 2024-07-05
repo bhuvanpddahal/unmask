@@ -65,7 +65,7 @@ const LogInForm = () => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-5 mt-4"
+                className="space-y-5 my-4"
             >
                 <div className="space-y-4">
                     <FormField
@@ -113,6 +113,7 @@ const LogInForm = () => {
 
                 <Button
                     type="submit"
+                    size="lg"
                     className="w-full"
                     disabled={isLoading}
                     isLoading={isLoading}

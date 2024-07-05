@@ -1,17 +1,17 @@
 import Link from "next/link";
 
-import SigninForm from "./SigninForm";
+import SigninForm from "../signin/SigninForm";
 import { Separator } from "@/components/ui/Separator";
 
 export const metadata = {
-    title: "Sign In - Unmask"
+    title: "Sign In - QuickCodeKit"
 };
 
-const SigninPage = () => {
+const SignupPage = () => {
     return (
         <>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
-                Join the Unmask Community
+                Welcome Back!
             </h1>
 
             <SigninForm />
@@ -19,11 +19,11 @@ const SigninPage = () => {
             <Separator />
 
             <p className="text-sm font-medium text-center mt-4">
-                New to Unmask?
-                <Link href="/signup" className="text-primary hover:underline"> Sign up</Link>
+                Already a member?
+                <Link href="/signin" className="text-primary hover:underline"> Sign in</Link>
             </p>
         </>
     )
 };
 
-export default SigninPage;
+export default SignupPage;

@@ -65,7 +65,7 @@ const VerificationForm = ({ userId }: VerificationFormProps) => {
                 <InputOTP
                     maxLength={6}
                     value={value}
-                    onChange={(value) => setValue(value)}
+                    onChange={setValue}
                     disabled={isConfirmLoading || isResendLoading}
                 >
                     <InputOTPGroup>

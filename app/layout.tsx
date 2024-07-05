@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Gabarito } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 import Providers from "@/components/Providers";
 import { auth } from "@/auth";
 
-const gabarito = Gabarito({ subsets: ["latin"] });
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "QuickCodeKit",
-    description: "Quickly setup your project with preconfigured assets",
+    title: "Unmask",
+    description: "Unmask is a safe space to share your experiences, thoughts, and feelings - completely anonymously. Whether you want to celebrate a victory, vent about a frustration, or simply connect with others who understand, Unmask provides a supportive and judgement-free community.",
     icons: {
-        icon: "/logo.svg"
+        icon: "/logo-icon.png"
     }
 };
 
@@ -24,7 +24,7 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <body className={gabarito.className}>
+            <body className={plusJakartaSans.className}>
                 <Providers session={session}>
                     {children}
                 </Providers>

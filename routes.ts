@@ -1,4 +1,4 @@
 /**
  * The default redirect path after logging in
  */
-export const DEFAULT_LOGIN_REDIRECT = "/dashboard";
+export const DEFAULT_LOGIN_REDIRECT = "/";
