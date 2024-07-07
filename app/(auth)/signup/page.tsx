@@ -1,28 +1,15 @@
-import Link from "next/link";
-
-import SigninForm from "../signin/SigninForm";
-import { Separator } from "@/components/ui/Separator";
+import SignupContent from "./Content";
+import { SignupProvider } from "@/context/Signup";
 
 export const metadata = {
-    title: "Sign In - QuickCodeKit"
+    title: "Sign Up"
 };
 
 const SignupPage = () => {
     return (
-        <>
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
-                Welcome Back!
-            </h1>
-
-            <SigninForm />
-
-            <Separator />
-
-            <p className="text-sm font-medium text-center mt-4">
-                Already a member?
-                <Link href="/signin" className="text-primary hover:underline"> Sign in</Link>
-            </p>
-        </>
+        <SignupProvider>
+            <SignupContent />
+        </SignupProvider>
     )
 };
 

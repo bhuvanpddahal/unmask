@@ -4,7 +4,7 @@ import NextAuth, { type DefaultSession } from "next-auth";
 
 export type ExtendedUser = DefaultSession["user"] & {
     id: string;
-    name: string | null;
+    username: string;
     email: string;
     image: string | null;
     joinedAt: Date;
@@ -19,7 +19,7 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
     interface JWT extends DefaultJWT {
-        name: string | null;
+        username: string;
         email: string;
         image: string | null;
         joinedAt: Date;

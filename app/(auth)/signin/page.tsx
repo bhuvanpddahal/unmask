@@ -4,14 +4,14 @@ import SigninForm from "./SigninForm";
 import { Separator } from "@/components/ui/Separator";
 
 export const metadata = {
-    title: "Sign In - Unmask"
+    title: "Sign In"
 };
 
 const SigninPage = () => {
     return (
         <>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
-                Join the Unmask Community
+                Welcome Back!
             </h1>
 
             <SigninForm />

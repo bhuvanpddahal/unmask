@@ -8,7 +8,10 @@ import { auth } from "@/auth";
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Unmask",
+    title: {
+        default: "Unmask",
+        template: "%s - Unmask"
+    },
     description: "Unmask is a safe space to share your experiences, thoughts, and feelings - completely anonymously. Whether you want to celebrate a victory, vent about a frustration, or simply connect with others who understand, Unmask provides a supportive and judgement-free community.",
     icons: {
         icon: "/logo-icon.png"

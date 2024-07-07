@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { signinWithEmail } from "@/actions/auth";
+// import { signinWithEmail } from "@/actions/auth";
 
 const LogInForm = () => {
     const router = useRouter();
@@ -42,22 +42,22 @@ const LogInForm = () => {
         setSuccess("");
 
         startTransition(() => {
-            signinWithEmail(payload).then((data) => {
-                if (data?.success) {
-                    setSuccess(data.success);
-                    if (data?.userId) {
-                        router.push(`/verify-email?userId=${data.userId}`);
-                    } else {
-                        router.push("/dashboard");
-                    }
-                    form.reset();
-                }
-                if (data?.error) {
-                    setError(data.error);
-                }
-            }).catch(() => {
-                setError("Something went wrong");
-            });
+            // signinWithEmail(payload).then((data) => {
+            //     if (data?.success) {
+            //         setSuccess(data.success);
+            //         if (data?.userId) {
+            //             router.push(`/verify-email?userId=${data.userId}`);
+            //         } else {
+            //             router.push("/dashboard");
+            //         }
+            //         form.reset();
+            //     }
+            //     if (data?.error) {
+            //         setError(data.error);
+            //     }
+            // }).catch(() => {
+            //     setError("Something went wrong");
+            // });
         });
     };
 

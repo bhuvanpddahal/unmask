@@ -11,22 +11,10 @@ export const {
     signIn,
     signOut
 } = NextAuth({
-    events: {
-        async linkAccount({ user }) {
-            await db.user.update({
-                where: { id: user.id },
-                data: { emailVerified: new Date() }
-            });
-        }
-    },
     callbacks: {
-        async signIn({ user, account }) {
-            // Allow OAuth login without email verification
-            if (account?.provider !== "credentials") return true;
-
+        async signIn({ user }) {
             const existingUser = await getUserById(user.id || "");
-            // Prevent sign in without email verification
-            if (!existingUser || !existingUser.emailVerified) {
+            if (!existingUser) {
                 return false;
             }
 
@@ -35,7 +23,7 @@ export const {
         async session({ token, session }) {
             if (token.sub && session.user) {
                 session.user.id = token.sub;
-                session.user.name = token.name;
+                session.user.username = token.username;
                 session.user.email = token.email;
                 session.user.image = token.image;
                 session.user.joinedAt = token.joinedAt;
@@ -50,7 +38,7 @@ export const {
             const existingUser = await getUserForSession(token.sub);
             if (!existingUser) return token;
 
-            token.name = existingUser.name;
+            token.username = existingUser.username;
             token.email = existingUser.email;
             token.image = existingUser.image;
             token.joinedAt = existingUser.joinedAt;
