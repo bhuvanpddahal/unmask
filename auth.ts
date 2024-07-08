@@ -24,7 +24,6 @@ export const {
             if (token.sub && session.user) {
                 session.user.id = token.sub;
                 session.user.username = token.username;
-                session.user.email = token.email;
                 session.user.image = token.image;
                 session.user.joinedAt = token.joinedAt;
                 session.user.updatedAt = token.updatedAt;
@@ -39,7 +38,6 @@ export const {
             if (!existingUser) return token;
 
             token.username = existingUser.username;
-            token.email = existingUser.email;
             token.image = existingUser.image;
             token.joinedAt = existingUser.joinedAt;
             token.updatedAt = existingUser.updatedAt;

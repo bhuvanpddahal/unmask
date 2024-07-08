@@ -110,8 +110,8 @@ const FirstStep = ({
             </Form>
             <Separator />
             <p className="text-sm font-medium text-center mt-4">
-                New to Unmask?
-                <Link href="/signup" className="text-primary hover:underline"> Sign up</Link>
+                Already a member?
+                <Link href="/signin" className="text-primary hover:underline"> Sign in</Link>
             </p>
         </>
     )

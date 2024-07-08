@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -19,12 +18,11 @@ import {
     FormLabel,
     FormMessage
 } from "@/components/ui/Form";
+import { signin } from "@/actions/auth";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-// import { signinWithEmail } from "@/actions/auth";
 
 const LogInForm = () => {
-    const router = useRouter();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [isLoading, startTransition] = useTransition();
@@ -42,22 +40,15 @@ const LogInForm = () => {
         setSuccess("");
 
         startTransition(() => {
-            // signinWithEmail(payload).then((data) => {
-            //     if (data?.success) {
-            //         setSuccess(data.success);
-            //         if (data?.userId) {
-            //             router.push(`/verify-email?userId=${data.userId}`);
-            //         } else {
-            //             router.push("/dashboard");
-            //         }
-            //         form.reset();
-            //     }
-            //     if (data?.error) {
-            //         setError(data.error);
-            //     }
-            // }).catch(() => {
-            //     setError("Something went wrong");
-            // });
+            signin(payload).then((data) => {
+                if (data?.error) {
+                    setError(data.error);
+                } else {
+                    setSuccess("Signed in successfully");
+                }
+            }).catch(() => {
+                setError("Something went wrong");
+            });
         });
     };
 

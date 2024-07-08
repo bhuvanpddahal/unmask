@@ -9,15 +9,12 @@ export const SigninValidator = z.object({
     })
 });
 
-// isEmailTaken
 export const FirstStepValidator = z.object({
     email: z.string().email({
         message: "Email is invalid"
     })
 });
 
-// isUsernameTaken
-// createUser
 export const ThirdStepValidator = z.object({
     password: z.string().min(8, {
         message: "Password must be at least 8 characters long"

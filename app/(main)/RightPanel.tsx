@@ -1,14 +1,13 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
+import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from "@/components/ui/Card";
 
 const RightPanel = () => {
+    const router = useRouter();
+
     return (
         <div className="sticky top-[60px] h-fit p-4 pl-0">
             <Card className="w-[330px] p-4">
@@ -19,7 +18,10 @@ const RightPanel = () => {
                     <p className="text-primary-foreground text-xl font-semibold">
                         Join the Unmask community, and share your experiences anonymously
                     </p>
-                    <Button className="w-full bg-white text-primary hover:bg-zinc-100">
+                    <Button
+                        className="w-full bg-white text-primary hover:bg-zinc-100"
+                        onClick={() => router.push("/signup")}
+                    >
                         Sign up
                     </Button>
                 </div>
