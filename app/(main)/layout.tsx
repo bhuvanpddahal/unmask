@@ -10,7 +10,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     return (
         <main>
             <Navbar />
-            <div className="flex">
+            <div className="max-w-[1400px] w-full mx-auto flex">
                 <Sidebar />
                 {children}
                 <RightPanel />

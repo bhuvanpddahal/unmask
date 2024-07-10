@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/Toaster";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
                 <Providers session={session}>
                     {children}
                 </Providers>
+                <Toaster />
             </body>
         </html>
     )

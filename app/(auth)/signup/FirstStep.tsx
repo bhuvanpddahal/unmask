@@ -68,7 +68,7 @@ const FirstStep = ({
                 Join the Unmask community
             </h1>
             <p className="text-sm text-slate-500 font-medium">
-                To protect anonymity, we do not store emails.
+                To protect anonymity, we do not store emails in plain text.
             </p>
             <Form {...form}>
                 <form
@@ -122,18 +122,24 @@ export default FirstStep;
 export const FirstStepLoader = () => {
     return (
         <>
-            <Skeleton className="h-5 sm:h-6 w-[250px] sm:w-[320px] my-1 rounded-md" />
-            <Skeleton className="h-3.5 w-[300px] my-[3px] rounded-md" />
+            <div className="py-1">
+                <Skeleton className="h-5 sm:h-6 w-[250px] sm:w-[320px] rounded-md" />
+            </div>
+            <div className="py-[3px]">
+                <Skeleton className="h-3.5 w-[380px] rounded-md" />
+            </div>
             <div className="space-y-5 my-4">
                 <div className="space-y-1">
-                    <Skeleton className="h-3.5 w-10 my-[3px] rounded-md" />
+                    <div className="py-[3px]">
+                        <Skeleton className="h-3.5 w-10 rounded-md" />
+                    </div>
                     <Skeleton className="h-10 w-full rounded-md" />
                 </div>
                 <Skeleton className="h-10 w-full rounded-md" />
             </div>
             <Separator />
             <div className="flex justify-center mt-4">
-                <Skeleton className="h-3.5 w-[130px] my-[3px] rounded-md" />
+                <Skeleton className="h-3.5 w-[176px] my-[3px] rounded-md" />
             </div>
         </>
     )

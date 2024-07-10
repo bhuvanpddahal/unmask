@@ -15,6 +15,9 @@ model User {
     image     String?
     joinedAt  DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    posts     Post[]
+    pollVotes PollVote[]
 }
 
 model VerificationToken {
@@ -22,4 +25,36 @@ model VerificationToken {
     email     String   @unique
     token     String
     expiresAt DateTime
+}
+
+model Post {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    creatorId   String   @db.ObjectId
+    title       String
+    description String
+    image       String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    poll        Poll?
+
+    creator User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+}
+
+model Poll {
+    id      String     @id @default(auto()) @map("_id") @db.ObjectId
+    postId  String     @unique @db.ObjectId
+    options String[]
+    votes   PollVote[]
+
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model PollVote {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    pollId   String @db.ObjectId
+    casterId String @db.ObjectId
+    vote     Int
+
+    poll   Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+    caster User @relation(fields: [casterId], references: [id], onDelete: Cascade)
 }

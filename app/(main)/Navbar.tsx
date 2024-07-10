@@ -16,14 +16,14 @@ const Navbar = () => {
     const pathname = usePathname();
 
     return (
-        <nav className="sticky top-0 h-[60px] bg-white px-4 py-2 bg-primary-foreground shadow z-10">
+        <nav className="sticky top-0 h-[60px] bg-white px-4 py-2 shadow z-10">
             <div className="relative max-w-[1400px] w-full h-full mx-auto flex items-center justify-between">
                 <Link
                     href="/"
                     className="flex items-center justify-center"
                 >
                     <Image
-                        src="logo.svg"
+                        src="/logo.svg"
                         alt="Logo"
                         height={50}
                         width={175}
