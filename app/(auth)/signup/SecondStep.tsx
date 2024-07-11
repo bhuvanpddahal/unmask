@@ -54,7 +54,7 @@ const SecondStep = ({
                 setConfirmError("Something went wrong");
             });
         });
-    }, [email, value]);
+    }, [email, value, setStep]);
 
     const handleResendEmail = useCallback(() => {
         setResendError("");

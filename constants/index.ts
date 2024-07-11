@@ -13,6 +13,11 @@ import {
  */
 export const TOKEN_EXPIRY_TIME_IN_MIN = 10;
 
+/**
+ * The number of posts displayed in a single page
+ */
+export const POSTS_PER_PAGE = 20;
+
 export const navItems = [
     {
         icon: Home,

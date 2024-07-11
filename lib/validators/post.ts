@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 export const CreatePostValidator = z.object({
-    title: z.string().min(20, {
-        message: "Title must be at least 20 characters long"
+    title: z.string().min(10, {
+        message: "Title must be at least 10 characters long"
     }),
-    description: z.string().min(120, {
-        message: "Description must be at least 120 characters long"
+    description: z.string().min(40, {
+        message: "Description must be at least 40 characters long"
     }),
     image: z.string().optional(),
     pollOptions: z.array(z.string()).min(2, {
@@ -22,4 +22,11 @@ export const CreatePostValidator = z.object({
     })
 });
 
+export const GetPostsValidator = z.object({
+    page: z.number(),
+    limit: z.number(),
+    sort: z.enum(["hot", "recent", "views"])
+});
+
 export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
+export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
