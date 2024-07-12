@@ -63,12 +63,12 @@ const Navbar = () => {
                         <UserAccountNav />
                     ) : (
                         <>
-                            <Link href="/dashboard" className={cn(buttonVariants({
+                            <Link href="/signin" className={cn(buttonVariants({
                                 variant: "ghost"
                             }))}>
                                 Sign in
                             </Link>
-                            <Link href="/dashboard" className={cn(buttonVariants())}>
+                            <Link href="/signup" className={cn(buttonVariants())}>
                                 Sign up
                             </Link>
                         </>

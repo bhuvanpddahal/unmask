@@ -7,8 +7,10 @@ import { auth } from "@/auth";
 import {
     CreatePostPayload,
     CreatePostValidator,
+    GetPostPayload,
     GetPostsPayload,
-    GetPostsValidator
+    GetPostsValidator,
+    GetPostValidator
 } from "@/lib/validators/post";
 
 cloudinary.config({
@@ -93,6 +95,44 @@ export const getPosts = async (payload: GetPostsPayload) => {
         const hasNextPage = totalPosts > (page * limit);
 
         return { posts, hasNextPage };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const getPost = async (payload: GetPostPayload) => {
+    try {
+        const validatedFields = GetPostValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const { postId } = validatedFields.data;
+
+        const post = await db.post.findUnique({
+            where: {
+                id: postId
+            },
+            include: {
+                creator: {
+                    select: {
+                        username: true,
+                        image: true
+                    }
+                },
+                poll: {
+                    select: {
+                        _count: {
+                            select: {
+                                votes: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        if (!post) return { error: "Post not found" };
+
+        return post;
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };

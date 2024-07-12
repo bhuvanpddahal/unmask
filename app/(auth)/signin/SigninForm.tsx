@@ -87,7 +87,7 @@ const LogInForm = () => {
                                 <FormControl>
                                     <Input
                                         {...field}
-                                        placeholder="*****"
+                                        placeholder="********"
                                         type="password"
                                         disabled={isLoading}
                                         autoComplete="current-password"

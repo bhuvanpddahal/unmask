@@ -28,5 +28,10 @@ export const GetPostsValidator = z.object({
     sort: z.enum(["hot", "recent", "views"])
 });
 
+export const GetPostValidator = z.object({
+    postId: z.string()
+});
+
 export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
+export type GetPostPayload = z.infer<typeof GetPostValidator>;
