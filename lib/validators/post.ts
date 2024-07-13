@@ -42,7 +42,12 @@ export const GetCommentsValidator = z.object({
 
 export const CommentOnPostValidator = z.object({
     postId: z.string(),
-    comment: z.string()
+    comment: z.string().min(3)
+});
+
+export const ReplyOnCommentValidator = z.object({
+    commentId: z.string(),
+    reply: z.string().min(3)
 });
 
 export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
@@ -50,3 +55,4 @@ export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
 export type GetPostPayload = z.infer<typeof GetPostValidator>;
 export type GetCommentsPayload = z.infer<typeof GetCommentsValidator>;
 export type CommentOnPostPayload = z.infer<typeof CommentOnPostValidator>;
+export type ReplyOnCommentPayload = z.infer<typeof ReplyOnCommentValidator>;

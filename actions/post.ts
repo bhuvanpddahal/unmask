@@ -15,7 +15,9 @@ import {
     GetPostPayload,
     GetPostsPayload,
     GetPostsValidator,
-    GetPostValidator
+    GetPostValidator,
+    ReplyOnCommentPayload,
+    ReplyOnCommentValidator
 } from "@/lib/validators/post";
 
 cloudinary.config({
@@ -297,6 +299,38 @@ export const commentOnPost = async (payload: CommentOnPostPayload) => {
         });
 
         return { success: "Comment posted successfully" };
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
+    }
+};
+
+export const replyOnComment = async (payload: ReplyOnCommentPayload) => {
+    try {
+        const validatedFields = ReplyOnCommentValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) throw new Error("Unauthorized");
+
+        const { commentId, reply } = validatedFields.data;
+
+        const comment = await db.comment.findUnique({
+            where: {
+                id: commentId
+            }
+        });
+        if (!comment) throw new Error("Comment not found");
+
+        await db.reply.create({
+            data: {
+                replierId: session.user.id,
+                commentId,
+                reply
+            }
+        });
+
+        return { success: "Replied on comment successfully" };
     } catch (error: any) {
         console.error(error);
         throw new Error(error.message);

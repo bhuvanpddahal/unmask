@@ -43,7 +43,7 @@ const PostDetailsContent = ({
             <CommentInputLoader />
         </div>
     )
-    if (!post || post.error) return (
+    if (!post || post?.error) return (
         <div className="py-20 flex flex-col items-center justify-center gap-y-2">
             <Image
                 src="/error.png"

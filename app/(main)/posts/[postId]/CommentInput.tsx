@@ -70,6 +70,7 @@ const CommentInput = ({
                     </Button>
                     <Button
                         isLoading={isPending}
+                        disabled={isPending || comment.length < 3}
                         onClick={() => handleComment()}
                     >
                         {isPending ? "Posting" : "Post"}

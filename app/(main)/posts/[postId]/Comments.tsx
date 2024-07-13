@@ -8,8 +8,6 @@ import {
     useRouter,
     useSearchParams
 } from "next/navigation";
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import Reply from "./Reply";
@@ -18,6 +16,7 @@ import Comment, { CommentLoader } from "./Comment";
 import { useToast } from "@/hooks/useToast";
 import { getComments } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { COMMENTS_PER_PAGE, REPLIES_PER_PAGE } from "@/constants";
 
 interface CommentsProps {
@@ -72,7 +71,6 @@ const Comments = ({
 }: CommentsProps) => {
     const router = useRouter();
     const { toast } = useToast();
-    const { ref, inView } = useInView();
     const searchParams = useSearchParams();
     const sort = searchParams.get("sort") || "oldest";
 
@@ -115,12 +113,6 @@ const Comments = ({
         }
     });
 
-    useEffect(() => {
-        if (inView && hasNextPage) {
-            fetchNextPage();
-        }
-    }, [inView, hasNextPage, fetchNextPage]);
-
     const comments = data?.pages.flatMap((page) => page.comments);
 
     if (!isValidSort(sort)) return notFound();
@@ -135,24 +127,49 @@ const Comments = ({
                     {comments.map((comment) => (
                         <div key={comment.id}>
                             <Comment
+                                postId={postId}
+                                commentId={comment.id}
+                                commenterId={comment.commenterId}
                                 commenterUsername={comment.commenter.username}
                                 commenterImage={comment.commenter.image}
                                 comment={comment.comment}
                                 likesCount={comment._count.likes}
+                                commentedAt={comment.commentedAt}
+                                updatedAt={comment.updatedAt}
                             />
                             <ul className="pl-12 space-y-3 mt-4">
                                 {comment.replies.map((reply) => (
                                     <Reply
                                         key={reply.id}
+                                        replierId={reply.replierId}
                                         replierUsername={reply.replier.username}
-                                        replierImage={reply.replier.username}
+                                        replierImage={reply.replier.image}
                                         reply={reply.reply}
                                         likesCount={reply._count.likes}
+                                        repliedAt={reply.repliedAt}
+                                        updatedAt={reply.updatedAt}
                                     />
                                 ))}
                             </ul>
                         </div>
                     ))}
+                    {hasNextPage && (
+                        isFetchingNextPage ? (
+                            Array.from({ length: 3 }, (_, index) => (
+                                <CommentLoader key={index} />
+                            ))
+                        ) : (
+                            < div className="text-center">
+                                <Button
+                                    variant="outline"
+                                    className="font-semibold"
+                                    onClick={() => fetchNextPage()}
+                                >
+                                    View more comments
+                                </Button>
+                            </div>
+                        )
+                    )}
                 </ul>
             ) : (
                 <p className="text-muted-foreground text-sm font-medium text-center">
@@ -177,7 +194,7 @@ const Comments = ({
                     Open
                 </Button>
             </div>
-        </div>
+        </div >
     )
 };
 
@@ -191,5 +208,6 @@ export const CommentsLoader = () => (
                 <CommentLoader key={index} />
             ))}
         </ul>
+        <Skeleton className="h-[104px] w-full rounded-sm mt-6" />
     </div>
 );

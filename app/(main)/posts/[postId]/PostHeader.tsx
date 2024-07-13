@@ -31,10 +31,12 @@ const PostHeader = ({
         <CardHeader className="p-4">
             <div className="flex justify-between">
                 <div className="flex items-center gap-2">
-                    <UserAvatar
-                        image={creatorImage}
-                        username={creatorUsername}
-                    />
+                    <Link href={`/users/${creatorId}`}>
+                        <UserAvatar
+                            image={creatorImage}
+                            username={creatorUsername}
+                        />
+                    </Link>
                     <div>
                         <p className="text-[13px] flex items-center gap-0.5">
                             <Link
