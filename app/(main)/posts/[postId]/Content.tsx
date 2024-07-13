@@ -57,6 +57,11 @@ const PostDetailsContent = ({
         </div>
     )
 
+    const repliesCount = post.comments.reduce((acc, comment) => {
+        return acc + comment._count.replies;
+    }, 0);
+    const commentsCount = post.comments.length + repliesCount;
+
     return (
         <div>
             <Card>
@@ -72,9 +77,13 @@ const PostDetailsContent = ({
                     description={post.description}
                     postImage={post.image}
                 />
-                <PostFooter />
+                <PostFooter
+                    likesCount={post._count.likes}
+                    commentsCount={commentsCount}
+                    viewsCount={post._count.views}
+                />
                 <Separator />
-                <Comments />
+                <Comments postId={post.id} />
             </Card>
             <CommentInput />
         </div>

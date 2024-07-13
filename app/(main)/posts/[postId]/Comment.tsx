@@ -1,27 +1,39 @@
 import { Heart } from "lucide-react";
 
 import UserAvatar from "@/components/UserAvatar";
-import { Separator } from "@/components/ui/Separator";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { Separator } from "@/components/ui/Separator";
 
-const Comment = () => {
+interface CommentProps {
+    commenterUsername: string;
+    commenterImage: string | null;
+    comment: string;
+    likesCount: number;
+}
+
+const Comment = ({
+    commenterUsername,
+    commenterImage,
+    comment,
+    likesCount
+}: CommentProps) => {
     return (
         <li className="flex gap-2">
             <UserAvatar
-                image=""
-                username="Username"
+                image={commenterImage}
+                username={commenterUsername}
             />
             <div className="w-full">
                 <div className="bg-accent w-full p-4 rounded-md rounded-ss-none">
                     <p className="text-sm text-zinc-800 font-medium">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque vero similique accusantium voluptatem exercitationem harum necessitatibus dicta, accusamus quo laborum dolor aliquid explicabo illum dolorem nam ut velit consequatur iure.
+                        {comment}
                     </p>
                 </div>
                 <div className="flex items-center gap-x-3 mt-2">
                     <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-sm rounded-full hover:bg-accent">
                         <Heart className="size-3" />
-                        13
+                        {likesCount}
                     </div>
                     <Separator orientation="vertical" className="h-5" />
                     <Button

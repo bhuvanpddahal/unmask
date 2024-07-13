@@ -9,7 +9,7 @@ const RightPanel = () => {
     const router = useRouter();
 
     return (
-        <div className="sticky top-[60px] h-fit p-4 pl-0">
+        <div className="hidden lg:block sticky top-[60px] h-fit p-4 pl-0">
             <Card className="w-[330px] p-4">
                 <div className="text-zinc-500 text-sm font-semibold tracking-tight mb-2">
                     For You

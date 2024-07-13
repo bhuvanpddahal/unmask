@@ -16,8 +16,14 @@ model User {
     joinedAt  DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    posts     Post[]
-    pollVotes PollVote[]
+    posts        Post[]
+    pollVotes    PollVote[]
+    views        View[]
+    comments     Comment[]
+    replies      Reply[]
+    postLikes    PostLike[]
+    commentLikes CommentLike[]
+    replyLikes   ReplyLike[]
 }
 
 model VerificationToken {
@@ -35,16 +41,23 @@ model Post {
     image       String?
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    poll        Poll?
+
+    poll     Poll?
+    views    View[]
+    comments Comment[]
+    likes    PostLike[]
 
     creator User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+    @@index(fields: [creatorId])
 }
 
 model Poll {
-    id      String     @id @default(auto()) @map("_id") @db.ObjectId
-    postId  String     @unique @db.ObjectId
+    id      String   @id @default(auto()) @map("_id") @db.ObjectId
+    postId  String   @unique @db.ObjectId
     options String[]
-    votes   PollVote[]
+
+    votes PollVote[]
 
     post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
@@ -57,4 +70,80 @@ model PollVote {
 
     poll   Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
     caster User @relation(fields: [casterId], references: [id], onDelete: Cascade)
+}
+
+model View {
+    id       String   @id @default(auto()) @map("_id") @db.ObjectId
+    viewerId String?  @db.ObjectId // For logged in users
+    viewerIp String? // For non logged in users
+    postId   String   @db.ObjectId
+    viewedAt DateTime @default(now())
+
+    post   Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
+    viewer User? @relation(fields: [viewerId], references: [id], onDelete: Cascade)
+
+    @@unique([postId, viewerId, viewerIp])
+    @@index(fields: [viewerId, viewerIp])
+}
+
+model Comment {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    commenterId String   @db.ObjectId
+    postId      String   @db.ObjectId
+    comment     String
+    commentedAt DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    likes   CommentLike[]
+    replies Reply[]
+
+    post      Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+    commenter User @relation(fields: [commenterId], references: [id], onDelete: Cascade)
+}
+
+model Reply {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    replierId String   @db.ObjectId
+    commentId String   @db.ObjectId
+    reply     String
+    repliedAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    likes ReplyLike[]
+
+    comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+    replier User    @relation(fields: [replierId], references: [id], onDelete: Cascade)
+}
+
+model PostLike {
+    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    likerId String @db.ObjectId
+    postId  String @db.ObjectId
+
+    post  Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+    liker User @relation(fields: [likerId], references: [id], onDelete: Cascade)
+
+    @@unique([likerId, postId])
+}
+
+model CommentLike {
+    id        String @id @default(auto()) @map("_id") @db.ObjectId
+    likerId   String @db.ObjectId
+    commentId String @db.ObjectId
+
+    comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+    liker   User    @relation(fields: [likerId], references: [id], onDelete: Cascade)
+
+    @@unique([likerId, commentId])
+}
+
+model ReplyLike {
+    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    likerId String @db.ObjectId
+    replyId String @db.ObjectId
+
+    reply Reply @relation(fields: [replyId], references: [id], onDelete: Cascade)
+    liker User  @relation(fields: [likerId], references: [id], onDelete: Cascade)
+
+    @@unique([likerId, replyId])
 }

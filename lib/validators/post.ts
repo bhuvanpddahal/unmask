@@ -25,13 +25,22 @@ export const CreatePostValidator = z.object({
 export const GetPostsValidator = z.object({
     page: z.number(),
     limit: z.number(),
-    sort: z.enum(["hot", "recent", "views"])
+    sort: z.enum(["hot", "recent", "views"]),
 });
 
 export const GetPostValidator = z.object({
     postId: z.string()
 });
 
+export const GetCommentsValidator = z.object({
+    postId: z.string(),
+    page: z.number(),
+    commentsLimit: z.number(),
+    repliesLimit: z.number(),
+    sort: z.enum(["oldest", "newest", "top"])
+});
+
 export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
 export type GetPostPayload = z.infer<typeof GetPostValidator>;
+export type GetCommentsPayload = z.infer<typeof GetCommentsValidator>;

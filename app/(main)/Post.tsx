@@ -39,6 +39,9 @@ interface PostProps {
     pollVotes?: number;
     createdAt: Date;
     updatedAt: Date;
+    likesCount: number;
+    commentsCount: number;
+    viewsCount: number;
     lastPostRef?: (node?: Element | null) => void;
 }
 
@@ -53,6 +56,9 @@ const Post = ({
     pollVotes,
     createdAt,
     updatedAt,
+    likesCount,
+    commentsCount,
+    viewsCount,
     lastPostRef
 }: PostProps) => {
     const router = useRouter();
@@ -136,15 +142,15 @@ const Post = ({
                     <div className="flex gap-3 text-sm">
                         <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 rounded-full hover:bg-accent">
                             <Heart className="size-3" />
-                            13
+                            {likesCount}
                         </div>
                         <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 rounded-full hover:bg-accent">
                             <MessageSquare className="size-3" />
-                            39
+                            {commentsCount}
                         </div>
                         <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 rounded-full hover:bg-accent">
                             <Eye className="size-3" />
-                            698
+                            {viewsCount}
                         </div>
                     </div>
                     <div className="flex items-center gap-1 px-2 py-1 text-sm bg-zinc-100 rounded-full hover:bg-accent">

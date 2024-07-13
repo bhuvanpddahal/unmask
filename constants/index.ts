@@ -18,6 +18,16 @@ export const TOKEN_EXPIRY_TIME_IN_MIN = 10;
  */
 export const POSTS_PER_PAGE = 20;
 
+/**
+ * The number of comments displayed in a single page
+ */
+export const COMMENTS_PER_PAGE = 10;
+
+/**
+ * The number of replies displayed in a single page
+ */
+export const REPLIES_PER_PAGE = 2;
+
 export const navItems = [
     {
         icon: Home,

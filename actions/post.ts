@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { v2 as cloudinary } from "cloudinary";
 
 import { db } from "@/lib/db";
@@ -7,6 +8,8 @@ import { auth } from "@/auth";
 import {
     CreatePostPayload,
     CreatePostValidator,
+    GetCommentsPayload,
+    GetCommentsValidator,
     GetPostPayload,
     GetPostsPayload,
     GetPostsValidator,
@@ -85,6 +88,21 @@ export const getPosts = async (payload: GetPostsPayload) => {
                             }
                         }
                     }
+                },
+                comments: {
+                    select: {
+                        _count: {
+                            select: {
+                                replies: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                        views: true
+                    }
                 }
             }
         });
@@ -108,6 +126,11 @@ export const getPost = async (payload: GetPostPayload) => {
 
         const { postId } = validatedFields.data;
 
+        const session = await auth();
+        const isSignedIn = !!(session?.user && session.user.id);
+        const viewerId = isSignedIn ? session.user.id : undefined;
+        const viewerIp = isSignedIn ? undefined : headers().get("x-forwarded-for") || "0.0.0.0";
+
         const post = await db.post.findUnique({
             where: {
                 id: postId
@@ -127,12 +150,119 @@ export const getPost = async (payload: GetPostPayload) => {
                             }
                         }
                     }
+                },
+                comments: {
+                    select: {
+                        _count: {
+                            select: {
+                                replies: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                        views: true
+                    }
                 }
             }
         });
         if (!post) return { error: "Post not found" };
 
+        const alreadyViewed = await db.view.findFirst({
+            where: {
+                postId,
+                viewerId,
+                viewerIp
+            }
+        });
+        if (!alreadyViewed) {
+            await db.view.create({
+                data: {
+                    postId,
+                    viewerId,
+                    viewerIp
+                }
+            });
+        }
+
         return post;
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const getComments = async (payload: GetCommentsPayload) => {
+    try {
+        const validatedFields = GetCommentsValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+        
+        const session = await auth();
+
+        const { postId, page, commentsLimit, repliesLimit, sort } = validatedFields.data;
+
+        const comments = await db.comment.findMany({
+            where: {
+                postId
+            },
+            orderBy: {
+                commentedAt: "asc"
+            },
+            take: commentsLimit,
+            skip: (page - 1) * commentsLimit,
+            include: {
+                commenter: {
+                    select: {
+                        username: true,
+                        image: true
+                    }
+                },
+                likes: {
+                    where: {
+                        likerId: session?.user.id
+                    }
+                },
+                replies: {
+                    orderBy: {
+                        repliedAt: "asc"
+                    },
+                    take: repliesLimit,
+                    include: {
+                        replier: {
+                            select: {
+                                username: true,
+                                image: true
+                            }
+                        },
+                        likes: {
+                            where: {
+                                likerId: session?.user.id
+                            }
+                        },
+                        _count: {
+                            select: {
+                                likes: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                        replies: true
+                    }
+                }
+            }
+        });
+
+        const totalComments = await db.comment.count({
+            where: { postId }
+        });
+        const hasNextPage = totalComments > (page * commentsLimit);
+
+        return { comments, hasNextPage };
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };

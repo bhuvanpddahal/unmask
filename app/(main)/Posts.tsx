@@ -29,6 +29,15 @@ interface PostsData {
                 votes: number;
             };
         } | null;
+        comments: {
+            _count: {
+                replies: number;
+            }
+        }[];
+        _count: {
+            likes: number;
+            views: number;
+        };
     })[];
     hasNextPage: boolean;
 }
@@ -92,22 +101,32 @@ const Posts = () => {
         <div>
             <SortBy />
             <ul className="space-y-5">
-                {posts.map((post, index) => (
-                    <Post
-                        key={index}
-                        creatorId={post.creatorId}
-                        creatorUsername={post.creator.username}
-                        creatorImage={post.creator.image}
-                        postId={post.id}
-                        title={post.title}
-                        description={post.description}
-                        postImage={post.image}
-                        pollVotes={post.poll?._count.votes}
-                        createdAt={post.createdAt}
-                        updatedAt={post.updatedAt}
-                        lastPostRef={index === posts.length - 1 ? ref : undefined}
-                    />
-                ))}
+                {posts.map((post, index) => {
+                    const repliesCount = post.comments.reduce((acc, comment) => {
+                        return acc + comment._count.replies;
+                    }, 0);
+                    const commentsCount = post.comments.length + repliesCount;
+
+                    return (
+                        <Post
+                            key={index}
+                            creatorId={post.creatorId}
+                            creatorUsername={post.creator.username}
+                            creatorImage={post.creator.image}
+                            postId={post.id}
+                            title={post.title}
+                            description={post.description}
+                            postImage={post.image}
+                            pollVotes={post.poll?._count.votes}
+                            createdAt={post.createdAt}
+                            updatedAt={post.updatedAt}
+                            likesCount={post._count.likes}
+                            commentsCount={commentsCount}
+                            viewsCount={post._count.views}
+                            lastPostRef={index === posts.length - 1 ? ref : undefined}
+                        />
+                    )
+                })}
                 {isFetchingNextPage && (
                     Array.from({ length: 3 }, (_, index) => (
                         <PostLoader key={index} />

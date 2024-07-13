@@ -34,7 +34,7 @@ const PostContent = ({
                     />
                 </div>
             )}
-            <Poll />
+            {/* <Poll /> */}
         </CardContent>
     )
 };
