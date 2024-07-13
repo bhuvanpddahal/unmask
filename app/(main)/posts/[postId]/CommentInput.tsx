@@ -1,25 +1,78 @@
+import {
+    useMutation,
+    useQueryClient
+} from "@tanstack/react-query";
+import { useState } from "react";
+
 import { Card } from "@/components/ui/Card";
+import { useToast } from "@/hooks/useToast";
+import { commentOnPost } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Textarea } from "@/components/ui/Textarea";
 
-const CommentInput = () => {
+interface CommentInputProps {
+    postId: string;
+}
+
+const CommentInput = ({
+    postId
+}: CommentInputProps) => {
+    const { toast } = useToast();
+    const queryClient = useQueryClient();
+    const [comment, setComment] = useState("");
+
+    const {
+        mutate: handleComment,
+        isPending
+    } = useMutation({
+        mutationFn: async () => {
+            const payload = { postId, comment };
+            const data = await commentOnPost(payload);
+            return data;
+        },
+        onSuccess: (data) => {
+            setComment("");
+            toast({
+                title: "Success",
+                description: data.success
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["posts", postId]
+            });
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Couldn't comment",
+                description: error.message
+            });
+        }
+    });
+
     return (
         <Card className="sticky bottom-0 p-4 mt-5">
             <div className="bg-zinc-50 border rounded-md">
                 <Textarea
                     rows={2}
+                    value={comment}
                     placeholder="Add a comment"
                     className="border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                    onChange={(e) => setComment(e.target.value)}
                 />
                 <div className="text-right p-2">
                     <Button
                         variant="ghost"
+                        disabled={isPending}
+                        onClick={() => setComment("")}
                     >
-                        Cancel
+                        Clear
                     </Button>
-                    <Button>
-                        Post
+                    <Button
+                        isLoading={isPending}
+                        onClick={() => handleComment()}
+                    >
+                        {isPending ? "Posting" : "Post"}
                     </Button>
                 </div>
             </div>
@@ -34,7 +87,7 @@ export const CommentInputLoader = () => (
         <Skeleton className="bg-zinc-100 w-full">
             <div className="h-[56px] w-full" />
             <div className="text-right p-2">
-                <Skeleton className="bg-slate-200/50 inline-block h-9 w-[76px]" />
+                <Skeleton className="bg-slate-200/50 inline-block h-9 w-[65px]" />
                 <Skeleton className="bg-slate-200/50 inline-block h-9 w-[60px]" />
             </div>
         </Skeleton>

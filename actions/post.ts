@@ -6,6 +6,8 @@ import { v2 as cloudinary } from "cloudinary";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import {
+    CommentOnPostPayload,
+    CommentOnPostValidator,
     CreatePostPayload,
     CreatePostValidator,
     GetCommentsPayload,
@@ -266,5 +268,37 @@ export const getComments = async (payload: GetCommentsPayload) => {
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };
+    }
+};
+
+export const commentOnPost = async (payload: CommentOnPostPayload) => {
+    try {
+        const validatedFields = CommentOnPostValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) throw new Error("Unauthorized");
+
+        const { postId, comment } = validatedFields.data;
+
+        const post = await db.post.findUnique({
+            where: {
+                id: postId
+            }
+        });
+        if (!post) throw new Error("Post not found");
+
+        await db.comment.create({
+            data: {
+                commenterId: session.user.id,
+                postId,
+                comment
+            }
+        });
+
+        return { success: "Comment posted successfully" };
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
     }
 };

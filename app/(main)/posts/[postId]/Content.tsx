@@ -23,7 +23,7 @@ const PostDetailsContent = ({
         data: post,
         isLoading
     } = useQuery({
-        queryKey: ["posts", { postId }],
+        queryKey: ["posts", postId],
         queryFn: async () => {
             const payload = { postId };
             const post = await getPost(payload);
@@ -85,7 +85,7 @@ const PostDetailsContent = ({
                 <Separator />
                 <Comments postId={post.id} />
             </Card>
-            <CommentInput />
+            <CommentInput postId={post.id} />
         </div>
     )
 };

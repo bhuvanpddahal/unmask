@@ -103,7 +103,7 @@ const Comments = ({
         fetchNextPage,
         isFetchingNextPage
     } = useInfiniteQuery({
-        queryKey: ["posts", { sort }],
+        queryKey: ["posts", postId, { sort }],
         queryFn: fetchComments,
         initialPageParam: 1,
         getNextPageParam: (lastPage, pages) => {
