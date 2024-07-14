@@ -141,6 +141,8 @@ const Comments = ({
                                 {comment.replies.map((reply) => (
                                     <Reply
                                         key={reply.id}
+                                        postId={postId}
+                                        replyId={reply.id}
                                         replierId={reply.replierId}
                                         replierUsername={reply.replier.username}
                                         replierImage={reply.replier.image}

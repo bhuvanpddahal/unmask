@@ -59,6 +59,11 @@ export const DeleteCommentValidator = z.object({
     commentId: z.string()
 });
 
+export const EditReplyValidator = z.object({
+    replyId: z.string(),
+    editedReply: z.string().min(3)
+});
+
 export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
 export type GetPostPayload = z.infer<typeof GetPostValidator>;
@@ -67,3 +72,4 @@ export type CommentOnPostPayload = z.infer<typeof CommentOnPostValidator>;
 export type ReplyOnCommentPayload = z.infer<typeof ReplyOnCommentValidator>;
 export type EditCommentPayload = z.infer<typeof EditCommentValidator>;
 export type DeleteCommentPayload = z.infer<typeof DeleteCommentValidator>;
+export type EditReplyPayload = z.infer<typeof EditReplyValidator>;

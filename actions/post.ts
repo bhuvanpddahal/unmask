@@ -14,6 +14,8 @@ import {
     DeleteCommentValidator,
     EditCommentPayload,
     EditCommentValidator,
+    EditReplyPayload,
+    EditReplyValidator,
     GetCommentsPayload,
     GetCommentsValidator,
     GetPostPayload,
@@ -403,5 +405,39 @@ export const deleteComment = async (payload: DeleteCommentPayload) => {
     } catch (error) {
         console.error(error);
         throw new Error("Something went wrong");
+    }
+};
+
+export const editReply = async (payload: EditReplyPayload) => {
+    try {
+        const validatedFields = EditReplyValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) throw new Error("Unauthorized");
+
+        const { replyId, editedReply } = validatedFields.data;
+
+        const reply = await db.reply.findUnique({
+            where: {
+                id: replyId
+            }
+        });
+        if (!reply) throw new Error("Reply not found");
+        if (reply.replierId !== session.user.id) throw new Error("Not allowed");
+
+        await db.reply.update({
+            where: {
+                id: replyId
+            },
+            data: {
+                reply: editedReply
+            }
+        });
+
+        return { success: "Reply edited successfully" };
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
     }
 };
