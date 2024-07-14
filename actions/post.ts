@@ -10,6 +10,8 @@ import {
     CommentOnPostValidator,
     CreatePostPayload,
     CreatePostValidator,
+    EditCommentPayload,
+    EditCommentValidator,
     GetCommentsPayload,
     GetCommentsValidator,
     GetPostPayload,
@@ -331,6 +333,40 @@ export const replyOnComment = async (payload: ReplyOnCommentPayload) => {
         });
 
         return { success: "Replied on comment successfully" };
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
+    }
+};
+
+export const editComment = async (payload: EditCommentPayload) => {
+    try {
+        const validatedFields = EditCommentValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) throw new Error("Unauthorized");
+
+        const { commentId, editedComment } = validatedFields.data;
+
+        const comment = await db.comment.findUnique({
+            where: {
+                id: commentId
+            }
+        });
+        if (!comment) throw new Error("Comment not found");
+        if (comment.commenterId !== session.user.id) throw new Error("Not allowed");
+
+        await db.comment.update({
+            where: {
+                id: commentId
+            },
+            data: {
+                comment: editedComment
+            }
+        });
+
+        return { success: "Comment edited successfully" };
     } catch (error: any) {
         console.error(error);
         throw new Error(error.message);

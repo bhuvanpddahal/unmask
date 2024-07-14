@@ -4,10 +4,13 @@ import { Dot, Heart } from "lucide-react";
 import { formatRelative } from "date-fns";
 
 import ReplyInput from "./ReplyInput";
+import CommentEdit from "./CommentEdit";
+import CommentOptions from "./CommentOptions";
 import UserAvatar from "@/components/UserAvatar";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Separator } from "@/components/ui/Separator";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface CommentProps {
     postId: string;
@@ -32,6 +35,9 @@ const Comment = ({
     commentedAt,
     updatedAt
 }: CommentProps) => {
+    const currentUser = useCurrentUser();
+    const isSameUser = currentUser?.id === commenterId;
+    const [isEditOpen, setIsEditOpen] = useState(false);
     const [isReplyOpen, setIsReplyOpen] = useState(false);
 
     return (
@@ -44,7 +50,7 @@ const Comment = ({
                     />
                 </Link>
                 <div className="w-full">
-                    <div className="bg-accent w-full p-4 rounded-md rounded-ss-none">
+                    <div className="relative bg-accent w-full p-4 rounded-md rounded-ss-none">
                         <div className="text-xs flex items-center gap-0.5">
                             <Link
                                 href={`/users/${commenterId}`}
@@ -58,9 +64,25 @@ const Comment = ({
                                 {new Date(updatedAt) > new Date(commentedAt) && " (Edited)"}
                             </span>
                         </div>
-                        <p className="text-sm text-zinc-800 font-medium mt-0.5">
-                            {comment}
-                        </p>
+                        {isSameUser && (
+                            <CommentOptions
+                                commentId={commentId}
+                                isEditOpen={isEditOpen}
+                                setIsEditOpen={setIsEditOpen}
+                            />
+                        )}
+                        {isEditOpen ? (
+                            <CommentEdit
+                                postId={postId}
+                                commentId={commentId}
+                                currentComment={comment}
+                                setIsEditOpen={setIsEditOpen}
+                            />
+                        ) : (
+                            <p className="text-sm text-zinc-800 font-medium mt-0.5">
+                                {comment}
+                            </p>
+                        )}
                     </div>
                     <div className="flex items-center gap-x-3 mt-2">
                         <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-sm rounded-full hover:bg-accent">

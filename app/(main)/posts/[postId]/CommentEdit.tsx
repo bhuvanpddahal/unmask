@@ -9,41 +9,38 @@ import {
 } from "@tanstack/react-query";
 
 import { useToast } from "@/hooks/useToast";
+import { editComment } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
-import { replyOnComment } from "@/actions/post";
 import { Textarea } from "@/components/ui/Textarea";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { useSigninModal } from "@/hooks/useSigninModal";
 
-interface ReplyInputProps {
+interface CommentEditProps {
     postId: string;
     commentId: string;
-    setIsReplyOpen: Dispatch<SetStateAction<boolean>>;
+    currentComment: string;
+    setIsEditOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ReplyInput = ({
+const CommentEdit = ({
     postId,
     commentId,
-    setIsReplyOpen
-}: ReplyInputProps) => {
+    currentComment,
+    setIsEditOpen
+}: CommentEditProps) => {
     const { toast } = useToast();
-    const user = useCurrentUser();
-    const { open } = useSigninModal();
     const queryClient = useQueryClient();
-    const isSignedIn = !!(user && user.id);
-    const [reply, setReply] = useState("");
+    const [comment, setComment] = useState(currentComment);
 
     const {
-        mutate: handleReply,
+        mutate: handleEditComment,
         isPending
     } = useMutation({
         mutationFn: async () => {
-            const payload = { commentId, reply };
-            const data = await replyOnComment(payload);
+            const payload = { commentId, editedComment: comment };
+            const data = await editComment(payload);
             return data;
         },
         onSuccess: (data) => {
-            setIsReplyOpen(false);
+            setIsEditOpen(false);
             toast({
                 title: "Success",
                 description: data.success
@@ -55,43 +52,40 @@ const ReplyInput = ({
         onError: (error) => {
             toast({
                 variant: "destructive",
-                title: "Failed to reply",
+                title: "Failed to edit comment",
                 description: error.message
             });
         }
     });
 
     return (
-        <div className="ml-[92px] mt-3 bg-zinc-50 border rounded-md">
+        <div className="mt-3 bg-white border rounded-md">
             <Textarea
                 rows={2}
-                value={reply}
-                placeholder="Add a reply"
-                className="border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
-                onChange={(e) => setReply(e.target.value)}
+                value={comment}
+                placeholder="Edit comment"
+                className="bg-white border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                onChange={(e) => setComment(e.target.value)}
                 disabled={isPending}
             />
             <div className="text-right p-2">
                 <Button
                     variant="ghost"
                     disabled={isPending}
-                    onClick={() => setReply("")}
+                    onClick={() => setComment("")}
                 >
                     Clear
                 </Button>
                 <Button
                     isLoading={isPending}
-                    disabled={isPending || reply.length < 3}
-                    onClick={() => {
-                        if (isSignedIn) handleReply();
-                        else open();
-                    }}
+                    disabled={isPending || comment.length < 3}
+                    onClick={() => handleEditComment()}
                 >
-                    {isPending ? "Replying" : "Reply"}
+                    {isPending ? "Editing" : "Edit"}
                 </Button>
             </div>
         </div>
     )
 };
 
-export default ReplyInput;
+export default CommentEdit;

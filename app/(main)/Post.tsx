@@ -5,6 +5,7 @@ import {
     Ellipsis,
     Eye,
     Heart,
+    LinkIcon,
     MessageSquare,
     Package2,
     Share
@@ -87,6 +88,7 @@ const Post = ({
                                 <Dot className="size-4" />
                                 <span className="text-xs capitalize text-zinc-400 font-semibold">
                                    {formatRelative(createdAt, new Date())}
+                                   {new Date(updatedAt) > new Date(createdAt) && " (Edited)"}
                                 </span>
                             </p>
                         </div>
@@ -99,6 +101,7 @@ const Post = ({
                             <DropdownMenuItem
                                 onClick={() => navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/posts/${postId}`)}
                             >
+                                <LinkIcon className="size-4 mr-2" />
                                 Copy link
                             </DropdownMenuItem>
                         </DropdownMenuContent>

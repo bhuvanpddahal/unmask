@@ -1,6 +1,11 @@
 import Link from "next/link";
+import {
+    Bookmark,
+    Dot,
+    Ellipsis,
+    LinkIcon
+} from "lucide-react";
 import { formatRelative } from "date-fns";
-import { Bookmark, Dot, Ellipsis } from "lucide-react";
 
 import UserAvatar from "@/components/UserAvatar";
 import {
@@ -64,6 +69,7 @@ const PostHeader = ({
                             <DropdownMenuItem
                                 onClick={() => navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/posts/${postId}`)}
                             >
+                                <LinkIcon className="size-4 mr-2" />
                                 Copy link
                             </DropdownMenuItem>
                         </DropdownMenuContent>

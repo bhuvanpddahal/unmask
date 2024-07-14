@@ -49,7 +49,7 @@ const CommentInput = ({
         onError: (error) => {
             toast({
                 variant: "destructive",
-                title: "Couldn't comment",
+                title: "Failed to comment",
                 description: error.message
             });
         }
@@ -64,6 +64,7 @@ const CommentInput = ({
                     placeholder="Add a comment"
                     className="border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
                     onChange={(e) => setComment(e.target.value)}
+                    disabled={isPending}
                 />
                 <div className="text-right p-2">
                     <Button
