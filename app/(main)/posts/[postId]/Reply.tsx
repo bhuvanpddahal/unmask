@@ -62,6 +62,12 @@ const Reply = ({
                     </div>
                     {isSameUser && (
                         <ReplyOptions
+                            postId={postId}
+                            replyId={replyId}
+                            replierUsername={replierUsername}
+                            reply={reply}
+                            repliedAt={repliedAt}
+                            isEdited={isEdited}
                             isEditOpen={isEditOpen}
                             setIsEditOpen={setIsEditOpen}
                         />

@@ -17,7 +17,7 @@ interface UseDeleteCommentModalState {
     setComment: (comment: Comment) => void;
 }
 
-const defaultComment = {
+const defaultComment: Comment = {
     id: "",
     postId: "",
     commenterUsername: "",

@@ -16,20 +16,20 @@ import {
 } from "@/components/ui/AlertDialog";
 import { Button } from "./ui/Button";
 import { useToast } from "@/hooks/useToast";
-import { deleteComment } from "@/actions/post";
-import { useDeleteCommentModal } from "@/hooks/useDeleteCommentModal";
+import { deleteReply } from "@/actions/post";
+import { useDeleteReplyModal } from "@/hooks/useDeleteReplyModal";
 
-const DeleteCommentModal = () => {
+const DeleteReplyModal = () => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const [isLoading, startTransition] = useTransition();
-    const { isOpen, comment, close } = useDeleteCommentModal();
+    const { isOpen, reply, close } = useDeleteReplyModal();
 
     const handleDelete = () => {
-        const payload = { commentId: comment.id };
+        const payload = { replyId: reply.id };
 
         startTransition(() => {
-            deleteComment(payload).then((data) => {
+            deleteReply(payload).then((data) => {
                 if (data.success) {
                     close();
                     toast({
@@ -37,7 +37,7 @@ const DeleteCommentModal = () => {
                         description: data.success
                     });
                     queryClient.invalidateQueries({
-                        queryKey: ["posts", comment.postId]
+                        queryKey: ["posts", reply.postId]
                     });
                 }
                 if (data.error) {
@@ -62,25 +62,25 @@ const DeleteCommentModal = () => {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle className="text-base font-bold tracking-tight">
-                        Delete Comment?
+                        Delete Reply?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the following comment and the replies on this comment.
+                        This action cannot be undone. This will permanently delete the following reply and all its likes.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <div className="bg-accent w-full p-4 border rounded-md rounded-ss-none">
                     <div className="text-xs flex items-center gap-0.5">
                         <span className="text-zinc-500 font-semibold hover:underline">
-                            {comment.commenterUsername}
+                            {reply.replierUsername}
                         </span>
                         <Dot className="size-4 text-zinc-800" />
                         <span className="capitalize text-zinc-400 font-semibold">
-                            {formatRelative(comment.commentedAt, new Date())}
-                            {comment.isEdited && " (Edited)"}
+                            {formatRelative(reply.repliedAt, new Date())}
+                            {reply.isEdited && " (Edited)"}
                         </span>
                     </div>
                     <p className="text-sm text-zinc-800 font-medium mt-0.5 line-clamp-3">
-                        {comment.comment}
+                        {reply.reply}
                     </p>
                 </div>
                 <AlertDialogFooter>
@@ -97,4 +97,4 @@ const DeleteCommentModal = () => {
     )
 };
 
-export default DeleteCommentModal;
+export default DeleteReplyModal;

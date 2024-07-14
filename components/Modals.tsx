@@ -1,4 +1,5 @@
 import SigninModal from "./SigninModal";
+import DeleteReplyModal from "./DeleteReplyModal";
 import DeleteCommentModal from "./DeleteCommentModal";
 
 const Modals = () => {
@@ -6,6 +7,7 @@ const Modals = () => {
         <>
             <SigninModal />
             <DeleteCommentModal />
+            <DeleteReplyModal />
         </>
     )
 };

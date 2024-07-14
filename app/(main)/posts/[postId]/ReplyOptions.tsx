@@ -12,16 +12,44 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/DropdownMenu";
+import { useDeleteReplyModal } from "@/hooks/useDeleteReplyModal";
 
 interface ReplyOptionsProps {
+    postId: string;
+    replyId: string;
+    replierUsername: string;
+    reply: string;
+    repliedAt: Date;
+    isEdited: boolean;
     isEditOpen: boolean;
     setIsEditOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const ReplyOptions = ({
+    postId,
+    replyId,
+    replierUsername,
+    reply,
+    repliedAt,
+    isEdited,
     isEditOpen,
     setIsEditOpen
 }: ReplyOptionsProps) => {
+    const { open, setReply } = useDeleteReplyModal();
+
+    const handleDelete = () => {
+        const replyValue = {
+            id: replyId,
+            postId,
+            replierUsername,
+            reply,
+            isEdited,
+            repliedAt
+        };
+        setReply(replyValue);
+        open();
+    };
+
     if (isEditOpen) return (
         <div
             className="absolute top-2 right-2 h-8 w-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-zinc-200"
@@ -44,7 +72,7 @@ const ReplyOptions = ({
                     Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                    onSelect={() => {}}
+                    onSelect={handleDelete}
                 >
                     <Trash2 className="size-4 mr-2" />
                     Delete
