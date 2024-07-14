@@ -12,18 +12,44 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/DropdownMenu";
+import { useDeleteCommentModal } from "@/hooks/useDeleteCommentModal";
 
 interface CommentOptionsProps {
+    postId: string;
     commentId: string;
+    commenterUsername: string;
+    comment: string;
+    commentedAt: Date;
+    isEdited: boolean;
     isEditOpen: boolean;
     setIsEditOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const CommentOptions = ({
+    postId,
     commentId,
+    commenterUsername,
+    comment,
+    commentedAt,
+    isEdited,
     isEditOpen,
     setIsEditOpen
 }: CommentOptionsProps) => {
+    const { open, setComment } = useDeleteCommentModal();
+
+    const handleDelete = () => {
+        const commentValue = {
+            id: commentId,
+            postId,
+            commenterUsername,
+            comment,
+            isEdited,
+            commentedAt
+        };
+        setComment(commentValue);
+        open();
+    };
+
     if (isEditOpen) return (
         <div
             className="absolute top-2 right-2 h-8 w-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-zinc-200"
@@ -46,7 +72,7 @@ const CommentOptions = ({
                     Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                    onSelect={() => {}}
+                    onSelect={handleDelete}
                 >
                     <Trash2 className="size-4 mr-2" />
                     Delete

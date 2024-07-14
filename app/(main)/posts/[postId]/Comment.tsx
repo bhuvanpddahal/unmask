@@ -39,6 +39,7 @@ const Comment = ({
     const isSameUser = currentUser?.id === commenterId;
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isReplyOpen, setIsReplyOpen] = useState(false);
+    const isEdited = new Date(updatedAt) > new Date(commentedAt);
 
     return (
         <>
@@ -61,12 +62,17 @@ const Comment = ({
                             <Dot className="size-4 text-zinc-800" />
                             <span className="capitalize text-zinc-400 font-semibold">
                                 {formatRelative(commentedAt, new Date())}
-                                {new Date(updatedAt) > new Date(commentedAt) && " (Edited)"}
+                                {isEdited && " (Edited)"}
                             </span>
                         </div>
                         {isSameUser && (
                             <CommentOptions
+                                postId={postId}
                                 commentId={commentId}
+                                commenterUsername={commenterUsername}
+                                comment={comment}
+                                commentedAt={commentedAt}
+                                isEdited={isEdited}
                                 isEditOpen={isEditOpen}
                                 setIsEditOpen={setIsEditOpen}
                             />

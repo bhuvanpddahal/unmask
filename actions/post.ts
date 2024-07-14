@@ -10,6 +10,8 @@ import {
     CommentOnPostValidator,
     CreatePostPayload,
     CreatePostValidator,
+    DeleteCommentPayload,
+    DeleteCommentValidator,
     EditCommentPayload,
     EditCommentValidator,
     GetCommentsPayload,
@@ -370,5 +372,36 @@ export const editComment = async (payload: EditCommentPayload) => {
     } catch (error: any) {
         console.error(error);
         throw new Error(error.message);
+    }
+};
+
+export const deleteComment = async (payload: DeleteCommentPayload) => {
+    try {
+        const validatedFields = DeleteCommentValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { commentId } = validatedFields.data;
+
+        const comment = await db.comment.findUnique({
+            where: {
+                id: commentId
+            }
+        });
+        if (!comment) return { error: "Comment not found" };
+        if (comment.commenterId !== session.user.id) return { error: "Not permitted" };
+
+        await db.comment.delete({
+            where: {
+                id: commentId
+            }
+        });
+
+        return { success: "Comment deleted successfully" };
+    } catch (error) {
+        console.error(error);
+        throw new Error("Something went wrong");
     }
 };
