@@ -12,6 +12,8 @@ import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
 import { replyOnComment } from "@/actions/post";
 import { Textarea } from "@/components/ui/Textarea";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useSigninModal } from "@/hooks/useSigninModal";
 
 interface ReplyInputProps {
     postId: string;
@@ -25,7 +27,10 @@ const ReplyInput = ({
     setIsReplyOpen
 }: ReplyInputProps) => {
     const { toast } = useToast();
+    const user = useCurrentUser();
+    const { open } = useSigninModal();
     const queryClient = useQueryClient();
+    const isSignedIn = !!(user && user.id);
     const [reply, setReply] = useState("");
 
     const {
@@ -76,7 +81,10 @@ const ReplyInput = ({
                 <Button
                     isLoading={isPending}
                     disabled={isPending || reply.length < 3}
-                    onClick={() => handleReply()}
+                    onClick={() => {
+                        if (isSignedIn) handleReply();
+                        else open();
+                    }}
                 >
                     {isPending ? "Replying" : "Reply"}
                 </Button>

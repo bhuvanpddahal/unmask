@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 import Providers from "@/components/Providers";
+import SigninModal from "@/components/SigninModal";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/Toaster";
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
                     {children}
                 </Providers>
                 <Toaster />
+                <SigninModal />
             </body>
         </html>
     )

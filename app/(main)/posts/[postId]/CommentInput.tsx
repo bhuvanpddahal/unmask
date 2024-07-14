@@ -10,6 +10,8 @@ import { commentOnPost } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Textarea } from "@/components/ui/Textarea";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useSigninModal } from "@/hooks/useSigninModal";
 
 interface CommentInputProps {
     postId: string;
@@ -19,7 +21,10 @@ const CommentInput = ({
     postId
 }: CommentInputProps) => {
     const { toast } = useToast();
+    const user = useCurrentUser();
+    const { open } = useSigninModal();
     const queryClient = useQueryClient();
+    const isSignedIn = !!(user && user.id);
     const [comment, setComment] = useState("");
 
     const {
@@ -71,7 +76,10 @@ const CommentInput = ({
                     <Button
                         isLoading={isPending}
                         disabled={isPending || comment.length < 3}
-                        onClick={() => handleComment()}
+                        onClick={() => {
+                            if (isSignedIn) handleComment();
+                            else open();
+                        }}
                     >
                         {isPending ? "Posting" : "Post"}
                     </Button>
