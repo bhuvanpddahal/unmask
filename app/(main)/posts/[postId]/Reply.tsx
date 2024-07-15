@@ -7,6 +7,7 @@ import ReplyEdit from "./ReplyEdit";
 import ReplyOptions from "./ReplyOptions";
 import UserAvatar from "@/components/UserAvatar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 interface ReplyProps {
     postId: string;
@@ -95,3 +96,17 @@ const Reply = ({
 };
 
 export default Reply;
+
+export const ReplyLoader = () => (
+    <li className="flex gap-2">
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <div className="w-full">
+            <Skeleton className="h-[70px] w-full rounded-md rounded-ss-none" />
+            <div className="flex items-center gap-x-3 mt-2">
+                <div className="pl-2 pr-7 py-1 bg-zinc-100 rounded-full">
+                    <Heart className="size-3" />
+                </div>
+            </div>
+        </div>
+    </li>
+);

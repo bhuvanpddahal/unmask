@@ -17,7 +17,7 @@ const PostContent = ({
 }: PostContentProps) => {
     return (
         <CardContent className="px-4 py-0">
-            <h3 className="font-semibold text-xl text-zinc-950 mb-2">
+            <h3 className="font-semibold text-xl text-black mb-2">
                 {title}
             </h3>
             <p className="text-sm font-medium text-zinc-800">

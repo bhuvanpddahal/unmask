@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import { formatRelative } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { cn } from "@/lib/utils";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -14,9 +15,9 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/AlertDialog";
-import { Button } from "./ui/Button";
 import { useToast } from "@/hooks/useToast";
 import { deleteReply } from "@/actions/post";
+import { Button, buttonVariants } from "./ui/Button";
 import { useDeleteReplyModal } from "@/hooks/useDeleteReplyModal";
 
 const DeleteReplyModal = () => {
@@ -84,8 +85,14 @@ const DeleteReplyModal = () => {
                     </p>
                 </div>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel className={cn(buttonVariants({
+                        size: "lg",
+                        variant: "outline"
+                    }))}>
+                        Cancel
+                    </AlertDialogCancel>
                     <Button
+                        size="lg"
                         onClick={handleDelete}
                         isLoading={isLoading}
                     >

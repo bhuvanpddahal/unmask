@@ -28,6 +28,11 @@ export const COMMENTS_PER_PAGE = 10;
  */
 export const REPLIES_PER_PAGE = 2;
 
+/**
+ * The number of replies fetched in a single query
+ */
+export const REPLIES_PER_QUERY = 20;
+
 export const navItems = [
     {
         icon: Home,

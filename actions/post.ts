@@ -20,6 +20,8 @@ import {
     EditReplyValidator,
     GetCommentsPayload,
     GetCommentsValidator,
+    GetMoreRepliesPayload,
+    GetMoreRepliesValidator,
     GetPostPayload,
     GetPostsPayload,
     GetPostsValidator,
@@ -472,5 +474,55 @@ export const deleteReply = async (payload: DeleteReplyPayload) => {
     } catch (error) {
         console.error(error);
         throw new Error("Something went wrong");
+    }
+};
+
+export const getMoreReplies = async (payload: GetMoreRepliesPayload) => {
+    try {
+        const validatedFields = GetMoreRepliesValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+        
+        const session = await auth();
+
+        const { commentId, page, limit, repliesPerPage } = validatedFields.data;
+
+        const replies = await db.reply.findMany({
+            where: {
+                commentId
+            },
+            orderBy: {
+                repliedAt: "asc"
+            },
+            take: limit,
+            skip: repliesPerPage + (page - 1) * limit,
+            include: {
+                replier: {
+                    select: {
+                        username: true,
+                        image: true
+                    }
+                },
+                likes: {
+                    where: {
+                        likerId: session?.user.id
+                    }
+                },
+                _count: {
+                    select: {
+                        likes: true
+                    }
+                }
+            }
+        });
+
+        const totalReplies = await db.reply.count({
+            where: { commentId }
+        });
+        const hasNextPage = totalReplies > (repliesPerPage + page * limit);
+
+        return { replies, hasNextPage };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
     }
 };

@@ -68,6 +68,13 @@ export const DeleteReplyValidator = z.object({
     replyId: z.string()
 });
 
+export const GetMoreRepliesValidator = z.object({
+    commentId: z.string(),
+    page: z.number(),
+    limit: z.number(),
+    repliesPerPage: z.number()
+});
+
 export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
 export type GetPostPayload = z.infer<typeof GetPostValidator>;
@@ -78,3 +85,4 @@ export type EditCommentPayload = z.infer<typeof EditCommentValidator>;
 export type DeleteCommentPayload = z.infer<typeof DeleteCommentValidator>;
 export type EditReplyPayload = z.infer<typeof EditReplyValidator>;
 export type DeleteReplyPayload = z.infer<typeof DeleteReplyValidator>;
+export type GetMoreRepliesPayload = z.infer<typeof GetMoreRepliesValidator>;

@@ -10,7 +10,7 @@ import {
 } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import Reply from "./Reply";
+import Replies from "./Replies";
 import SortBy, { SortByLoader } from "./SortBy";
 import Comment, { CommentLoader } from "./Comment";
 import { useToast } from "@/hooks/useToast";
@@ -27,7 +27,22 @@ interface FetchCommentsParams {
     pageParam: number;
 }
 
-type Sort = "oldest" | "newest" | "top";
+export type Sort = "oldest" | "newest" | "top";
+
+export type ReplyDataType = (ReplyType & {
+    replier: {
+        username: string;
+        image: string | null;
+    };
+    likes: {
+        id: string;
+        likerId: string;
+        replyId: string;
+    }[];
+    _count: {
+        likes: number;
+    };
+});
 
 interface CommentsData {
     comments: (CommentType & {
@@ -44,20 +59,7 @@ interface CommentsData {
             likes: number;
             replies: number;
         };
-        replies: (ReplyType & {
-            replier: {
-                username: string;
-                image: string | null;
-            };
-            likes: {
-                id: string;
-                likerId: string;
-                replyId: string;
-            }[];
-            _count: {
-                likes: number;
-            };
-        })[];
+        replies: ReplyDataType[];
     })[];
     hasNextPage: boolean;
 }
@@ -86,7 +88,7 @@ const Comments = ({
         if (data.error) {
             toast({
                 variant: "destructive",
-                title: "Error",
+                title: "Failed to fetch comments",
                 description: "Something went wrong"
             });
             return { comments: [], hasNextPage: false };
@@ -137,22 +139,13 @@ const Comments = ({
                                 commentedAt={comment.commentedAt}
                                 updatedAt={comment.updatedAt}
                             />
-                            <ul className="pl-12 space-y-3 mt-4">
-                                {comment.replies.map((reply) => (
-                                    <Reply
-                                        key={reply.id}
-                                        postId={postId}
-                                        replyId={reply.id}
-                                        replierId={reply.replierId}
-                                        replierUsername={reply.replier.username}
-                                        replierImage={reply.replier.image}
-                                        reply={reply.reply}
-                                        likesCount={reply._count.likes}
-                                        repliedAt={reply.repliedAt}
-                                        updatedAt={reply.updatedAt}
-                                    />
-                                ))}
-                            </ul>
+                            <Replies
+                                sort={sort}
+                                postId={postId}
+                                commentId={comment.id}
+                                replies={comment.replies}
+                                totalReplies={comment._count.replies}
+                            />
                         </div>
                     ))}
                     {hasNextPage && (
