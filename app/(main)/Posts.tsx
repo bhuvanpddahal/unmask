@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Post as PostType } from "@prisma/client";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import SortBy, { SortByLoader } from "./SortBy";
 import { getPosts } from "@/actions/post";
 import { useToast } from "@/hooks/useToast";
 import { POSTS_PER_PAGE } from "@/constants";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface FetchPostsParams {
     pageParam: number;
@@ -29,6 +30,9 @@ interface PostsData {
                 votes: number;
             };
         } | null;
+        likes: {
+            likerId: string;
+        }[];
         comments: {
             _count: {
                 replies: number;
@@ -48,6 +52,7 @@ const isValidSort = (value: string) => {
 
 const Posts = () => {
     const { toast } = useToast();
+    const user = useCurrentUser();
     const { ref, inView } = useInView();
     const searchParams = useSearchParams();
     const sort = searchParams.get("sort") || "hot";
@@ -106,6 +111,7 @@ const Posts = () => {
                         return acc + comment._count.replies;
                     }, 0);
                     const commentsCount = post.comments.length + repliesCount;
+                    const isLiked = post.likes[0] && post.likes[0].likerId === user?.id;
 
                     return (
                         <Post
@@ -121,6 +127,7 @@ const Posts = () => {
                             createdAt={post.createdAt}
                             updatedAt={post.updatedAt}
                             likesCount={post._count.likes}
+                            isLiked={isLiked}
                             commentsCount={commentsCount}
                             viewsCount={post._count.views}
                             lastPostRef={index === posts.length - 1 ? ref : undefined}

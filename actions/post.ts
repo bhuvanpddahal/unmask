@@ -26,6 +26,8 @@ import {
     GetPostsPayload,
     GetPostsValidator,
     GetPostValidator,
+    LikeOrUnlikePostPayload,
+    LikeOrUnlikePostValidator,
     ReplyOnCommentPayload,
     ReplyOnCommentValidator
 } from "@/lib/validators/post";
@@ -78,6 +80,8 @@ export const getPosts = async (payload: GetPostsPayload) => {
         const validatedFields = GetPostsValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
 
+        const session = await auth();
+
         const { page, limit, sort } = validatedFields.data;
 
         const posts = await db.post.findMany({
@@ -101,6 +105,14 @@ export const getPosts = async (payload: GetPostsPayload) => {
                                 votes: true
                             }
                         }
+                    }
+                },
+                likes: {
+                    where: {
+                        likerId: session?.user.id
+                    },
+                    select: {
+                        likerId: true
                     }
                 },
                 comments: {
@@ -163,6 +175,14 @@ export const getPost = async (payload: GetPostPayload) => {
                                 votes: true
                             }
                         }
+                    }
+                },
+                likes: {
+                    where: {
+                        likerId: session?.user.id
+                    },
+                    select: {
+                        likerId: true
                     }
                 },
                 comments: {
@@ -524,5 +544,54 @@ export const getMoreReplies = async (payload: GetMoreRepliesPayload) => {
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };
+    }
+};
+
+export const likeOrUnlikePost = async (payload: LikeOrUnlikePostPayload) => {
+    try {
+        const validatedFields = LikeOrUnlikePostValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) throw new Error("Unauthorized");
+
+        const { postId } = validatedFields.data;
+
+        const post = await db.post.findUnique({
+            where: {
+                id: postId
+            }
+        });
+        if (!post) throw new Error("Post not found");
+
+        const existingLike = await db.postLike.findUnique({
+            where: {
+                likerId_postId: {
+                    likerId: session.user.id,
+                    postId
+                }
+            }
+        });
+
+        if (existingLike) { // If the user has previously liked the post, unlike it by deleting the post like
+            await db.postLike.delete({
+                where: {
+                    likerId_postId: {
+                        likerId: session.user.id,
+                        postId
+                    }
+                }
+            });
+        } else { // If the user hasn't liked the post yet, like it by creating a new post like
+            await db.postLike.create({
+                data: {
+                    postId,
+                    likerId: session.user.id
+                }
+            });
+        }
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
     }
 };

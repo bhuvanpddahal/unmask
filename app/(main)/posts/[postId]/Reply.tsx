@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Dot, Heart } from "lucide-react";
-import { formatRelative } from "date-fns";
+import { format, formatRelative } from "date-fns";
 
 import ReplyEdit from "./ReplyEdit";
 import ReplyOptions from "./ReplyOptions";
 import UserAvatar from "@/components/UserAvatar";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface ReplyProps {
     postId: string;
@@ -36,6 +36,7 @@ const Reply = ({
     const isSameUser = currentUser?.id === replierId;
     const [isEditOpen, setIsEditOpen] = useState(false);
     const isEdited = new Date(updatedAt) > new Date(repliedAt);
+    const title = `Replied on ${format(repliedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
 
     return (
         <li className="flex items-start gap-2">
@@ -56,7 +57,10 @@ const Reply = ({
                             {replierUsername}
                         </Link>
                         <Dot className="size-4 text-zinc-800" />
-                        <span className="capitalize text-zinc-400 font-semibold">
+                        <span
+                            title={title}
+                            className="capitalize text-zinc-400 font-semibold"
+                        >
                             {formatRelative(repliedAt, new Date())}
                             {isEdited && " (Edited)"}
                         </span>

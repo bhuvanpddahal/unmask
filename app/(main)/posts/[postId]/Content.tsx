@@ -4,13 +4,14 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 
 import Comments, { CommentsLoader } from "./Comments";
-import PostFooter, { PostFooterLoader } from "./PostFooter";
 import PostHeader, { PostHeaderLoader } from "./PostHeader";
 import PostContent, { PostContentLoader } from "./PostContent";
+import PostFooter, { PostFooterLoader } from "../../PostFooter";
 import CommentInput, { CommentInputLoader } from "./CommentInput";
 import { getPost } from "@/actions/post";
 import { Card } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface PostDetailsContentProps {
     postId: string;
@@ -19,6 +20,8 @@ interface PostDetailsContentProps {
 const PostDetailsContent = ({
     postId
 }: PostDetailsContentProps) => {
+    const user = useCurrentUser();
+
     const {
         data: post,
         isLoading
@@ -57,6 +60,7 @@ const PostDetailsContent = ({
         </div>
     )
 
+    const isLiked = post.likes[0] && post.likes[0].likerId === user?.id;
     const repliesCount = post.comments.reduce((acc, comment) => {
         return acc + comment._count.replies;
     }, 0);
@@ -71,6 +75,7 @@ const PostDetailsContent = ({
                     creatorImage={post.creator.image}
                     postId={post.id}
                     createdAt={post.createdAt}
+                    updatedAt={post.updatedAt}
                 />
                 <PostContent
                     title={post.title}
@@ -78,7 +83,9 @@ const PostDetailsContent = ({
                     postImage={post.image}
                 />
                 <PostFooter
-                    likesCount={post._count.likes}
+                    postId={postId}
+                    initialLikesCount={post._count.likes}
+                    initialIsLiked={isLiked}
                     commentsCount={commentsCount}
                     viewsCount={post._count.views}
                 />

@@ -35,7 +35,6 @@ const Replies = ({
     const { toast } = useToast();
     const [enabled, setEnabled] = useState(false);
 
-
     const fetchMoreReplies = async ({ pageParam }: FetchMoreRepliesParams) => {
         const payload = {
             commentId,

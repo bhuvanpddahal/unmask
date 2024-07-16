@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Dot, Heart } from "lucide-react";
-import { formatRelative } from "date-fns";
+import { format, formatRelative } from "date-fns";
 
 import ReplyInput from "./ReplyInput";
 import CommentEdit from "./CommentEdit";
@@ -40,6 +40,7 @@ const Comment = ({
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isReplyOpen, setIsReplyOpen] = useState(false);
     const isEdited = new Date(updatedAt) > new Date(commentedAt);
+    const title = `Commented on ${format(commentedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
 
     return (
         <>
@@ -60,7 +61,10 @@ const Comment = ({
                                 {commenterUsername}
                             </Link>
                             <Dot className="size-4 text-zinc-800" />
-                            <span className="capitalize text-zinc-400 font-semibold">
+                            <span
+                                title={title}
+                                className="capitalize text-zinc-400 font-semibold"
+                            >
                                 {formatRelative(commentedAt, new Date())}
                                 {isEdited && " (Edited)"}
                             </span>
