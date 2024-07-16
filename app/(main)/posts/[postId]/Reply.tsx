@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { useState } from "react";
-import { Dot, Heart } from "lucide-react";
+import { Dot } from "lucide-react";
 import { format, formatRelative } from "date-fns";
+import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 
 import ReplyEdit from "./ReplyEdit";
 import ReplyOptions from "./ReplyOptions";
 import UserAvatar from "@/components/UserAvatar";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useSigninModal } from "@/hooks/useSigninModal";
+import { useLikeOrUnlikeReply } from "@/hooks/useLikeOrUnlikeReply";
 
 interface ReplyProps {
     postId: string;
@@ -16,9 +19,10 @@ interface ReplyProps {
     replierUsername: string;
     replierImage: string | null;
     reply: string;
-    likesCount: number;
+    initialLikesCount: number;
     repliedAt: Date;
     updatedAt: Date;
+    initialIsLiked: boolean;
 }
 
 const Reply = ({
@@ -28,15 +32,28 @@ const Reply = ({
     replierUsername,
     replierImage,
     reply,
-    likesCount,
+    initialLikesCount,
     repliedAt,
-    updatedAt
+    updatedAt,
+    initialIsLiked
 }: ReplyProps) => {
+    const { open } = useSigninModal();
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === replierId;
+    const isSignedIn = !!(currentUser && currentUser.id);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const isEdited = new Date(updatedAt) > new Date(repliedAt);
     const title = `Replied on ${format(repliedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
+
+    const {
+        likeOrUnlikeReply,
+        likesCount,
+        isLiked
+    } = useLikeOrUnlikeReply(
+        replyId,
+        initialLikesCount,
+        initialIsLiked
+    );
 
     return (
         <li className="flex items-start gap-2">
@@ -90,8 +107,18 @@ const Reply = ({
                         </p>
                     )}
                 </div>
-                <div className="inline-flex items-center gap-1 px-2 py-1 bg-zinc-100 text-sm mt-2 rounded-full hover:bg-accent">
-                    <Heart className="size-3" />
+                <div
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-zinc-100 text-zinc-600 text-sm mt-2 rounded-full cursor-pointer hover:bg-slate-200"
+                    onClick={() => {
+                        if (isSignedIn) likeOrUnlikeReply();
+                        else open();
+                    }}
+                >
+                    {isLiked ? (
+                        <HiHeart className="size-4" />
+                    ) : (
+                        <HiOutlineHeart className="size-4" />
+                    )}
                     {likesCount}
                 </div>
             </div>
@@ -107,8 +134,8 @@ export const ReplyLoader = () => (
         <div className="w-full">
             <Skeleton className="h-[70px] w-full rounded-md rounded-ss-none" />
             <div className="flex items-center gap-x-3 mt-2">
-                <div className="pl-2 pr-7 py-1 bg-zinc-100 rounded-full">
-                    <Heart className="size-3" />
+                <div className="pl-2 pr-7 py-1.5 bg-zinc-100 text-zinc-600 rounded-full">
+                    <HiOutlineHeart className="size-4" />
                 </div>
             </div>
         </div>

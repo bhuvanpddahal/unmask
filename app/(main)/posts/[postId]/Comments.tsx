@@ -36,9 +36,7 @@ export type ReplyDataType = (ReplyType & {
         image: string | null;
     };
     likes: {
-        id: string;
         likerId: string;
-        replyId: string;
     }[];
     _count: {
         likes: number;

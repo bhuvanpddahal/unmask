@@ -83,6 +83,10 @@ export const LikeOrUnlikeCommentValidator = z.object({
     commentId: z.string()
 });
 
+export const LikeOrUnlikeReplyValidator = z.object({
+    replyId: z.string()
+});
+
 export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
 export type GetPostPayload = z.infer<typeof GetPostValidator>;
@@ -96,3 +100,4 @@ export type DeleteReplyPayload = z.infer<typeof DeleteReplyValidator>;
 export type GetMoreRepliesPayload = z.infer<typeof GetMoreRepliesValidator>;
 export type LikeOrUnlikePostPayload = z.infer<typeof LikeOrUnlikePostValidator>;
 export type LikeOrUnlikeCommentPayload = z.infer<typeof LikeOrUnlikeCommentValidator>;
+export type LikeOrUnlikeReplyPayload = z.infer<typeof LikeOrUnlikeReplyValidator>;

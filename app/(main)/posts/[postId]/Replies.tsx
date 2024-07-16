@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
 import { getMoreReplies } from "@/actions/post";
 import type { ReplyDataType, Sort } from "./Comments";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { REPLIES_PER_PAGE, REPLIES_PER_QUERY } from "@/constants";
 
 interface RepliesProps {
@@ -33,6 +34,7 @@ const Replies = ({
     totalReplies
 }: RepliesProps) => {
     const { toast } = useToast();
+    const user = useCurrentUser();
     const [enabled, setEnabled] = useState(false);
 
     const fetchMoreReplies = async ({ pageParam }: FetchMoreRepliesParams) => {
@@ -79,20 +81,25 @@ const Replies = ({
 
     return (
         <ul className="pl-12 space-y-3 mt-4">
-            {replies.map((reply) => (
-                <Reply
-                    key={reply.id}
-                    postId={postId}
-                    replyId={reply.id}
-                    replierId={reply.replierId}
-                    replierUsername={reply.replier.username}
-                    replierImage={reply.replier.image}
-                    reply={reply.reply}
-                    likesCount={reply._count.likes}
-                    repliedAt={reply.repliedAt}
-                    updatedAt={reply.updatedAt}
-                />
-            ))}
+            {replies.map((reply) => {
+                const isLiked = reply.likes[0] && reply.likes[0].likerId === user?.id;
+
+                return (
+                    <Reply
+                        key={reply.id}
+                        postId={postId}
+                        replyId={reply.id}
+                        replierId={reply.replierId}
+                        replierUsername={reply.replier.username}
+                        replierImage={reply.replier.image}
+                        reply={reply.reply}
+                        initialLikesCount={reply._count.likes}
+                        repliedAt={reply.repliedAt}
+                        updatedAt={reply.updatedAt}
+                        initialIsLiked={isLiked}
+                    />
+                )
+            })}
             {(!enabled && totalReplies > replies.length) && (
                 <Button
                     variant="link"
@@ -102,20 +109,25 @@ const Replies = ({
                     View {remainingReplies} more {remainingReplies === 1 ? "reply" : "replies"}
                 </Button>
             )}
-            {repliesData?.map((reply) => (
-                <Reply
-                    key={reply.id}
-                    postId={postId}
-                    replyId={reply.id}
-                    replierId={reply.replierId}
-                    replierUsername={reply.replier.username}
-                    replierImage={reply.replier.image}
-                    reply={reply.reply}
-                    likesCount={reply._count.likes}
-                    repliedAt={reply.repliedAt}
-                    updatedAt={reply.updatedAt}
-                />
-            ))}
+            {repliesData?.map((reply) => {
+                const isLiked = reply.likes[0] && reply.likes[0].likerId === user?.id;
+
+                return (
+                    <Reply
+                        key={reply.id}
+                        postId={postId}
+                        replyId={reply.id}
+                        replierId={reply.replierId}
+                        replierUsername={reply.replier.username}
+                        replierImage={reply.replier.image}
+                        reply={reply.reply}
+                        initialLikesCount={reply._count.likes}
+                        repliedAt={reply.repliedAt}
+                        updatedAt={reply.updatedAt}
+                        initialIsLiked={isLiked}
+                    />
+                )
+            })}
             {isLoading && (
                 [...new Array(Math.min(3, remainingReplies))].map((_, index) => (
                     <ReplyLoader key={index} />

@@ -30,6 +30,8 @@ import {
     LikeOrUnlikeCommentValidator,
     LikeOrUnlikePostPayload,
     LikeOrUnlikePostValidator,
+    LikeOrUnlikeReplyPayload,
+    LikeOrUnlikeReplyValidator,
     ReplyOnCommentPayload,
     ReplyOnCommentValidator
 } from "@/lib/validators/post";
@@ -646,6 +648,55 @@ export const likeOrUnlikeComment = async (payload: LikeOrUnlikeCommentPayload) =
             await db.commentLike.create({
                 data: {
                     commentId,
+                    likerId: session.user.id
+                }
+            });
+        }
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
+    }
+};
+
+export const likeOrUnlikeReply = async (payload: LikeOrUnlikeReplyPayload) => {
+    try {
+        const validatedFields = LikeOrUnlikeReplyValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) throw new Error("Unauthorized");
+
+        const { replyId } = validatedFields.data;
+
+        const reply = await db.reply.findUnique({
+            where: {
+                id: replyId
+            }
+        });
+        if (!reply) throw new Error("Reply not found");
+
+        const existingLike = await db.replyLike.findUnique({
+            where: {
+                likerId_replyId: {
+                    likerId: session.user.id,
+                    replyId
+                }
+            }
+        });
+
+        if (existingLike) { // If the user has previously liked the reply, unlike it by deleting the reply like
+            await db.replyLike.delete({
+                where: {
+                    likerId_replyId: {
+                        likerId: session.user.id,
+                        replyId
+                    }
+                }
+            });
+        } else { // If the user hasn't liked the reply yet, like it by creating a new reply like
+            await db.replyLike.create({
+                data: {
+                    replyId,
                     likerId: session.user.id
                 }
             });
