@@ -69,7 +69,7 @@ const DeleteReplyModal = () => {
                         This action cannot be undone. This will permanently delete the following reply and all its likes.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <div className="bg-accent w-full p-4 border rounded-md rounded-ss-none">
+                <div className="bg-zinc-100 w-full p-4 border rounded-md rounded-ss-none">
                     <div className="text-xs flex items-center gap-0.5">
                         <span className="text-zinc-500 font-semibold hover:underline">
                             {reply.replierUsername}

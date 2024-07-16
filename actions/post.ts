@@ -26,6 +26,8 @@ import {
     GetPostsPayload,
     GetPostsValidator,
     GetPostValidator,
+    LikeOrUnlikeCommentPayload,
+    LikeOrUnlikeCommentValidator,
     LikeOrUnlikePostPayload,
     LikeOrUnlikePostValidator,
     ReplyOnCommentPayload,
@@ -256,6 +258,9 @@ export const getComments = async (payload: GetCommentsPayload) => {
                 likes: {
                     where: {
                         likerId: session?.user.id
+                    },
+                    select: {
+                        likerId: true
                     }
                 },
                 replies: {
@@ -273,6 +278,9 @@ export const getComments = async (payload: GetCommentsPayload) => {
                         likes: {
                             where: {
                                 likerId: session?.user.id
+                            },
+                            select: {
+                                likerId: true
                             }
                         },
                         _count: {
@@ -525,6 +533,9 @@ export const getMoreReplies = async (payload: GetMoreRepliesPayload) => {
                 likes: {
                     where: {
                         likerId: session?.user.id
+                    },
+                    select: {
+                        likerId: true
                     }
                 },
                 _count: {
@@ -586,6 +597,55 @@ export const likeOrUnlikePost = async (payload: LikeOrUnlikePostPayload) => {
             await db.postLike.create({
                 data: {
                     postId,
+                    likerId: session.user.id
+                }
+            });
+        }
+    } catch (error: any) {
+        console.error(error);
+        throw new Error(error.message);
+    }
+};
+
+export const likeOrUnlikeComment = async (payload: LikeOrUnlikeCommentPayload) => {
+    try {
+        const validatedFields = LikeOrUnlikeCommentValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) throw new Error("Unauthorized");
+
+        const { commentId } = validatedFields.data;
+
+        const comment = await db.comment.findUnique({
+            where: {
+                id: commentId
+            }
+        });
+        if (!comment) throw new Error("Comment not found");
+
+        const existingLike = await db.commentLike.findUnique({
+            where: {
+                likerId_commentId: {
+                    likerId: session.user.id,
+                    commentId
+                }
+            }
+        });
+
+        if (existingLike) { // If the user has previously liked the comment, unlike it by deleting the comment like
+            await db.commentLike.delete({
+                where: {
+                    likerId_commentId: {
+                        likerId: session.user.id,
+                        commentId
+                    }
+                }
+            });
+        } else { // If the user hasn't liked the comment yet, like it by creating a new comment like
+            await db.commentLike.create({
+                data: {
+                    commentId,
                     likerId: session.user.id
                 }
             });

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { useState } from "react";
-import { Dot, Heart } from "lucide-react";
+import { Dot } from "lucide-react";
 import { format, formatRelative } from "date-fns";
+import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 
 import ReplyInput from "./ReplyInput";
 import CommentEdit from "./CommentEdit";
@@ -11,6 +12,8 @@ import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Separator } from "@/components/ui/Separator";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useSigninModal } from "@/hooks/useSigninModal";
+import { useLikeOrUnlikeComment } from "@/hooks/useLikeOrUnlikeComment";
 
 interface CommentProps {
     postId: string;
@@ -19,9 +22,10 @@ interface CommentProps {
     commenterUsername: string;
     commenterImage: string | null;
     comment: string;
-    likesCount: number;
+    initialLikesCount: number;
     commentedAt: Date;
     updatedAt: Date;
+    initialIsLiked: boolean;
 }
 
 const Comment = ({
@@ -31,16 +35,29 @@ const Comment = ({
     commenterUsername,
     commenterImage,
     comment,
-    likesCount,
+    initialLikesCount,
     commentedAt,
-    updatedAt
+    updatedAt,
+    initialIsLiked
 }: CommentProps) => {
+    const { open } = useSigninModal();
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === commenterId;
+    const isSignedIn = !!(currentUser && currentUser.id);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isReplyOpen, setIsReplyOpen] = useState(false);
     const isEdited = new Date(updatedAt) > new Date(commentedAt);
     const title = `Commented on ${format(commentedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
+
+    const {
+        likeOrUnlikeComment,
+        likesCount,
+        isLiked
+    } = useLikeOrUnlikeComment(
+        commentId,
+        initialLikesCount,
+        initialIsLiked
+    );
 
     return (
         <>
@@ -95,8 +112,18 @@ const Comment = ({
                         )}
                     </div>
                     <div className="flex items-center gap-x-3 mt-2">
-                        <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-sm rounded-full hover:bg-accent">
-                            <Heart className="size-3" />
+                        <div
+                            className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-zinc-600 text-sm rounded-full cursor-pointer hover:bg-slate-200"
+                            onClick={() => {
+                                if (isSignedIn) likeOrUnlikeComment();
+                                else open();
+                            }}
+                        >
+                            {isLiked ? (
+                                <HiHeart className="size-4" />
+                            ) : (
+                                <HiOutlineHeart className="size-4" />
+                            )}
                             {likesCount}
                         </div>
                         <Separator orientation="vertical" className="h-5" />
@@ -129,8 +156,8 @@ export const CommentLoader = () => (
         <div className="w-full">
             <Skeleton className="h-[70px] w-full rounded-md rounded-ss-none" />
             <div className="flex items-center gap-x-3 mt-2">
-                <div className="pl-2 pr-7 py-1 bg-zinc-100 rounded-full">
-                    <Heart className="size-3" />
+                <div className="pl-2 pr-7 py-1.5 bg-zinc-100 text-zinc-600 rounded-full">
+                    <HiOutlineHeart className="size-4" />
                 </div>
                 <Separator orientation="vertical" className="h-5" />
                 <Button

@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/useToast";
 import { getComments } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { COMMENTS_PER_PAGE, REPLIES_PER_PAGE } from "@/constants";
 
 interface CommentsProps {
@@ -51,9 +52,7 @@ interface CommentsData {
             image: string | null;
         }
         likes: {
-            id: string;
             likerId: string;
-            commentId: string;
         }[];
         _count: {
             likes: number;
@@ -73,6 +72,7 @@ const Comments = ({
 }: CommentsProps) => {
     const router = useRouter();
     const { toast } = useToast();
+    const user = useCurrentUser();
     const searchParams = useSearchParams();
     const sort = searchParams.get("sort") || "oldest";
 
@@ -126,28 +126,33 @@ const Comments = ({
             <SortBy />
             {comments.length ? (
                 <ul className="space-y-4">
-                    {comments.map((comment) => (
-                        <div key={comment.id}>
-                            <Comment
-                                postId={postId}
-                                commentId={comment.id}
-                                commenterId={comment.commenterId}
-                                commenterUsername={comment.commenter.username}
-                                commenterImage={comment.commenter.image}
-                                comment={comment.comment}
-                                likesCount={comment._count.likes}
-                                commentedAt={comment.commentedAt}
-                                updatedAt={comment.updatedAt}
-                            />
-                            <Replies
-                                sort={sort}
-                                postId={postId}
-                                commentId={comment.id}
-                                replies={comment.replies}
-                                totalReplies={comment._count.replies}
-                            />
-                        </div>
-                    ))}
+                    {comments.map((comment) => {
+                        const isLiked = comment.likes[0] && comment.likes[0].likerId === user?.id;
+
+                        return (
+                            <div key={comment.id}>
+                                <Comment
+                                    postId={postId}
+                                    commentId={comment.id}
+                                    commenterId={comment.commenterId}
+                                    commenterUsername={comment.commenter.username}
+                                    commenterImage={comment.commenter.image}
+                                    comment={comment.comment}
+                                    initialLikesCount={comment._count.likes}
+                                    commentedAt={comment.commentedAt}
+                                    updatedAt={comment.updatedAt}
+                                    initialIsLiked={isLiked}
+                                />
+                                <Replies
+                                    sort={sort}
+                                    postId={postId}
+                                    commentId={comment.id}
+                                    replies={comment.replies}
+                                    totalReplies={comment._count.replies}
+                                />
+                            </div>
+                        )
+                    })}
                     {hasNextPage && (
                         isFetchingNextPage ? (
                             Array.from({ length: 3 }, (_, index) => (

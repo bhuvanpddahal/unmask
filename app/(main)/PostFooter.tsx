@@ -3,6 +3,8 @@ import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 import { LuMessageSquare, LuShare } from "react-icons/lu";
 
 import { CardFooter } from "@/components/ui/Card";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useSigninModal } from "@/hooks/useSigninModal";
 import { useLikeOrUnlikePost } from "@/hooks/useLikeOrUnlikePost";
 
 interface PostFooterProps {
@@ -20,6 +22,10 @@ const PostFooter = ({
     commentsCount,
     viewsCount
 }: PostFooterProps) => {
+    const user = useCurrentUser();
+    const { open } = useSigninModal();
+    const isSignedIn = !!(user && user.id);
+
     const {
         likeOrUnlikePost,
         likesCount,
@@ -36,10 +42,13 @@ const PostFooter = ({
                 <div className="flex gap-3 text-sm">
                     <div
                         className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-zinc-600 rounded-full cursor-pointer hover:bg-slate-200"
-                        onClick={() => likeOrUnlikePost()}
+                        onClick={() => {
+                            if (isSignedIn) likeOrUnlikePost();
+                            else open();
+                        }}
                     >
                         {isLiked ? (
-                            <HiHeart className="size-4 stroke-" />
+                            <HiHeart className="size-4" />
                         ) : (
                             <HiOutlineHeart className="size-4" />
                         )}
