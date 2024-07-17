@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Package2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { CardContent } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -19,8 +18,6 @@ const PostContent = ({
     postImage,
     pollVotes
 }: PostContentProps) => {
-    const router = useRouter();
-
     return (
         <CardContent className="px-4 py-0">
             <h3 className="font-semibold text-accent-foreground line-clamp-1 mb-2">

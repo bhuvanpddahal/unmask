@@ -6,8 +6,8 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { notFound, useSearchParams } from "next/navigation";
 
+import SortBy from "./SortBy";
 import Post, { PostLoader } from "./Post";
-import SortBy, { SortByLoader } from "./SortBy";
 import { getPosts } from "@/actions/post";
 import { useToast } from "@/hooks/useToast";
 import { POSTS_PER_PAGE } from "@/constants";
@@ -17,7 +17,7 @@ interface FetchPostsParams {
     pageParam: number;
 }
 
-type Sort = "hot" | "recent" | "views";
+export type Sort = "hot" | "recent" | "views";
 
 interface PostsData {
     posts: (PostType & {
@@ -99,12 +99,12 @@ const Posts = () => {
     const posts = data?.pages.flatMap((page) => page.posts);
 
     if (!isValidSort(sort)) return notFound();
-    if (isLoading) return <PostsLoader />
+    if (isLoading) return <PostsLoader sort={sort} />
     if (!posts) return <div>Error</div>
 
     return (
         <div>
-            <SortBy />
+            <SortBy sort={sort} />
             <ul className="space-y-5">
                 {posts.map((post, index) => {
                     const repliesCount = post.comments.reduce((acc, comment) => {
@@ -146,9 +146,13 @@ const Posts = () => {
 
 export default Posts;
 
-export const PostsLoader = () => (
+interface PostsLoaderProps {
+    sort: Sort;
+}
+
+export const PostsLoader = ({ sort }: PostsLoaderProps) => (
     <div>
-        <SortByLoader />
+        <SortBy sort={sort} className="pointer-events-none" />
         <ul className="space-y-5">
             {([...new Array(5)]).map((_, index) => (
                 <PostLoader key={index} />

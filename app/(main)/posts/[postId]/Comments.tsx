@@ -10,8 +10,8 @@ import {
 } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+import SortBy from "./SortBy";
 import Replies from "./Replies";
-import SortBy, { SortByLoader } from "./SortBy";
 import Comment, { CommentLoader } from "./Comment";
 import { useToast } from "@/hooks/useToast";
 import { getComments } from "@/actions/post";
@@ -116,12 +116,15 @@ const Comments = ({
     const comments = data?.pages.flatMap((page) => page.comments);
 
     if (!isValidSort(sort)) return notFound();
-    if (isLoading) return <CommentsLoader />
+    if (isLoading) return <CommentsLoader sort={sort} postId={postId} />
     if (!comments) return <div>Error</div>
 
     return (
         <div className="p-4">
-            <SortBy />
+            <SortBy
+                sort={sort}
+                postId={postId}
+            />
             {comments.length ? (
                 <ul className="space-y-4">
                     {comments.map((comment) => {
@@ -198,9 +201,21 @@ const Comments = ({
 
 export default Comments;
 
-export const CommentsLoader = () => (
+interface CommentsLoaderProps {
+    sort: Sort;
+    postId: string;
+}
+
+export const CommentsLoader = ({
+    sort,
+    postId
+}: CommentsLoaderProps) => (
     <div className="p-4">
-        <SortByLoader />
+        <SortBy
+            sort={sort}
+            postId={postId}
+            className="pointer-events-none"
+        />
         <ul className="space-y-4">
             {Array.from({ length: 3 }, (_, index) => (
                 <CommentLoader key={index} />

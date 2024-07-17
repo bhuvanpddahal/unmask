@@ -88,11 +88,25 @@ export const getPosts = async (payload: GetPostsPayload) => {
 
         const { page, limit, sort } = validatedFields.data;
 
+        let orderByClause = {};
+
+        if (sort === "hot") {
+            orderByClause = [
+                { likes: { _count: "desc" } },
+                { createdAt: "desc" }
+            ];
+        } else if (sort === "recent") {
+            orderByClause = { createdAt: "desc" };
+        } else {
+            orderByClause = [
+                { views: { _count: "desc" } },
+                { createdAt: "desc" }
+            ];
+        }
+
         const posts = await db.post.findMany({
             where: {},
-            orderBy: {
-                createdAt: "desc"
-            },
+            orderBy: orderByClause,
             take: limit,
             skip: (page - 1) * limit,
             include: {
@@ -241,13 +255,24 @@ export const getComments = async (payload: GetCommentsPayload) => {
 
         const { postId, page, commentsLimit, repliesLimit, sort } = validatedFields.data;
 
+        let orderByClause = {};
+
+        if (sort === "oldest") {
+            orderByClause = { commentedAt: "asc" };
+        } else if (sort === "newest") {
+            orderByClause = { commentedAt: "desc" };
+        } else {
+            orderByClause = [
+                { likes: { _count: "desc" } },
+                { commentedAt: "desc" }
+            ];
+        }
+
         const comments = await db.comment.findMany({
             where: {
                 postId
             },
-            orderBy: {
-                commentedAt: "asc"
-            },
+            orderBy: orderByClause,
             take: commentsLimit,
             skip: (page - 1) * commentsLimit,
             include: {

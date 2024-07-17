@@ -78,13 +78,13 @@ export const PostFooterLoader = () => (
     <CardFooter className="p-4 pt-6">
         <div className="w-full flex justify-between">
             <div className="flex gap-3 text-sm">
-                <div className="flex items-center gap-1 pl-2 pr-7 py-1 bg-zinc-100 text-zinc-500 rounded-full">
+                <div className="flex items-center gap-1 pl-2 pr-5 py-1 bg-zinc-100 text-zinc-500 rounded-full">
                     <HiOutlineHeart className="size-4" />
                 </div>
-                <div className="flex items-center gap-1 pl-2 pr-8 py-1 bg-zinc-100 text-zinc-500 rounded-full">
+                <div className="flex items-center gap-1 pl-2 pr-6 py-1 bg-zinc-100 text-zinc-500 rounded-full">
                     <LuMessageSquare className="size-3.5" />
                 </div>
-                <div className="flex items-center gap-1 pl-2 pr-9 py-1 bg-zinc-100 text-zinc-500 rounded-full">
+                <div className="flex items-center gap-1 pl-2 pr-7 py-1 bg-zinc-100 text-zinc-500 rounded-full">
                     <MdOutlineRemoveRedEye className="size-4" />
                 </div>
             </div>

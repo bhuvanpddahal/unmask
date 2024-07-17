@@ -156,7 +156,7 @@ export const CommentLoader = () => (
         <div className="w-full">
             <Skeleton className="h-[70px] w-full rounded-md rounded-ss-none" />
             <div className="flex items-center gap-x-3 mt-2">
-                <div className="pl-2 pr-7 py-1.5 bg-zinc-100 text-zinc-600 rounded-full">
+                <div className="pl-2 pr-5 py-1.5 bg-zinc-100 text-zinc-600 rounded-full">
                     <HiOutlineHeart className="size-4" />
                 </div>
                 <Separator orientation="vertical" className="h-5" />
