@@ -40,14 +40,14 @@ const Comment = ({
     updatedAt,
     initialIsLiked
 }: CommentProps) => {
-    const { open } = useSigninModal();
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === commenterId;
     const isSignedIn = !!(currentUser && currentUser.id);
-    const [isEditOpen, setIsEditOpen] = useState(false);
-    const [isReplyOpen, setIsReplyOpen] = useState(false);
     const isEdited = new Date(updatedAt) > new Date(commentedAt);
     const title = `Commented on ${format(commentedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
+    const { open } = useSigninModal();
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isReplyOpen, setIsReplyOpen] = useState(false);
 
     const {
         likeOrUnlikeComment,

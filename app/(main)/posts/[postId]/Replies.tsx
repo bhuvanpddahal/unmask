@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import Reply, { ReplyLoader } from "./Reply";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
-import { getMoreReplies } from "@/actions/post";
+import { getMoreReplies } from "@/actions/reply";
 import type { ReplyDataType, Sort } from "./Comments";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { REPLIES_PER_PAGE, REPLIES_PER_QUERY } from "@/constants";
@@ -33,8 +33,8 @@ const Replies = ({
     replies,
     totalReplies
 }: RepliesProps) => {
-    const { toast } = useToast();
     const user = useCurrentUser();
+    const { toast } = useToast();
     const [enabled, setEnabled] = useState(false);
 
     const fetchMoreReplies = async ({ pageParam }: FetchMoreRepliesParams) => {

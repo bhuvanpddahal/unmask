@@ -6,8 +6,8 @@ import { useState } from "react";
 
 import { Card } from "@/components/ui/Card";
 import { useToast } from "@/hooks/useToast";
-import { commentOnPost } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
+import { commentOnPost } from "@/actions/comment";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { Textarea } from "@/components/ui/Textarea";
 import { useCurrentUser } from "@/hooks/useCurrentUser";

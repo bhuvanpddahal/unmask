@@ -13,7 +13,7 @@ interface PostProps {
     title: string;
     description: string;
     postImage: string | null;
-    pollVotes?: number;
+    pollVotesCount?: number;
     createdAt: Date;
     updatedAt: Date;
     likesCount: number;
@@ -31,7 +31,7 @@ const Post = ({
     title,
     description,
     postImage,
-    pollVotes,
+    pollVotesCount,
     createdAt,
     updatedAt,
     likesCount,
@@ -60,7 +60,7 @@ const Post = ({
                 title={title}
                 description={description}
                 postImage={postImage}
-                pollVotes={pollVotes}
+                pollVotesCount={pollVotesCount}
             />
             <PostFooter
                 postId={postId}

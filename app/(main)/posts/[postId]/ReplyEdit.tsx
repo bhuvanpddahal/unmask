@@ -8,8 +8,8 @@ import {
     useQueryClient
 } from "@tanstack/react-query";
 
-import { editReply } from "@/actions/post";
 import { useToast } from "@/hooks/useToast";
+import { editReply } from "@/actions/reply";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
 

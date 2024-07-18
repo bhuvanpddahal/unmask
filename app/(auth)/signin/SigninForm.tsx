@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/Button";
 const LogInForm = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [isLoading, startTransition] = useTransition();
+    const [isPending, startTransition] = useTransition();
 
     const form = useForm<SigninPayload>({
         resolver: zodResolver(SigninValidator),
@@ -70,7 +70,7 @@ const LogInForm = () => {
                                         {...field}
                                         placeholder="example@mail.com"
                                         type="email"
-                                        disabled={isLoading}
+                                        disabled={isPending}
                                         autoComplete="email"
                                     />
                                 </FormControl>
@@ -89,7 +89,7 @@ const LogInForm = () => {
                                         {...field}
                                         placeholder="********"
                                         type="password"
-                                        disabled={isLoading}
+                                        disabled={isPending}
                                         autoComplete="current-password"
                                     />
                                 </FormControl>
@@ -106,10 +106,10 @@ const LogInForm = () => {
                     type="submit"
                     size="lg"
                     className="w-full"
-                    disabled={isLoading}
-                    isLoading={isLoading}
+                    disabled={isPending}
+                    isLoading={isPending}
                 >
-                    {isLoading ? "Signing in" : "Sign in"}
+                    {isPending ? "Signing in" : "Sign in"}
                 </Button>
             </form>
         </Form>

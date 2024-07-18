@@ -3,25 +3,22 @@ import {
     Comment as CommentType,
     Reply as ReplyType
 } from "@prisma/client";
-import {
-    notFound,
-    useRouter,
-    useSearchParams
-} from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import SortBy from "./SortBy";
 import Replies from "./Replies";
 import Comment, { CommentLoader } from "./Comment";
 import { useToast } from "@/hooks/useToast";
-import { getComments } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
+import { getComments } from "@/actions/comment";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { COMMENTS_PER_PAGE, REPLIES_PER_PAGE } from "@/constants";
 
 interface CommentsProps {
     postId: string;
+    sort: string;
 }
 
 interface FetchCommentsParams {
@@ -66,13 +63,12 @@ const isValidSort = (value: string) => {
 };
 
 const Comments = ({
-    postId
+    postId,
+    sort
 }: CommentsProps) => {
     const router = useRouter();
-    const { toast } = useToast();
     const user = useCurrentUser();
-    const searchParams = useSearchParams();
-    const sort = searchParams.get("sort") || "oldest";
+    const { toast } = useToast();
 
     const fetchComments = async ({ pageParam }: FetchCommentsParams) => {
         const payload = {
@@ -116,7 +112,7 @@ const Comments = ({
     const comments = data?.pages.flatMap((page) => page.comments);
 
     if (!isValidSort(sort)) return notFound();
-    if (isLoading) return <CommentsLoader sort={sort} postId={postId} />
+    if (isLoading) return <CommentsLoader sort={sort} />
     if (!comments) return <div>Error</div>
 
     return (
@@ -202,18 +198,15 @@ const Comments = ({
 export default Comments;
 
 interface CommentsLoaderProps {
-    sort: Sort;
-    postId: string;
+    sort: string;
 }
 
 export const CommentsLoader = ({
-    sort,
-    postId
+    sort
 }: CommentsLoaderProps) => (
     <div className="p-4">
         <SortBy
             sort={sort}
-            postId={postId}
             className="pointer-events-none"
         />
         <ul className="space-y-4">

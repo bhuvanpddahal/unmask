@@ -16,14 +16,14 @@ model User {
     joinedAt  DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    posts        Post[]
-    pollVotes    PollVote[]
-    views        View[]
-    comments     Comment[]
-    replies      Reply[]
-    postLikes    PostLike[]
-    commentLikes CommentLike[]
-    replyLikes   ReplyLike[]
+    posts           Post[]
+    views           View[]
+    comments        Comment[]
+    replies         Reply[]
+    postLikes       PostLike[]
+    commentLikes    CommentLike[]
+    replyLikes      ReplyLike[]
+    pollOptionVotes PollOptionVote[]
 }
 
 model VerificationToken {
@@ -53,23 +53,33 @@ model Post {
 }
 
 model Poll {
-    id      String   @id @default(auto()) @map("_id") @db.ObjectId
-    postId  String   @unique @db.ObjectId
-    options String[]
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    postId String @unique @db.ObjectId
 
-    votes PollVote[]
+    options PollOption[]
 
     post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
-model PollVote {
-    id       String @id @default(auto()) @map("_id") @db.ObjectId
-    pollId   String @db.ObjectId
-    casterId String @db.ObjectId
-    vote     Int
+model PollOption {
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    pollId String @db.ObjectId
+    option String
 
-    poll   Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
-    caster User @relation(fields: [casterId], references: [id], onDelete: Cascade)
+    votes PollOptionVote[]
+
+    poll Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+}
+
+model PollOptionVote {
+    id           String @id @default(auto()) @map("_id") @db.ObjectId
+    pollOptionId String @db.ObjectId
+    voterId      String @db.ObjectId
+
+    pollOption PollOption @relation(fields: [pollOptionId], references: [id], onDelete: Cascade)
+    voter      User       @relation(fields: [voterId], references: [id], onDelete: Cascade)
+
+    @@unique([pollOptionId, voterId])
 }
 
 model View {

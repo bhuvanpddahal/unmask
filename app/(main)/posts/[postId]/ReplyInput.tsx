@@ -10,7 +10,7 @@ import {
 
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
-import { replyOnComment } from "@/actions/post";
+import { replyOnComment } from "@/actions/reply";
 import { Textarea } from "@/components/ui/Textarea";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useSigninModal } from "@/hooks/useSigninModal";

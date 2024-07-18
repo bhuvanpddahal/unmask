@@ -19,8 +19,6 @@ const CreatePost = () => {
         }
     };
 
-    // https://dribbble.com/shots/1694648-Create-Post
-
     return (
         <Card
             className="flex items-center gap-x-2 px-4 py-5 cursor-pointer"

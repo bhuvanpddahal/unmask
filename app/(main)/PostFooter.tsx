@@ -23,8 +23,8 @@ const PostFooter = ({
     viewsCount
 }: PostFooterProps) => {
     const user = useCurrentUser();
-    const { open } = useSigninModal();
     const isSignedIn = !!(user && user.id);
+    const { open } = useSigninModal();
 
     const {
         likeOrUnlikePost,

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
 import Comments, { CommentsLoader } from "./Comments";
 import PostHeader, { PostHeaderLoader } from "./PostHeader";
@@ -21,6 +22,8 @@ const PostDetailsContent = ({
     postId
 }: PostDetailsContentProps) => {
     const user = useCurrentUser();
+    const searchParams = useSearchParams();
+    const sort = searchParams.get("sort") || "oldest";
 
     const {
         data: post,
@@ -41,7 +44,7 @@ const PostDetailsContent = ({
                 <PostContentLoader />
                 <PostFooterLoader />
                 <Separator />
-                <CommentsLoader />
+                <CommentsLoader sort={sort} />
             </Card>
             <CommentInputLoader />
         </div>
@@ -81,6 +84,7 @@ const PostDetailsContent = ({
                     title={post.title}
                     description={post.description}
                     postImage={post.image}
+                    poll={post.poll}
                 />
                 <PostFooter
                     postId={postId}
@@ -90,7 +94,10 @@ const PostDetailsContent = ({
                     viewsCount={post._count.views}
                 />
                 <Separator />
-                <Comments postId={post.id} />
+                <Comments
+                    postId={post.id}
+                    sort={sort}
+                />
             </Card>
             <CommentInput postId={post.id} />
         </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 import { useToast } from "./useToast";
-import { likeOrUnlikeComment as likeOrUnlikeCommentAction } from "@/actions/post";
+import { likeOrUnlikeComment as likeOrUnlikeCommentAction } from "@/actions/comment";
 
 export const useLikeOrUnlikeComment = (
     commentId: string,

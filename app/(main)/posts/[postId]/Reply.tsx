@@ -37,13 +37,13 @@ const Reply = ({
     updatedAt,
     initialIsLiked
 }: ReplyProps) => {
-    const { open } = useSigninModal();
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === replierId;
     const isSignedIn = !!(currentUser && currentUser.id);
-    const [isEditOpen, setIsEditOpen] = useState(false);
     const isEdited = new Date(updatedAt) > new Date(repliedAt);
     const title = `Replied on ${format(repliedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
+    const { open } = useSigninModal();
+    const [isEditOpen, setIsEditOpen] = useState(false);
 
     const {
         likeOrUnlikeReply,

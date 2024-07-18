@@ -9,14 +9,14 @@ interface PostContentProps {
     title: string;
     description: string;
     postImage: string | null;
-    pollVotes?: number;
+    pollVotesCount?: number;
 }
 
 const PostContent = ({
     title,
     description,
     postImage,
-    pollVotes
+    pollVotesCount
 }: PostContentProps) => {
     return (
         <CardContent className="px-4 py-0">
@@ -37,7 +37,7 @@ const PostContent = ({
                     />
                 </div>
             )}
-            {pollVotes !== undefined && (
+            {pollVotesCount !== undefined && (
                 <div className="bg-accent px-5 py-3 flex items-center gap-x-3 rounded-md mt-4">
                     <div className="flex items-center gap-x-1 text-primary">
                         <Package2 className="size-4 text-primary" />
@@ -45,8 +45,8 @@ const PostContent = ({
                     </div>
                     <Separator orientation="vertical" className="bg-zinc-400 h-5" />
                     <p className="text-[13.5px] text-zinc-700 font-medium">
-                        <span className="font-semibold">{pollVotes} </span>
-                        Participants
+                        <span className="font-semibold">{pollVotesCount} </span>
+                        {pollVotesCount === 1 ? "Participant" : "Participants"}
                     </p>
                 </div>
             )}

@@ -26,9 +26,11 @@ interface PostsData {
             username: string;
         };
         poll: {
-            _count: {
-                votes: number;
-            };
+            options: {
+                _count: {
+                    votes: number;
+                };
+            }[];
         } | null;
         likes: {
             likerId: string;
@@ -51,11 +53,11 @@ const isValidSort = (value: string) => {
 };
 
 const Posts = () => {
-    const { toast } = useToast();
     const user = useCurrentUser();
-    const { ref, inView } = useInView();
     const searchParams = useSearchParams();
     const sort = searchParams.get("sort") || "hot";
+    const { toast } = useToast();
+    const { ref, inView } = useInView();
 
     const fetchPosts = async ({ pageParam }: FetchPostsParams) => {
         const payload = { sort: sort as Sort, page: pageParam, limit: POSTS_PER_PAGE };
@@ -107,6 +109,9 @@ const Posts = () => {
             <SortBy sort={sort} />
             <ul className="space-y-5">
                 {posts.map((post, index) => {
+                    const pollVotesCount = post.poll?.options.reduce((acc, option) => {
+                        return acc + option._count.votes;
+                    }, 0);
                     const repliesCount = post.comments.reduce((acc, comment) => {
                         return acc + comment._count.replies;
                     }, 0);
@@ -123,7 +128,7 @@ const Posts = () => {
                             title={post.title}
                             description={post.description}
                             postImage={post.image}
-                            pollVotes={post.poll?._count.votes}
+                            pollVotesCount={pollVotesCount}
                             createdAt={post.createdAt}
                             updatedAt={post.updatedAt}
                             likesCount={post._count.likes}

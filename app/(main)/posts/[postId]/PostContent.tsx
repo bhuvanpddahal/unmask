@@ -4,16 +4,32 @@ import Poll from "./Poll";
 import { CardContent } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
 
+export interface PollOption {
+    id: string;
+    option: string;
+    _count: {
+        votes: number;
+    };
+    votes: {
+        voterId: string;
+    }[];
+}
+
 interface PostContentProps {
     title: string;
     description: string;
     postImage: string | null;
+    poll: {
+        id: string;
+        options: PollOption[];
+    } | null;
 }
 
 const PostContent = ({
     title,
     description,
-    postImage
+    postImage,
+    poll
 }: PostContentProps) => {
     return (
         <CardContent className="px-4 py-0">
@@ -34,7 +50,12 @@ const PostContent = ({
                     />
                 </div>
             )}
-            {/* <Poll /> */}
+            {poll && (
+                <Poll
+                    pollId={poll.id}
+                    pollOptions={poll.options}
+                />
+            )}
         </CardContent>
     )
 };

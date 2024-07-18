@@ -16,15 +16,15 @@ import {
     AlertDialogTitle
 } from "@/components/ui/AlertDialog";
 import { useToast } from "@/hooks/useToast";
-import { deleteComment } from "@/actions/post";
+import { deleteComment } from "@/actions/comment";
 import { Button, buttonVariants } from "./ui/Button";
 import { useDeleteCommentModal } from "@/hooks/useDeleteCommentModal";
 
 const DeleteCommentModal = () => {
-    const { toast } = useToast();
     const queryClient = useQueryClient();
-    const [isLoading, startTransition] = useTransition();
+    const { toast } = useToast();
     const { isOpen, comment, close } = useDeleteCommentModal();
+    const [isLoading, startTransition] = useTransition();
 
     const handleDelete = () => {
         const payload = { commentId: comment.id };

@@ -8,11 +8,10 @@ import {
     SelectValue
 } from "@/components/ui/Select";
 import { cn } from "@/lib/utils";
-import { type Sort } from "./Comments";
 
 interface SortByProps {
-    sort: Sort;
-    postId: string;
+    sort: string;
+    postId?: string;
     className?: string;
 }
 
@@ -24,6 +23,7 @@ const SortBy = ({
     const router = useRouter();
 
     const handleValueChange = (value: string) => {
+        if (!postId) return;
         router.push(`/posts/${postId}?sort=${value}`);
     };
 

@@ -43,7 +43,7 @@ const ThirdStep = ({
     } = useSignup();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const [isLoading, startTransition] = useTransition();
+    const [isPending, startTransition] = useTransition();
 
     const form = useForm<ThirdStepPayload>({
         resolver: zodResolver(ThirdStepValidator),
@@ -160,10 +160,10 @@ const ThirdStep = ({
                     <Button
                         type="submit"
                         size="lg"
-                        isLoading={isLoading}
+                        isLoading={isPending}
                         className="w-full"
                     >
-                        {isLoading ? "Creating account" : "Join Unmask"}
+                        {isPending ? "Creating account" : "Join Unmask"}
                     </Button>
                 </form>
             </Form>

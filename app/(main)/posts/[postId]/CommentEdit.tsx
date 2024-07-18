@@ -9,8 +9,8 @@ import {
 } from "@tanstack/react-query";
 
 import { useToast } from "@/hooks/useToast";
-import { editComment } from "@/actions/post";
 import { Button } from "@/components/ui/Button";
+import { editComment } from "@/actions/comment";
 import { Textarea } from "@/components/ui/Textarea";
 
 interface CommentEditProps {
