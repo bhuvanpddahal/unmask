@@ -1,44 +1,50 @@
 import { useState } from "react";
 import { Package2 } from "lucide-react";
 
+import PollResult from "./PollResult";
 import { PollOption } from "./PostContent";
 import { Label } from "@/components/ui/Label";
 import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { useVoteOnPoll } from "@/hooks/useVoteOnPoll";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { useSigninModal } from "@/hooks/useSigninModal";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 
 interface PollProps {
+    postId: string;
     pollId: string;
     pollOptions: PollOption[];
 }
 
 const Poll = ({
+    postId,
     pollId,
     pollOptions
 }: PollProps) => {
     const user = useCurrentUser();
     const isSignedIn = !!(user && user.id);
-    const initiallyVotedOption = pollOptions.find((option) => {
+    const pollResultData = pollOptions.map((option) => ({
+        id: option.id,
+        option: option.option,
+        votesCount: option._count.votes
+    }));
+    const votedOption = pollOptions.find((option) => {
         return option.votes.length && option.votes[0].voterId === user?.id;
     });
-    const initialPollVotesCount = pollOptions.reduce((acc, option) => {
+    const pollVotesCount = pollOptions.reduce((acc, option) => {
         return acc + option._count.votes;
     }, 0);
     const { open } = useSigninModal();
-    const [activePollOptionId, setActivePollOptionId] = useState<string | undefined>(initiallyVotedOption?.id);
+    const [activePollOptionId, setActivePollOptionId] = useState<string | undefined>(votedOption?.id);
 
     const {
         voteOnPoll,
-        pollVotesCount,
         isPending
     } = useVoteOnPoll(
+        postId,
         pollId,
-        activePollOptionId || "",
-        initialPollVotesCount,
-        !!initiallyVotedOption
+        activePollOptionId || ""
     );
 
     return (
@@ -91,13 +97,22 @@ const Poll = ({
                 >
                     {isPending ? "Voting" : "Vote"}
                 </Button>
-                <Button
-                    size="lg"
-                    variant="ghost"
-                    className="w-full"
-                >
-                    View Result
-                </Button>
+                {isSignedIn ? (
+                    <PollResult
+                        data={pollResultData}
+                        totalVotes={pollVotesCount}
+                        votedOptionId={votedOption?.id}
+                    />
+                ) : (
+                    <Button
+                        size="lg"
+                        variant="ghost"
+                        className="w-full"
+                        onClick={open}
+                    >
+                        View Result
+                    </Button>
+                )}
             </div>
         </div>
     )

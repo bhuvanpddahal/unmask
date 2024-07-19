@@ -1,17 +1,17 @@
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useToast } from "./useToast";
 import { voteOnPoll as voteOnPollAction } from "@/actions/poll";
 
 export const useVoteOnPoll = (
+    postId: string,
     pollId: string,
-    pollOptionId: string,
-    initialPollVotesCount: number,
-    hasAlreadyVoted: boolean
+    pollOptionId: string
 ) => {
+    const queryClient = useQueryClient();
     const { toast } = useToast();
     const [isPending, startTransition] = useTransition();
-    const [pollVotesCount, setPollVotesCount] = useState(initialPollVotesCount);
 
     const voteOnPoll = () => {
         const payload = { pollId, pollOptionId };
@@ -23,7 +23,9 @@ export const useVoteOnPoll = (
                         title: "Success",
                         description: data.success
                     });
-                    if (!hasAlreadyVoted) setPollVotesCount((prev) => prev + 1);
+                    queryClient.invalidateQueries({
+                        queryKey: ["posts", postId]
+                    });
                 }
                 if (data.error) {
                     toast({
@@ -38,7 +40,6 @@ export const useVoteOnPoll = (
 
     return {
         voteOnPoll,
-        pollVotesCount,
         isPending
     };
 };

@@ -16,6 +16,7 @@ export interface PollOption {
 }
 
 interface PostContentProps {
+    postId: string;
     title: string;
     description: string;
     postImage: string | null;
@@ -26,6 +27,7 @@ interface PostContentProps {
 }
 
 const PostContent = ({
+    postId,
     title,
     description,
     postImage,
@@ -52,6 +54,7 @@ const PostContent = ({
             )}
             {poll && (
                 <Poll
+                    postId={postId}
                     pollId={poll.id}
                     pollOptions={poll.options}
                 />

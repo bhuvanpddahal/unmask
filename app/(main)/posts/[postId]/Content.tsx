@@ -81,6 +81,7 @@ const PostDetailsContent = ({
                     updatedAt={post.updatedAt}
                 />
                 <PostContent
+                    postId={postId}
                     title={post.title}
                     description={post.description}
                     postImage={post.image}
