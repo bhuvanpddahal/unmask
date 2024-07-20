@@ -77,6 +77,8 @@ const PostDetailsContent = ({
                     creatorUsername={data.post?.creator.username || ""}
                     creatorImage={data.post?.creator.image || ""}
                     postId={data.post?.id || ""}
+                    title={data.post?.title || ""}
+                    description={data.post?.description || ""}
                     createdAt={data.post?.createdAt || new Date()}
                     updatedAt={data.post?.updatedAt || new Date()}
                 />

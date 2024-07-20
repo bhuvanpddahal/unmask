@@ -113,7 +113,7 @@ const PostForm = ({
                 form.setValue("pollOptions", ["", ""]);
             }
         }
-    }, [hasPoll]);
+    }, [hasPoll, form]);
 
     return (
         <Form {...form}>
@@ -226,7 +226,7 @@ const PostForm = ({
                                                         <TriangleAlert className="h-5 w-5" />
                                                         <AlertTitle>Heads Up: Poll Can&apos;t Be Edited After Posting!</AlertTitle>
                                                         <AlertDescription>
-                                                            This is a friendly reminder that once you create a poll in your Unmask post, you won't be able to edit it afterwards. So for best results, take your time crafting your poll to avoid any need for edits later.
+                                                            This is a friendly reminder that once you create a poll in your Unmask post, you won&apos;t be able to edit it afterwards. So for best results, take your time crafting your poll to avoid any need for edits later.
                                                         </AlertDescription>
                                                     </Alert>
                                                 </>

@@ -71,7 +71,7 @@ const DeleteCommentModal = () => {
                 </AlertDialogHeader>
                 <div className="bg-accent w-full p-4 border rounded-md rounded-ss-none">
                     <div className="text-xs flex items-center gap-0.5">
-                        <span className="text-zinc-500 font-semibold hover:underline">
+                        <span className="text-zinc-500 font-semibold">
                             {comment.commenterUsername}
                         </span>
                         <Dot className="size-4 text-zinc-800" />

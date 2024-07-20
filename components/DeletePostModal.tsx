@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import { formatRelative } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
 
+import UserAvatar from "./UserAvatar";
 import { cn } from "@/lib/utils";
 import {
     AlertDialog,
@@ -16,21 +17,21 @@ import {
     AlertDialogTitle
 } from "@/components/ui/AlertDialog";
 import { useToast } from "@/hooks/useToast";
-import { deleteReply } from "@/actions/reply";
+import { deletePost } from "@/actions/post";
 import { Button, buttonVariants } from "./ui/Button";
-import { useDeleteReplyModal } from "@/hooks/useDeleteReplyModal";
+import { useDeletePostModal } from "@/hooks/useDeletePostModal";
 
-const DeleteReplyModal = () => {
+const DeletePostModal = () => {
     const queryClient = useQueryClient();
     const { toast } = useToast();
-    const { isOpen, reply, close } = useDeleteReplyModal();
+    const { isOpen, post, close } = useDeletePostModal();
     const [isLoading, startTransition] = useTransition();
 
     const handleDelete = () => {
-        const payload = { replyId: reply.id };
+        const payload = { postId: post.id };
 
         startTransition(() => {
-            deleteReply(payload).then((data) => {
+            deletePost(payload).then((data) => {
                 if (data.success) {
                     close();
                     toast({
@@ -38,7 +39,7 @@ const DeleteReplyModal = () => {
                         description: data.success
                     });
                     queryClient.invalidateQueries({
-                        queryKey: ["posts", reply.postId]
+                        queryKey: ["posts", post.id]
                     });
                 }
                 if (data.error) {
@@ -48,11 +49,11 @@ const DeleteReplyModal = () => {
                         description: data.error
                     });
                 }
-            }).catch(() => {
+            }).catch((error) => {
                 toast({
                     variant: "destructive",
                     title: "Error",
-                    description: "Something went wrong"
+                    description: error.message
                 });
             });
         });
@@ -63,26 +64,37 @@ const DeleteReplyModal = () => {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle className="text-base font-bold tracking-tight">
-                        Delete Reply?
+                        Delete Post?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the following reply and all its likes.
+                        This action cannot be undone. This will permanently delete the following post and all the comments associated with it.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <div className="bg-zinc-100 w-full p-4 border rounded-md rounded-ss-none">
-                    <div className="text-xs flex items-center gap-0.5">
-                        <span className="text-zinc-500 font-semibold">
-                            {reply.replierUsername}
-                        </span>
-                        <Dot className="size-4 text-zinc-800" />
-                        <span className="capitalize text-zinc-400 font-semibold">
-                            {formatRelative(reply.repliedAt, new Date())}
-                            {reply.isEdited && " (Edited)"}
-                        </span>
+                <div className="w-full border rounded-md">
+                    <div className="flex items-center gap-2 p-4">
+                        <UserAvatar
+                            image={post.creatorImage}
+                            username={post.creatorUsername}
+                        />
+                        <p className="text-[13px] flex items-center gap-0.5">
+                            <div className="text-accent-foreground font-semibold">
+                                {post.creatorUsername}
+                            </div>
+                            <Dot className="size-4" />
+                            <span className="text-xs capitalize text-zinc-400 font-semibold">
+                                {formatRelative(post.createdAt, new Date())}
+                                {post.isEdited && " (Edited)"}
+                            </span>
+                        </p>
                     </div>
-                    <p className="text-sm text-zinc-800 font-medium mt-0.5 line-clamp-3">
-                        {reply.reply}
-                    </p>
+                    <div className="px-4 pt-0 pb-4">
+                        <h3 className="font-semibold text-base text-black mb-2 line-clamp-1">
+                            {post.title}
+                        </h3>
+                        <p className="text-sm font-medium text-zinc-800 line-clamp-3">
+                            {post.description}
+                        </p>
+                    </div>
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel className={cn(buttonVariants({
@@ -104,4 +116,4 @@ const DeleteReplyModal = () => {
     )
 };
 
-export default DeleteReplyModal;
+export default DeletePostModal;

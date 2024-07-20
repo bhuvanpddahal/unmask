@@ -6,6 +6,8 @@ import { v2 as cloudinary } from "cloudinary";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import {
+    DeletePostPayload,
+    DeletePostValidator,
     GetPostPayload,
     GetPostsPayload,
     GetPostsValidator,
@@ -376,5 +378,36 @@ export const editPost = async (payload: UpsertPostPayload) => {
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };
+    }
+};
+
+export const deletePost = async (payload: DeletePostPayload) => {
+    try {
+        const validatedFields = DeletePostValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { postId } = validatedFields.data;
+
+        const post = await db.post.findUnique({
+            where: {
+                id: postId
+            }
+        });
+        if (!post) return { error: "Post not found" };
+        if (post.creatorId !== session.user.id) return { error: "Not permitted" };
+
+        await db.post.delete({
+            where: {
+                id: postId
+            }
+        });
+
+        return { success: "Post deleted successfully" };
+    } catch (error) {
+        console.error(error);
+        throw new Error("Something went wrong");
     }
 };

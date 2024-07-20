@@ -1,22 +1,9 @@
 import Link from "next/link";
-import {
-    Bookmark,
-    Dot,
-    Ellipsis,
-    LinkIcon,
-    Pencil,
-    Trash2
-} from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Bookmark, Dot } from "lucide-react";
 import { format, formatRelative } from "date-fns";
 
+import PostOptions from "./PostOptions";
 import UserAvatar from "@/components/UserAvatar";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/DropdownMenu";
 import { CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -26,6 +13,8 @@ interface PostHeaderProps {
     creatorUsername: string;
     creatorImage: string | null;
     postId: string;
+    title: string;
+    description: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -35,14 +24,15 @@ const PostHeader = ({
     creatorUsername,
     creatorImage,
     postId,
+    title,
+    description,
     createdAt,
     updatedAt
 }: PostHeaderProps) => {
-    const router = useRouter();
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === creatorId;
     const isEdited = new Date(updatedAt) > new Date(createdAt);
-    const title = `Created on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
+    const dateTitle = `Created on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
 
     return (
         <CardHeader className="p-4">
@@ -64,7 +54,7 @@ const PostHeader = ({
                             </Link>
                             <Dot className="size-4" />
                             <span
-                                title={title}
+                                title={dateTitle}
                                 className="text-xs capitalize text-zinc-400 font-semibold"
                             >
                                 {formatRelative(createdAt, new Date())}
@@ -77,35 +67,16 @@ const PostHeader = ({
                     <div className="h-10 w-10 flex items-center justify-center rounded-full cursor-pointer hover:bg-accent">
                         <Bookmark className="size-5" />
                     </div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-accent">
-                            <Ellipsis className="size-5" />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="text-[13px] font-medium">
-                            <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/posts/${postId}`)}
-                            >
-                                <LinkIcon className="size-4 mr-2" />
-                                Copy link
-                            </DropdownMenuItem>
-                            {isSameUser && (
-                                <>
-                                    <DropdownMenuItem
-                                        onClick={() => router.push(`/posts/${postId}/edit`)}
-                                    >
-                                        <Pencil className="size-4 mr-2" />
-                                        Edit
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                        onClick={() => { }}
-                                    >
-                                        <Trash2 className="size-4 mr-2" />
-                                        Delete
-                                    </DropdownMenuItem>
-                                </>
-                            )}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <PostOptions
+                        postId={postId}
+                        isSameUser={isSameUser}
+                        creatorUsername={creatorUsername}
+                        creatorImage={creatorImage}
+                        title={title}
+                        description={description}
+                        isEdited={isEdited}
+                        createdAt={createdAt}
+                    />
                 </div>
             </div>
         </CardHeader>
