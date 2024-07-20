@@ -5,18 +5,17 @@ import { useRouter } from "next/navigation";
 
 import { Card } from "@/components/ui/Card";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useSigninModal } from "@/hooks/useSigninModal";
 
 const CreatePost = () => {
     const router = useRouter();
     const user = useCurrentUser();
     const isSignedIn = user && user.id;
+    const { open } = useSigninModal();
 
     const handleClick = () => {
-        if (isSignedIn) {
-            router.push("/posts/create");
-        } else {
-            router.push("/signin");
-        }
+        if (isSignedIn) router.push("/posts/create");
+        else open();
     };
 
     return (

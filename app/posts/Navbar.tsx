@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/Label";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 interface NavbarProps {
     hasImage: boolean;
@@ -63,3 +64,29 @@ const Navbar = ({
 };
 
 export default Navbar;
+
+export const NavbarLoader = () => {
+    return (
+        <nav className="sticky top-0 h-[60px] bg-white px-4 py-2 shadow z-10">
+            <div className="max-w-[1400px] w-full h-full mx-auto flex items-center justify-between">
+                <Link
+                    href="/"
+                    className="flex items-center justify-center"
+                >
+                    <Image
+                        src="/logo.svg"
+                        alt="Logo"
+                        height={50}
+                        width={175}
+                        className="h-[35px] w-auto"
+                        priority
+                    />
+                </Link>
+                <div className="flex">
+                    <Skeleton className="h-9 w-[120px]" />
+                    <Skeleton className="h-9 w-[102px]" />
+                </div>
+            </div>
+        </nav>
+    )
+};

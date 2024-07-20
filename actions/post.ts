@@ -6,14 +6,14 @@ import { v2 as cloudinary } from "cloudinary";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import {
-    CreatePostPayload,
-    CreatePostValidator,
     GetPostPayload,
     GetPostsPayload,
     GetPostsValidator,
     GetPostValidator,
     LikeOrUnlikePostPayload,
-    LikeOrUnlikePostValidator
+    LikeOrUnlikePostValidator,
+    UpsertPostPayload,
+    UpsertPostValidator
 } from "@/lib/validators/post";
 
 cloudinary.config({
@@ -22,9 +22,9 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-export const createPost = async (payload: CreatePostPayload) => {
+export const createPost = async (payload: UpsertPostPayload) => {
     try {
-        const validatedFields = CreatePostValidator.safeParse(payload);
+        const validatedFields = UpsertPostValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
 
         const session = await auth();
@@ -244,7 +244,7 @@ export const getPost = async (payload: GetPostPayload) => {
             });
         }
 
-        return post;
+        return { post };
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };
@@ -297,5 +297,84 @@ export const likeOrUnlikePost = async (payload: LikeOrUnlikePostPayload) => {
     } catch (error: any) {
         console.error(error);
         throw new Error(error.message);
+    }
+};
+
+export const getPostToEdit = async (payload: GetPostPayload) => {
+    try {
+        const validatedFields = GetPostValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { postId } = validatedFields.data;
+
+        const post = await db.post.findUnique({
+            where: {
+                id: postId
+            },
+            select: {
+                creatorId: true,
+                title: true,
+                description: true,
+                image: true,
+                poll: {
+                    select: {
+                        options: {
+                            select: {
+                                option: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        if (!post) return { error: "Post not found" };
+        if (post.creatorId !== session.user.id) return { error: "Unpermitted" };
+
+        return { post };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const editPost = async (payload: UpsertPostPayload) => {
+    try {
+        const validatedFields = UpsertPostValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { id, title, description, image, pollOptions } = validatedFields.data;
+
+        const post = await db.post.findUnique({
+            where: {
+                id
+            }
+        });
+        if (!post) return { error: "Post not found" };
+        if (post.creatorId !== session.user.id) return { error: "Unpermitted" };
+
+        let imageUrl: string | undefined = undefined;
+        if (image) imageUrl = (await cloudinary.uploader.upload(image, { overwrite: false })).secure_url;
+
+        await db.post.update({
+            where: {
+                id
+            },
+            data: {
+                title,
+                description,
+                image: imageUrl
+            }
+        });
+
+        return { success: "Post updated successfully" };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
     }
 };

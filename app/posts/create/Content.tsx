@@ -1,13 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 
-import Navbar from "./Navbar";
-import PostForm from "./PostForm";
+import Navbar from "../Navbar";
+import PostForm from "../PostForm";
+import { useToast } from "@/hooks/useToast";
+import { createPost } from "@/actions/post";
+import { UpsertPostPayload } from "@/lib/validators/post";
 
 const PostCreationContent = () => {
+    const router = useRouter();
+    const { toast } = useToast();
     const [hasPoll, setHasPoll] = useState(false);
     const [hasImage, setHasImage] = useState(false);
+    const [isPending, startTransition] = useTransition();
+
+    const onSubmit = (payload: UpsertPostPayload) => {
+        startTransition(() => {
+            createPost(payload).then((data) => {
+                if (data.success) {
+                    toast({
+                        title: "Success",
+                        description: data.success
+                    });
+                    router.push(`/posts/${data.postId}`);
+                }
+                if (data.error) {
+                    toast({
+                        variant: "destructive",
+                        title: "Error",
+                        description: data.error
+                    });
+                }
+            });
+        });
+    };
 
     return (
         <>
@@ -21,6 +49,10 @@ const PostCreationContent = () => {
                     setHasImage={setHasImage}
                     hasPoll={hasPoll}
                     setHasPoll={setHasPoll}
+                    onSubmit={onSubmit}
+                    isPending={isPending}
+                    submitBtnText="Create Post"
+                    pendingSubmitBtnText="Creating Post"
                 />
             </div>
         </>

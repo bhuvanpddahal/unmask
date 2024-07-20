@@ -3,8 +3,11 @@ import {
     Bookmark,
     Dot,
     Ellipsis,
-    LinkIcon
+    LinkIcon,
+    Pencil,
+    Trash2
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { format, formatRelative } from "date-fns";
 
 import UserAvatar from "@/components/UserAvatar";
@@ -16,6 +19,7 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface PostHeaderProps {
     creatorId: string;
@@ -34,6 +38,9 @@ const PostHeader = ({
     createdAt,
     updatedAt
 }: PostHeaderProps) => {
+    const router = useRouter();
+    const currentUser = useCurrentUser();
+    const isSameUser = currentUser?.id === creatorId;
     const isEdited = new Date(updatedAt) > new Date(createdAt);
     const title = `Created on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
 
@@ -81,6 +88,22 @@ const PostHeader = ({
                                 <LinkIcon className="size-4 mr-2" />
                                 Copy link
                             </DropdownMenuItem>
+                            {isSameUser && (
+                                <>
+                                    <DropdownMenuItem
+                                        onClick={() => router.push(`/posts/${postId}/edit`)}
+                                    >
+                                        <Pencil className="size-4 mr-2" />
+                                        Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                        onClick={() => { }}
+                                    >
+                                        <Trash2 className="size-4 mr-2" />
+                                        Delete
+                                    </DropdownMenuItem>
+                                </>
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>

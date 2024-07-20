@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-export const CreatePostValidator = z.object({
+export const UpsertPostValidator = z.object({
+    id: z.string().optional(),
     title: z.string().min(10, {
         message: "Title must be at least 10 characters long"
     }),
@@ -36,7 +37,7 @@ export const LikeOrUnlikePostValidator = z.object({
     postId: z.string()
 });
 
-export type CreatePostPayload = z.infer<typeof CreatePostValidator>;
+export type UpsertPostPayload = z.infer<typeof UpsertPostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
 export type GetPostPayload = z.infer<typeof GetPostValidator>;
 export type LikeOrUnlikePostPayload = z.infer<typeof LikeOrUnlikePostValidator>;

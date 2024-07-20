@@ -26,14 +26,14 @@ const PostDetailsContent = ({
     const sort = searchParams.get("sort") || "oldest";
 
     const {
-        data: post,
+        data,
         isLoading
     } = useQuery({
         queryKey: ["posts", postId],
         queryFn: async () => {
             const payload = { postId };
-            const post = await getPost(payload);
-            return post;
+            const data = await getPost(payload);
+            return data;
         }
     });
 
@@ -49,7 +49,7 @@ const PostDetailsContent = ({
             <CommentInputLoader />
         </div>
     )
-    if (!post || post?.error) return (
+    if (!data || data.error) return (
         <div className="py-20 flex flex-col items-center justify-center gap-y-2">
             <Image
                 src="/error.png"
@@ -58,49 +58,49 @@ const PostDetailsContent = ({
                 width={100}
             />
             <p className="text-sm font-medium text-zinc-400">
-                {post?.error || "Something went wrong"}
+                {data?.error || "Something went wrong"}
             </p>
         </div>
     )
 
-    const isLiked = post.likes[0] && post.likes[0].likerId === user?.id;
-    const repliesCount = post.comments.reduce((acc, comment) => {
+    const repliesCount = data.post?.comments.reduce((acc, comment) => {
         return acc + comment._count.replies;
-    }, 0);
-    const commentsCount = post.comments.length + repliesCount;
+    }, 0) || 0;
+    const commentsCount = (data.post?.comments.length || 0) + repliesCount;
+    const isLiked = data.post?.likes[0] && data.post.likes[0].likerId === user?.id;
 
     return (
         <div>
             <Card>
                 <PostHeader
-                    creatorId={post.creatorId}
-                    creatorUsername={post.creator.username}
-                    creatorImage={post.creator.image}
-                    postId={post.id}
-                    createdAt={post.createdAt}
-                    updatedAt={post.updatedAt}
+                    creatorId={data.post?.creatorId || ""}
+                    creatorUsername={data.post?.creator.username || ""}
+                    creatorImage={data.post?.creator.image || ""}
+                    postId={data.post?.id || ""}
+                    createdAt={data.post?.createdAt || new Date()}
+                    updatedAt={data.post?.updatedAt || new Date()}
                 />
                 <PostContent
                     postId={postId}
-                    title={post.title}
-                    description={post.description}
-                    postImage={post.image}
-                    poll={post.poll}
+                    title={data.post?.title || ""}
+                    description={data.post?.description || ""}
+                    postImage={data.post?.image || ""}
+                    poll={data.post?.poll || null}
                 />
                 <PostFooter
                     postId={postId}
-                    initialLikesCount={post._count.likes}
-                    initialIsLiked={isLiked}
+                    initialLikesCount={data.post?._count.likes || 0}
+                    initialIsLiked={!!isLiked}
                     commentsCount={commentsCount}
-                    viewsCount={post._count.views}
+                    viewsCount={data.post?._count.views || 0}
                 />
                 <Separator />
                 <Comments
-                    postId={post.id}
+                    postId={postId}
                     sort={sort}
                 />
             </Card>
-            <CommentInput postId={post.id} />
+            <CommentInput postId={postId} />
         </div>
     )
 };

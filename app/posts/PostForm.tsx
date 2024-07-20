@@ -3,11 +3,9 @@ import {
     ChangeEvent,
     Dispatch,
     SetStateAction,
-    useEffect,
-    useTransition
+    useEffect
 } from "react";
-import { X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { TriangleAlert, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, UseFormReturn } from "react-hook-form";
 
@@ -20,12 +18,15 @@ import {
     FormMessage
 } from "@/components/ui/Form";
 import {
-    CreatePostPayload,
-    CreatePostValidator
+    Alert,
+    AlertDescription,
+    AlertTitle
+} from "@/components/ui/Alert";
+import {
+    UpsertPostPayload,
+    UpsertPostValidator
 } from "@/lib/validators/post";
 import { cn } from "@/lib/utils";
-import { useToast } from "@/hooks/useToast";
-import { createPost } from "@/actions/post";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
@@ -34,20 +35,27 @@ interface PostFormProps {
     setHasImage: Dispatch<SetStateAction<boolean>>;
     hasPoll: boolean;
     setHasPoll: Dispatch<SetStateAction<boolean>>;
+    defaultValues?: UpsertPostPayload;
+    onSubmit: (payload: UpsertPostPayload) => void;
+    isPending: boolean;
+    submitBtnText: string;
+    pendingSubmitBtnText: string;
 }
 
 const PostForm = ({
     setHasImage,
     hasPoll,
-    setHasPoll
+    setHasPoll,
+    defaultValues,
+    onSubmit,
+    isPending,
+    submitBtnText,
+    pendingSubmitBtnText
 }: PostFormProps) => {
-    const router = useRouter();
-    const { toast } = useToast();
-    const [isLoading, startTransition] = useTransition();
-
-    const form = useForm<CreatePostPayload>({
-        resolver: zodResolver(CreatePostValidator),
-        defaultValues: {
+    const form = useForm<UpsertPostPayload>({
+        resolver: zodResolver(UpsertPostValidator),
+        defaultValues: defaultValues || {
+            id: undefined,
             title: "",
             description: "",
             image: undefined,
@@ -57,7 +65,7 @@ const PostForm = ({
 
     const handleImgChange = (
         e: ChangeEvent<HTMLInputElement>,
-        form: UseFormReturn<CreatePostPayload, any, undefined>
+        form: UseFormReturn<UpsertPostPayload, any, undefined>
     ) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -76,7 +84,7 @@ const PostForm = ({
         form.setValue("title", "");
         form.setValue("description", "");
         form.setValue("image", undefined);
-        form.setValue("pollOptions", undefined);
+        if (!defaultValues) form.setValue("pollOptions", undefined);
     };
 
     const addNewOption = () => {
@@ -99,32 +107,13 @@ const PostForm = ({
         form.setValue("pollOptions", updatedOptions);
     };
 
-    const onSubmit = (payload: CreatePostPayload) => {
-        startTransition(() => {
-            createPost(payload).then((data) => {
-                if (data.success) {
-                    toast({
-                        title: "Success",
-                        description: data.success
-                    });
-                    router.push(`/posts/${data.postId}`);
-                }
-                if (data.error) {
-                    toast({
-                        variant: "destructive",
-                        title: "Error",
-                        description: data.error
-                    });
-                }
-            });
-        });
-    };
-
     useEffect(() => {
         if (hasPoll) {
-            form.setValue("pollOptions", ["", ""]);
+            if (!form.getValues("pollOptions")) {
+                form.setValue("pollOptions", ["", ""]);
+            }
         }
-    }), [hasPoll];
+    }, [hasPoll]);
 
     return (
         <Form {...form}>
@@ -144,7 +133,7 @@ const PostForm = ({
                                         type="text"
                                         placeholder="Title"
                                         className="h-20 text-3xl px-0 border-0 focus-visible:ring-0"
-                                        disabled={isLoading}
+                                        disabled={isPending}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -162,7 +151,7 @@ const PostForm = ({
                                         placeholder="Description"
                                         rows={16}
                                         className="text-lg px-0 border-0 focus-visible:ring-0"
-                                        disabled={isLoading}
+                                        disabled={isPending}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -203,7 +192,7 @@ const PostForm = ({
                                         type="file"
                                         className="hidden"
                                         onChange={(e) => handleImgChange(e, form)}
-                                        disabled={isLoading}
+                                        disabled={isPending}
                                         accept="image/*"
                                     />
                                 </FormControl>
@@ -218,16 +207,30 @@ const PostForm = ({
                             render={() => (
                                 <FormItem className="mt-12">
                                     <FormControl>
-                                        <div className="relative border rounded-md p-4">
-                                            <div
-                                                className="bg-border absolute bottom-full right-0 p-1 rounded-t-md cursor-pointer hover:bg-accent"
-                                                onClick={() => {
-                                                    setHasPoll(false);
-                                                    form.setValue("pollOptions", undefined);
-                                                }}
-                                            >
-                                                <X className="size-5" />
-                                            </div>
+                                        <div className={cn(
+                                            "relative border rounded-md p-4",
+                                            !!defaultValues && "opacity-50 cursor-not-allowed pointer-events-none"
+                                        )}>
+                                            {!defaultValues && (
+                                                <>
+                                                    <div
+                                                        className="bg-border absolute bottom-full right-0 p-1 rounded-t-md cursor-pointer hover:bg-accent"
+                                                        onClick={() => {
+                                                            setHasPoll(false);
+                                                            form.setValue("pollOptions", undefined);
+                                                        }}
+                                                    >
+                                                        <X className="size-5" />
+                                                    </div>
+                                                    <Alert className="bg-yellow-200 mb-3">
+                                                        <TriangleAlert className="h-5 w-5" />
+                                                        <AlertTitle>Heads Up: Poll Can&apos;t Be Edited After Posting!</AlertTitle>
+                                                        <AlertDescription>
+                                                            This is a friendly reminder that once you create a poll in your Unmask post, you won't be able to edit it afterwards. So for best results, take your time crafting your poll to avoid any need for edits later.
+                                                        </AlertDescription>
+                                                    </Alert>
+                                                </>
+                                            )}
                                             <ul className="space-y-3">
                                                 {form.getValues("pollOptions")?.map((option, index) => (
                                                     <li key={index} className="flex items-center gap-x-2 border rounded-sm px-4">
@@ -278,10 +281,10 @@ const PostForm = ({
                     <Button
                         type="submit"
                         className="h-[50px] w-[200px] text-[15px]"
-                        disabled={isLoading}
-                        isLoading={isLoading}
+                        disabled={isPending}
+                        isLoading={isPending}
                     >
-                        {isLoading ? "Creating Post" : "Create Post"}
+                        {isPending ? pendingSubmitBtnText : submitBtnText}
                     </Button>
                 </div>
             </form>
