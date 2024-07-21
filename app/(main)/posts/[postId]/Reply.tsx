@@ -102,7 +102,7 @@ const Reply = ({
                             setIsEditOpen={setIsEditOpen}
                         />
                     ) : (
-                        <p className="text-sm text-zinc-800 font-medium mt-0.5">
+                        <p className="text-sm leading-6 text-zinc-800 font-medium mt-0.5">
                             {reply}
                         </p>
                     )}
@@ -132,7 +132,7 @@ export const ReplyLoader = () => (
     <li className="flex gap-2">
         <Skeleton className="h-8 w-8 rounded-full" />
         <div className="w-full">
-            <Skeleton className="h-[70px] w-full rounded-md rounded-ss-none" />
+            <Skeleton className="h-[74px] w-full rounded-md rounded-ss-none" />
             <div className="flex items-center gap-x-3 mt-2">
                 <div className="pl-2 pr-5 py-1.5 bg-zinc-100 text-zinc-600 rounded-full">
                     <HiOutlineHeart className="size-4" />

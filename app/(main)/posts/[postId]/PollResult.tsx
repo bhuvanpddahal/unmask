@@ -53,7 +53,7 @@ const PollResult = ({
                             return (
                                 <div
                                     key={index}
-                                    className="relative bg-accent px-4 py-2.5 rounded-md"
+                                    className="relative bg-accent px-4 py-2 rounded-md"
                                 >
                                     <div className="relative flex items-center justify-between gap-4 z-10">
                                         <div className="flex items-center gap-4">
@@ -62,7 +62,7 @@ const PollResult = ({
                                             ) : (
                                                 <Circle className="size-[18px]" />
                                             )}
-                                            <p className="text-sm text-zinc-800 font-medium">
+                                            <p className="text-sm leading-6 text-zinc-800 font-medium">
                                                 {option.option}
                                             </p>
                                         </div>

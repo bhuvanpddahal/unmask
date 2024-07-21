@@ -91,7 +91,7 @@ const DeletePostModal = () => {
                         <h3 className="font-semibold text-base text-black mb-2 line-clamp-1">
                             {post.title}
                         </h3>
-                        <p className="text-sm font-medium text-zinc-800 line-clamp-3">
+                        <p className="text-sm leading-6 font-medium text-zinc-800 line-clamp-3">
                             {post.description}
                         </p>
                     </div>

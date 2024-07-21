@@ -62,7 +62,7 @@ const CommentInput = ({
                     rows={2}
                     value={comment}
                     placeholder="Add a comment"
-                    className="border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                    className="leading-6 border-0 min-h-fit max-h-screen font-medium focus-visible:ring-0 focus-visible:ring-transparent"
                     onChange={(e) => setComment(e.target.value)}
                     disabled={isPending}
                 />
@@ -95,7 +95,7 @@ export default CommentInput;
 export const CommentInputLoader = () => (
     <Card className="sticky bottom-0 p-4 mt-5">
         <Skeleton className="bg-zinc-100 w-full">
-            <div className="h-[56px] w-full" />
+            <div className="h-[64px] w-full" />
             <div className="text-right p-2">
                 <Skeleton className="bg-slate-200/50 inline-block h-9 w-[65px]" />
                 <Skeleton className="bg-slate-200/50 inline-block h-9 w-[60px]" />

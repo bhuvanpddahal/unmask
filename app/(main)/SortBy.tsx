@@ -1,6 +1,5 @@
 import { useRouter } from "next/navigation";
 
-import { Sort } from "./Posts";
 import {
     Select,
     SelectContent,
@@ -11,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 
 interface SortByProps {
-    sort: Sort;
+    sort: string;
     className?: string;
 }
 

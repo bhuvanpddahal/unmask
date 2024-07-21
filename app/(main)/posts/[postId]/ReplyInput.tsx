@@ -67,7 +67,7 @@ const ReplyInput = ({
                 rows={2}
                 value={reply}
                 placeholder="Add a reply"
-                className="border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                className="leading-6 border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
                 onChange={(e) => setReply(e.target.value)}
                 disabled={isPending}
             />

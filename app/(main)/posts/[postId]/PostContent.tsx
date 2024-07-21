@@ -38,7 +38,7 @@ const PostContent = ({
             <h3 className="font-semibold text-xl text-black mb-2">
                 {title}
             </h3>
-            <p className="text-sm font-medium text-zinc-800">
+            <p className="text-sm leading-6 font-medium text-zinc-800">
                 {description}
             </p>
             {postImage && (
@@ -70,7 +70,7 @@ export const PostContentLoader = () => (
         <div className="py-1 mb-2">
             <Skeleton className="h-5 w-[300px]" />
         </div>
-        <div className="py-[3px] space-y-1.5">
+        <div className="py-[5px] space-y-2.5">
             <Skeleton className="h-3.5 w-full" />
             <Skeleton className="h-3.5 w-full" />
             <Skeleton className="h-3.5 w-full" />

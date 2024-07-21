@@ -80,7 +80,7 @@ const DeleteCommentModal = () => {
                             {comment.isEdited && " (Edited)"}
                         </span>
                     </div>
-                    <p className="text-sm text-zinc-800 font-medium mt-0.5 line-clamp-3">
+                    <p className="text-sm leading-6 text-zinc-800 font-medium mt-0.5 line-clamp-3">
                         {comment.comment}
                     </p>
                 </div>

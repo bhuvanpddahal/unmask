@@ -152,7 +152,7 @@ const Posts = () => {
 export default Posts;
 
 interface PostsLoaderProps {
-    sort: Sort;
+    sort: string;
 }
 
 export const PostsLoader = ({ sort }: PostsLoaderProps) => (

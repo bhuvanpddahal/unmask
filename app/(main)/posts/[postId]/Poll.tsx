@@ -71,14 +71,14 @@ const Poll = ({
                     <Label
                         key={option.id}
                         htmlFor={`option-${index}`}
-                        className="bg-accent flex items-center gap-4 px-4 py-3 rounded-md cursor-pointer"
+                        className="bg-accent flex items-center gap-4 px-4 py-2 rounded-md cursor-pointer"
                     >
                         <RadioGroupItem
                             value={option.id}
                             id={`option-${index}`}
-                            className="size-[18px] border-black text-black focus-visible:ring-0 focus-visible:ring-transparent"
+                            className="shrink-0 size-[18px] border-black text-black focus-visible:ring-0 focus-visible:ring-transparent"
                         />
-                        <p className="text-zinc-800 cursor-pointer">
+                        <p className="leading-6 text-zinc-800 cursor-pointer">
                             {option.option}
                         </p>
                     </Label>
