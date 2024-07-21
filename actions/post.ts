@@ -6,14 +6,10 @@ import { v2 as cloudinary } from "cloudinary";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import {
-    DeletePostPayload,
-    DeletePostValidator,
-    GetPostPayload,
     GetPostsPayload,
     GetPostsValidator,
-    GetPostValidator,
-    LikeOrUnlikePostPayload,
-    LikeOrUnlikePostValidator,
+    PostIdPayload,
+    PostIdValidator,
     UpsertPostPayload,
     UpsertPostValidator
 } from "@/lib/validators/post";
@@ -155,9 +151,9 @@ export const getPosts = async (payload: GetPostsPayload) => {
     }
 };
 
-export const getPost = async (payload: GetPostPayload) => {
+export const getPost = async (payload: PostIdPayload) => {
     try {
-        const validatedFields = GetPostValidator.safeParse(payload);
+        const validatedFields = PostIdValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
 
         const { postId } = validatedFields.data;
@@ -253,9 +249,33 @@ export const getPost = async (payload: GetPostPayload) => {
     }
 };
 
-export const likeOrUnlikePost = async (payload: LikeOrUnlikePostPayload) => {
+export const getPostTitle = async (payload: PostIdPayload) => {
     try {
-        const validatedFields = LikeOrUnlikePostValidator.safeParse(payload);
+        const validatedFields = PostIdValidator.safeParse(payload);
+        if (!validatedFields.success) return { title: "❌ Invalid fields" };
+
+        const { postId } = validatedFields.data;
+
+        const post = await db.post.findUnique({
+            where: {
+                id: postId
+            },
+            select: {
+                title: true
+            }
+        });
+        if (!post) return { title: "❌ Post not found" };
+
+        return { title: post.title };
+    } catch (error) {
+        console.error(error);
+        return { title: "❗⚠️ Server error" };
+    }
+};
+
+export const likeOrUnlikePost = async (payload: PostIdPayload) => {
+    try {
+        const validatedFields = PostIdValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const session = await auth();
@@ -302,9 +322,9 @@ export const likeOrUnlikePost = async (payload: LikeOrUnlikePostPayload) => {
     }
 };
 
-export const getPostToEdit = async (payload: GetPostPayload) => {
+export const getPostToEdit = async (payload: PostIdPayload) => {
     try {
-        const validatedFields = GetPostValidator.safeParse(payload);
+        const validatedFields = PostIdValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
 
         const session = await auth();
@@ -381,9 +401,9 @@ export const editPost = async (payload: UpsertPostPayload) => {
     }
 };
 
-export const deletePost = async (payload: DeletePostPayload) => {
+export const deletePost = async (payload: PostIdPayload) => {
     try {
-        const validatedFields = DeletePostValidator.safeParse(payload);
+        const validatedFields = PostIdValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
 
         const session = await auth();

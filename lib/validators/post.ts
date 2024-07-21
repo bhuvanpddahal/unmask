@@ -29,20 +29,10 @@ export const GetPostsValidator = z.object({
     sort: z.enum(["hot", "recent", "views"]),
 });
 
-export const GetPostValidator = z.object({
-    postId: z.string()
-});
-
-export const LikeOrUnlikePostValidator = z.object({
-    postId: z.string()
-});
-
-export const DeletePostValidator = z.object({
+export const PostIdValidator = z.object({
     postId: z.string()
 });
 
 export type UpsertPostPayload = z.infer<typeof UpsertPostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
-export type GetPostPayload = z.infer<typeof GetPostValidator>;
-export type LikeOrUnlikePostPayload = z.infer<typeof LikeOrUnlikePostValidator>;
-export type DeletePostPayload = z.infer<typeof DeletePostValidator>;
+export type PostIdPayload = z.infer<typeof PostIdValidator>;

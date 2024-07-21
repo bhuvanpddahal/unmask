@@ -58,7 +58,7 @@ const SigninModal = () => {
                         className={cn(buttonVariants({
                             size: "lg",
                             variant: "ghost",
-                            className: "bg-accent hover:bg-accent/80"
+                            className: "bg-slate-200 hover:bg-slate-100"
                         }))}
                         onClick={close}
                     >

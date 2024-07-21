@@ -141,7 +141,7 @@ const Comments = ({
                                     initialIsLiked={isLiked}
                                 />
                                 <Replies
-                                    sort={sort}
+                                    sort={sort as Sort}
                                     postId={postId}
                                     commentId={comment.id}
                                     replies={comment.replies}
