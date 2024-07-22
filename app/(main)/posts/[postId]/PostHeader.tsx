@@ -32,7 +32,7 @@ const PostHeader = ({
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === creatorId;
     const isEdited = new Date(updatedAt) > new Date(createdAt);
-    const dateTitle = `Created on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
+    const dateTitle = `Posted on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
 
     return (
         <CardHeader className="p-4">

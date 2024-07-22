@@ -77,9 +77,9 @@ const PostEditContent = ({
                         title: "Success",
                         description: data.success
                     });
-                    queryClient.invalidateQueries({
-                        queryKey: ["posts", postId]
-                    });
+                    queryClient.invalidateQueries({ queryKey: ["/"] });
+                    queryClient.invalidateQueries({ queryKey: ["polls"] });
+                    queryClient.invalidateQueries({ queryKey: ["posts", postId] });
                     router.push(`/posts/${postId}`);
                 }
                 if (data.error) {

@@ -8,6 +8,8 @@ import { auth } from "@/auth";
 import {
     GetPostsPayload,
     GetPostsValidator,
+    GetPostsWithPollPayload,
+    GetPostsWithPollValidator,
     PostIdPayload,
     PostIdValidator,
     UpsertPostPayload,
@@ -141,6 +143,112 @@ export const getPosts = async (payload: GetPostsPayload) => {
 
         const totalPosts = await db.post.count({
             where: {}
+        });
+        const hasNextPage = totalPosts > (page * limit);
+
+        return { posts, hasNextPage };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const getPostsWithPoll = async (payload: GetPostsWithPollPayload) => {
+    try {
+        const validatedFields = GetPostsWithPollValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+
+        const { page, limit, sort } = validatedFields.data;
+
+        let orderByClause = {};
+
+        if (sort === "hot") {
+            orderByClause = [
+                { likes: { _count: "desc" } },
+                { createdAt: "desc" }
+            ];
+        } else if (sort === "recent") {
+            orderByClause = { createdAt: "desc" };
+        }
+
+        const posts = await db.post.findMany({
+            where: {
+                poll: {
+                    isNot: null
+                }
+            },
+            orderBy: orderByClause,
+            take: limit,
+            skip: (page - 1) * limit,
+            select: {
+                id: true,
+                creatorId: true,
+                title: true,
+                description: true,
+                createdAt: true,
+                updatedAt: true,
+                creator: {
+                    select: {
+                        username: true,
+                        image: true
+                    }
+                },
+                poll: {
+                    select: {
+                        id: true,
+                        options: {
+                            select: {
+                                id: true,
+                                option: true,
+                                _count: {
+                                    select: {
+                                        votes: true
+                                    }
+                                },
+                                votes: {
+                                    where: {
+                                        voterId: session?.user.id
+                                    },
+                                    select: {
+                                        voterId: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                likes: {
+                    where: {
+                        likerId: session?.user.id
+                    },
+                    select: {
+                        likerId: true
+                    }
+                },
+                comments: {
+                    select: {
+                        _count: {
+                            select: {
+                                replies: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                        views: true
+                    }
+                }
+            }
+        });
+
+        const totalPosts = await db.post.count({
+            where: {
+                poll: { isNot: null }
+            }
         });
         const hasNextPage = totalPosts > (page * limit);
 

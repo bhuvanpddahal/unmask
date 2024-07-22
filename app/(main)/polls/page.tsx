@@ -1,6 +1,16 @@
+import PollsContent from "./Content";
+
+export const metadata = {
+    title: {
+        absolute: "Unmask - Anonymous and Professional Community"
+    }
+};
+
 const PollsPage = () => {
     return (
-        <div>PollsPage</div>
+        <div className="flex-1 p-6 pt-4 space-y-4">
+            <PollsContent />
+        </div>
     )
 };
 

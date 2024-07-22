@@ -33,6 +33,11 @@ export const REPLIES_PER_PAGE = 2;
  */
 export const REPLIES_PER_QUERY = 20;
 
+/**
+ * The number of poll options displayed in a single post
+ */
+export const POLL_OPTIONS_PER_POST = 3;
+
 export const navItems = [
     {
         icon: Home,

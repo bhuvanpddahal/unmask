@@ -26,7 +26,13 @@ export const UpsertPostValidator = z.object({
 export const GetPostsValidator = z.object({
     page: z.number(),
     limit: z.number(),
-    sort: z.enum(["hot", "recent", "views"]),
+    sort: z.enum(["hot", "recent", "views"])
+});
+
+export const GetPostsWithPollValidator = z.object({
+    page: z.number(),
+    limit: z.number(),
+    sort: z.enum(["hot", "recent"])
 });
 
 export const PostIdValidator = z.object({
@@ -35,4 +41,5 @@ export const PostIdValidator = z.object({
 
 export type UpsertPostPayload = z.infer<typeof UpsertPostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
+export type GetPostsWithPollPayload = z.infer<typeof GetPostsWithPollValidator>;
 export type PostIdPayload = z.infer<typeof PostIdValidator>;
