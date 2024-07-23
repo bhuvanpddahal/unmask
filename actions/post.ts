@@ -282,6 +282,14 @@ export const getPost = async (payload: PostIdPayload) => {
                         image: true
                     }
                 },
+                bookmarks: {
+                    where: {
+                        bookmarkerId: session?.user.id
+                    },
+                    select: {
+                        bookmarkerId: true
+                    }
+                },
                 poll: {
                     select: {
                         id: true,

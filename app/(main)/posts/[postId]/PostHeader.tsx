@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Bookmark, Dot } from "lucide-react";
+import { Dot } from "lucide-react";
 import { format, formatRelative } from "date-fns";
 
 import PostOptions from "../../PostOptions";
+import BookmarkOption from "./BookmarkOption";
 import UserAvatar from "@/components/UserAvatar";
 import { CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -17,6 +18,7 @@ interface PostHeaderProps {
     description: string;
     createdAt: Date;
     updatedAt: Date;
+    isBookmarked: boolean;
 }
 
 const PostHeader = ({
@@ -27,7 +29,8 @@ const PostHeader = ({
     title,
     description,
     createdAt,
-    updatedAt
+    updatedAt,
+    isBookmarked
 }: PostHeaderProps) => {
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === creatorId;
@@ -64,9 +67,10 @@ const PostHeader = ({
                     </div>
                 </div>
                 <div className="flex">
-                    <div className="h-10 w-10 flex items-center justify-center rounded-full cursor-pointer hover:bg-accent">
-                        <Bookmark className="size-5" />
-                    </div>
+                    <BookmarkOption
+                        postId={postId}
+                        initialIsBookmarked={isBookmarked}
+                    />
                     <PostOptions
                         postId={postId}
                         isSameUser={isSameUser}

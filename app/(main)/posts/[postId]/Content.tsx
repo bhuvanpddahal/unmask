@@ -68,6 +68,7 @@ const PostDetailsContent = ({
     }, 0) || 0;
     const commentsCount = (data.post?.comments.length || 0) + repliesCount;
     const isLiked = data.post?.likes[0] && data.post.likes[0].likerId === user?.id;
+    const isBookmarked = data.post?.bookmarks[0] && data.post.bookmarks[0].bookmarkerId === user?.id;
 
     return (
         <div>
@@ -81,6 +82,7 @@ const PostDetailsContent = ({
                     description={data.post?.description || ""}
                     createdAt={data.post?.createdAt || new Date()}
                     updatedAt={data.post?.updatedAt || new Date()}
+                    isBookmarked={!!isBookmarked}
                 />
                 <PostContent
                     postId={postId}
