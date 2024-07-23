@@ -1,3 +1,5 @@
+import { useRouter } from "next/navigation";
+
 import PostFooter, { PostFooterLoader } from "../PostFooter";
 import PostHeader, { PostHeaderLoader } from "../PostHeader";
 import PostContent, { PostContentLoader } from "./PostContent";
@@ -42,16 +44,21 @@ const Post = ({
     viewsCount,
     lastPostRef
 }: PostProps) => {
+    const router = useRouter();
+
     return (
         <Card
             ref={lastPostRef}
             className="cursor-pointer transition-shadow hover:shadow-md"
+            onClick={() => router.push(`/posts/${postId}`)}
         >
             <PostHeader
                 creatorId={creatorId}
                 creatorUsername={creatorUsername}
                 creatorImage={creatorImage}
                 postId={postId}
+                title={title}
+                description={description}
                 createdAt={createdAt}
                 updatedAt={updatedAt}
             />

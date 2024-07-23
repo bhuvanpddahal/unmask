@@ -4,6 +4,7 @@ import {
     Pencil,
     Trash2
 } from "lucide-react";
+import { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -38,7 +39,8 @@ const PostOptions = ({
     const router = useRouter();
     const { open, setPost } = useDeletePostModal();
 
-    const handleDelete = () => {
+    const handleDelete = (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
+        e.stopPropagation();
         const postValue = {
             id: postId,
             creatorUsername,
@@ -59,7 +61,10 @@ const PostOptions = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="text-[13px] font-medium">
                 <DropdownMenuItem
-                    onClick={() => navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/posts/${postId}`)}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/posts/${postId}`)
+                    }}
                 >
                     <LinkIcon className="size-4 mr-2" />
                     Copy link
@@ -67,7 +72,10 @@ const PostOptions = ({
                 {isSameUser && (
                     <>
                         <DropdownMenuItem
-                            onClick={() => router.push(`/posts/${postId}/edit`)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                router.push(`/posts/${postId}/edit`)
+                            }}
                         >
                             <Pencil className="size-4 mr-2" />
                             Edit

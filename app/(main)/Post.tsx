@@ -53,6 +53,8 @@ const Post = ({
                 creatorUsername={creatorUsername}
                 creatorImage={creatorImage}
                 postId={postId}
+                title={title}
+                description={description}
                 createdAt={createdAt}
                 updatedAt={updatedAt}
             />

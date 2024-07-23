@@ -1,22 +1,20 @@
 import Link from "next/link";
+import { Dot } from "lucide-react";
 import { format, formatRelative } from "date-fns";
-import { Dot, Ellipsis, LinkIcon } from "lucide-react";
 
+import PostOptions from "./PostOptions";
 import UserAvatar from "@/components/UserAvatar";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/DropdownMenu";
 import { CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 interface PostHeaderProps {
     creatorId: string;
     creatorUsername: string;
     creatorImage: string | null;
     postId: string;
+    title: string;
+    description: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -26,9 +24,13 @@ const PostHeader = ({
     creatorUsername,
     creatorImage,
     postId,
+    title,
+    description,
     createdAt,
     updatedAt
 }: PostHeaderProps) => {
+    const currentUser = useCurrentUser();
+    const isSameUser = currentUser?.id === creatorId;
     const isEdited = new Date(updatedAt) > new Date(createdAt);
     const dateTitle = `Posted on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
 
@@ -45,6 +47,7 @@ const PostHeader = ({
                             <Link
                                 href={`/users/${creatorId}`}
                                 className="text-accent-foreground font-semibold hover:underline"
+                                onClick={(e) => e.stopPropagation()}
                             >
                                 {creatorUsername}
                             </Link>
@@ -59,19 +62,16 @@ const PostHeader = ({
                         </p>
                     </div>
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-accent">
-                        <Ellipsis className="size-5" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="text-[13px] font-medium">
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/posts/${postId}`)}
-                        >
-                            <LinkIcon className="size-4 mr-2" />
-                            Copy link
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <PostOptions
+                    postId={postId}
+                    isSameUser={isSameUser}
+                    creatorUsername={creatorUsername}
+                    creatorImage={creatorImage}
+                    title={title}
+                    description={description}
+                    isEdited={isEdited}
+                    createdAt={createdAt}
+                />
             </div>
         </CardHeader>
     )

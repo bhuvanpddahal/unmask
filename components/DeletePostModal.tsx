@@ -38,9 +38,9 @@ const DeletePostModal = () => {
                         title: "Success",
                         description: data.success
                     });
-                    queryClient.invalidateQueries({
-                        queryKey: ["posts", post.id]
-                    });
+                    queryClient.invalidateQueries({ queryKey: ["/"] });
+                    queryClient.invalidateQueries({ queryKey: ["polls"] });
+                    queryClient.invalidateQueries({ queryKey: ["posts", post.id] });
                 }
                 if (data.error) {
                     toast({

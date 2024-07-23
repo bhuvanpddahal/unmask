@@ -42,7 +42,8 @@ const PostFooter = ({
                 <div className="flex gap-3 text-sm">
                     <div
                         className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-zinc-600 rounded-full cursor-pointer hover:bg-slate-200"
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             if (isSignedIn) likeOrUnlikePost();
                             else open();
                         }}

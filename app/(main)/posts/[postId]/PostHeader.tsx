@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Bookmark, Dot } from "lucide-react";
 import { format, formatRelative } from "date-fns";
 
-import PostOptions from "./PostOptions";
+import PostOptions from "../../PostOptions";
 import UserAvatar from "@/components/UserAvatar";
 import { CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";

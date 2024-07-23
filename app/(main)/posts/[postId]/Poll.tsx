@@ -58,7 +58,10 @@ const Poll = ({
     );
 
     return (
-        <div className="p-4 border rounded-md mt-4 cursor-default">
+        <div
+            className="p-4 border rounded-md mt-4 cursor-default"
+            onClick={(e) => e.stopPropagation()}
+        >
             <div className="flex items-center gap-x-3">
                 <div className="flex items-center gap-x-1 text-primary">
                     <Package2 className="size-4 text-primary" />

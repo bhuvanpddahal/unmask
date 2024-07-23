@@ -108,7 +108,7 @@ const PollsContent = () => {
 
     if (!isValidSort(sort)) return notFound();
     if (isLoading) return <PollsContentLoader sort={sort} />
-    if (!posts) return <div>Error</div>
+    if (!posts) return <div className="text-center text-sm text-destructive font-medium py-3">❌ Error: No polls</div>
 
     return (
         <div>

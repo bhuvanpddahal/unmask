@@ -102,7 +102,7 @@ const Posts = () => {
 
     if (!isValidSort(sort)) return notFound();
     if (isLoading) return <PostsLoader sort={sort} />
-    if (!posts) return <div>Error</div>
+    if (!posts) return <div className="text-center text-sm text-destructive font-medium py-3">❌ Error: No posts</div>
 
     return (
         <div>
