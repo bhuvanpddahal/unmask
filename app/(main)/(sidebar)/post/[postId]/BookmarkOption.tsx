@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Bookmark } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/useToast";
@@ -15,6 +15,7 @@ const BookmarkOption = ({
     postId,
     initialIsBookmarked
 }: BookmarkOptionProps) => {
+    const queryClient = useQueryClient();
     const { toast } = useToast();
     const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
 
@@ -22,6 +23,9 @@ const BookmarkOption = ({
         mutationFn: async () => {
             const payload = { postId };
             await bookmarkOrUnbookmarkPostAction(payload);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["user", "bookmarks"] });
         },
         onError: (error) => {
             toast({

@@ -14,7 +14,7 @@ const CreatePost = () => {
     const { open } = useSigninModal();
 
     const handleClick = () => {
-        if (isSignedIn) router.push("/posts/create");
+        if (isSignedIn) router.push("/post/create");
         else open();
     };
 

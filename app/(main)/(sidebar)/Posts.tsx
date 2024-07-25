@@ -7,7 +7,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { notFound, useSearchParams } from "next/navigation";
 
 import SortBy from "./SortBy";
-import Post, { PostLoader } from "./Post";
+import Post, { PostLoader } from "../Post";
 import { getPosts } from "@/actions/post";
 import { useToast } from "@/hooks/useToast";
 import { POSTS_PER_PAGE } from "@/constants";

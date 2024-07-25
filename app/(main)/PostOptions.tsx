@@ -63,7 +63,7 @@ const PostOptions = ({
                 <DropdownMenuItem
                     onClick={(e) => {
                         e.stopPropagation();
-                        navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/posts/${postId}`)
+                        navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}/post/${postId}`)
                     }}
                 >
                     <LinkIcon className="size-4 mr-2" />
@@ -74,7 +74,7 @@ const PostOptions = ({
                         <DropdownMenuItem
                             onClick={(e) => {
                                 e.stopPropagation();
-                                router.push(`/posts/${postId}/edit`)
+                                router.push(`/post/${postId}/edit`)
                             }}
                         >
                             <Pencil className="size-4 mr-2" />

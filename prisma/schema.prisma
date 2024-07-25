@@ -161,9 +161,10 @@ model ReplyLike {
 }
 
 model Bookmark {
-    id           String @id @default(auto()) @map("_id") @db.ObjectId
-    bookmarkerId String @db.ObjectId
-    postId       String @db.ObjectId
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    bookmarkerId String   @db.ObjectId
+    postId       String   @db.ObjectId
+    bookmarkedAt DateTime @default(now())
 
     bookmarker User @relation(fields: [bookmarkerId], references: [id], onDelete: Cascade)
     post       Post @relation(fields: [postId], references: [id], onDelete: Cascade)

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import PostFooter, { PostFooterLoader } from "./PostFooter";
 import PostHeader, { PostHeaderLoader } from "./PostHeader";
 import PostContent, { PostContentLoader } from "./PostContent";
+import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
 
 interface PostProps {
@@ -21,6 +22,7 @@ interface PostProps {
     commentsCount: number;
     viewsCount: number;
     lastPostRef?: (node?: Element | null) => void;
+    className?: string;
 }
 
 const Post = ({
@@ -38,15 +40,16 @@ const Post = ({
     isLiked,
     commentsCount,
     viewsCount,
-    lastPostRef
+    lastPostRef,
+    className = ""
 }: PostProps) => {
     const router = useRouter();
 
     return (
         <Card
             ref={lastPostRef}
-            className="cursor-pointer transition-shadow hover:shadow-md"
-            onClick={() => router.push(`/posts/${postId}`)}
+            className={cn("cursor-pointer transition-shadow hover:shadow-md", className)}
+            onClick={() => router.push(`/post/${postId}`)}
         >
             <PostHeader
                 creatorId={creatorId}
@@ -77,8 +80,14 @@ const Post = ({
 
 export default Post;
 
-export const PostLoader = () => (
-    <Card>
+interface PostsLoaderProps {
+    className?: string;
+}
+
+export const PostLoader = ({
+    className = ""
+}: PostsLoaderProps) => (
+    <Card className={className}>
         <PostHeaderLoader />
         <PostContentLoader />
         <PostFooterLoader />

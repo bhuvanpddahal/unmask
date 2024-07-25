@@ -1,11 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import {
-    LayoutGrid,
+    Bookmark,
     LogOut,
     User
 } from "lucide-react";
-import Link from "next/link";
 import { signOut } from "next-auth/react";
 
 import UserAvatar from "./UserAvatar";
@@ -39,16 +39,16 @@ const UserAccountNav = () => {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem asChild className="text-[13px] font-medium">
-                    <Link href="/dashboard" className="flex items-center gap-2">
-                        <LayoutGrid className="size-4 text-zinc-600" />
-                        Dashboard
-                    </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild className="text-[13px] font-medium">
-                    <Link href="/settings" className="flex items-center gap-2">
+                <DropdownMenuItem asChild className="text-sm font-medium">
+                    <Link href="/user/profile" className="flex items-center gap-2">
                         <User className="size-4 text-zinc-600" />
                         Profile
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="text-sm font-medium">
+                    <Link href="/user/bookmarks" className="flex items-center gap-2">
+                        <Bookmark className="size-4 text-zinc-600" />
+                        Bookmarks
                     </Link>
                 </DropdownMenuItem>
 
@@ -59,7 +59,7 @@ const UserAccountNav = () => {
                     signOut({
                         callbackUrl: `${window.location.origin}/signin`
                     });
-                }} className="cursor-pointer flex items-center gap-2 text-[13px] font-medium">
+                }} className="cursor-pointer flex items-center gap-2 text-sm font-medium">
                     <LogOut className="size-4 text-zinc-600" />
                     Sign out
                 </DropdownMenuItem>

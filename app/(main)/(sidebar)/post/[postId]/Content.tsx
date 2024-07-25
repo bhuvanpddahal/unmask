@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import Comments, { CommentsLoader } from "./Comments";
 import PostHeader, { PostHeaderLoader } from "./PostHeader";
 import PostContent, { PostContentLoader } from "./PostContent";
-import PostFooter, { PostFooterLoader } from "../../PostFooter";
+import PostFooter, { PostFooterLoader } from "../../../PostFooter";
 import CommentInput, { CommentInputLoader } from "./CommentInput";
 import { getPost } from "@/actions/post";
 import { Card } from "@/components/ui/Card";

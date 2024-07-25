@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-import MobileSidebar from "./MobileSidebar";
+import MobileSidebar from "./(sidebar)/MobileSidebar";
 import UserAccountNav from "@/components/UserAccountNav";
 import { cn } from "@/lib/utils";
 import { navItems } from "@/constants";

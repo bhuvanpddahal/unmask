@@ -99,7 +99,7 @@ const Poll = ({
             </RadioGroup>
             {insidePolls && hasMorePollOptions && (
                 <Link
-                    href={`/posts/${postId}`}
+                    href={`/post/${postId}`}
                     className={cn(buttonVariants({
                         variant: "link",
                         className: "h-fit w-fit p-0 mt-4 text-black font-semibold hover:text-accent-foreground"
