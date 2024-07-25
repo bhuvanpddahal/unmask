@@ -55,9 +55,23 @@ export const ResendTokenValidator = z.object({
     email: z.string().email()
 });
 
+export const UpdateUserValidator = z.object({
+    username: z.string().min(5, {
+        message: "Username must be at least 5 characters long"
+    }),
+    image: z.string().optional(),
+    newPassword: z.union([
+        z.undefined(),
+        z.string().min(8, {
+            message: "Password must be at least 8 characters long"
+        })
+    ])
+});
+
 export type SigninPayload = z.infer<typeof SigninValidator>;
 export type FirstStepPayload = z.infer<typeof FirstStepValidator>;
 export type ThirdStepPayload = z.infer<typeof ThirdStepValidator>;
 export type SignupPayload = z.infer<typeof SignupValidator>;
 export type VerifyEmailPayload = z.infer<typeof VerifyEmailValidator>;
 export type ResendTokenPayload = z.infer<typeof ResendTokenValidator>;
+export type UpdateUserPayload = z.infer<typeof UpdateUserValidator>;

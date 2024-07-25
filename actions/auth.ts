@@ -2,6 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
+import { v2 as cloudinary } from "cloudinary";
 import { generateUsername } from "unique-username-generator";
 import { isRedirectError } from "next/dist/client/components/redirect";
 
@@ -15,16 +16,24 @@ import {
     SigninValidator,
     SignupPayload,
     SignupValidator,
+    UpdateUserPayload,
+    UpdateUserValidator,
     VerifyEmailPayload,
     VerifyEmailValidator
 } from "@/lib/validators/auth";
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { hashEmail } from "@/lib/utils";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { sendVerificationEmail } from "@/lib/mail";
 import { getUserByEmail } from "@/lib/queries/user";
 import { generateVerificationToken } from "@/lib/token";
 import { getVerificationTokenByEmail } from "@/lib/queries/verification-token";
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 export const checkEmailAvailability = async (payload: FirstStepPayload) => {
     try {
@@ -206,3 +215,58 @@ export const signin = async (payload: SigninPayload) => {
         throw new Error("Something went wrong");
     }
 };
+
+export const updateUser = async (payload: UpdateUserPayload) => {
+    try {
+        const validatedFields = UpdateUserValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { username, image, newPassword } = validatedFields.data;
+
+        const user = await db.user.findUnique({
+            where: {
+                id: session.user.id
+            }
+        });
+        if (!user) return { error: "User not found" };
+
+        const isSameUsername = user.username === username;
+        if (!isSameUsername) { // If the user has changed their username
+            const existingUserWithSameUsername = await db.user.findUnique({
+                where: {
+                    username
+                }
+            });
+            if (existingUserWithSameUsername) return { error: "Username already taken" };
+        }
+
+        let imageUrl: string | null;
+        if (image) imageUrl = (await cloudinary.uploader.upload(image, { overwrite: false })).secure_url;
+        else imageUrl = user.image;
+
+        let hashedPassword = user.password;
+        if (newPassword) {
+            const salt = await bcrypt.genSalt(10);
+            hashedPassword = await bcrypt.hash(newPassword, salt);
+        }
+
+        await db.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                username,
+                image: imageUrl,
+                password: hashedPassword
+            }
+        });
+
+        return { success: "Profile updated" };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+}

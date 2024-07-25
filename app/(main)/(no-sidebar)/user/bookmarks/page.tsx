@@ -1,3 +1,4 @@
+import Header from "../Header";
 import Bookmarks from "./Content";
 
 export const metadata = {
@@ -7,14 +8,10 @@ export const metadata = {
 const UserBookmarksPage = () => {
     return (
         <div>
-            <header className="mb-4">
-                <h1 className="text-xl font-bold text-foreground">
-                    Bookmarks
-                </h1>
-                <p className="text-sm text-slate-500">
-                    All of your bookmarks in one place.
-                </p>
-            </header>
+            <Header
+                title="Bookmarks"
+                description="All of your bookmarks in one place."
+            />
             <div className="bg-white p-5 rounded-md">
                 <Bookmarks />
             </div>

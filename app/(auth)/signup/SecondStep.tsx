@@ -9,6 +9,7 @@ import { ChevronLeft } from "lucide-react";
 
 import FormError from "@/components/FormError";
 import FormSuccess from "@/components/FormSuccess";
+import { cn } from "@/lib/utils";
 import {
     InputOTP,
     InputOTPGroup,
@@ -18,7 +19,6 @@ import { useSignup } from "@/context/Signup";
 import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { resendToken, verifyEmail } from "@/actions/auth";
-import { cn } from "@/lib/utils";
 
 interface SecondStepProps {
     setStep: Dispatch<SetStateAction<number>>;
