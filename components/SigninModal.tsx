@@ -33,10 +33,10 @@ const SigninModal = () => {
                         />
                     </DialogTitle>
                     <DialogDescription className="text-center">
-                        <h1 className="text-base text-zinc-900 font-bold">
+                        <h1 className="text-base text-zinc-900 dark:text-zinc-100 font-bold">
                             Join the community to participate in the discussion
                         </h1>
-                        <p className="text-sm text-zinc-800 mt-2">
+                        <p className="text-sm text-zinc-800 dark:text-zinc-200 mt-2">
                             Get full access to industry posts and comments.
                             <br />
                             Connect anonymously with coworkers.
@@ -58,7 +58,7 @@ const SigninModal = () => {
                         className={cn(buttonVariants({
                             size: "lg",
                             variant: "ghost",
-                            className: "bg-slate-200 hover:bg-slate-100"
+                            className: "bg-slate-200 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900"
                         }))}
                         onClick={close}
                     >

@@ -38,7 +38,7 @@ const DeleteReplyModal = () => {
                         description: data.success
                     });
                     queryClient.invalidateQueries({
-                        queryKey: ["posts", reply.postId]
+                        queryKey: ["post", reply.postId]
                     });
                 }
                 if (data.error) {
@@ -69,18 +69,18 @@ const DeleteReplyModal = () => {
                         This action cannot be undone. This will permanently delete the following reply and all its likes.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <div className="bg-zinc-100 w-full p-4 border rounded-md rounded-ss-none">
+                <div className="bg-zinc-100 dark:bg-zinc-800 w-full p-4 border rounded-md rounded-ss-none">
                     <div className="text-xs flex items-center gap-0.5">
-                        <span className="text-zinc-500 font-semibold">
+                        <span className="text-zinc-500 dark:text-zinc-400 font-semibold">
                             {reply.replierUsername}
                         </span>
-                        <Dot className="size-4 text-zinc-800" />
+                        <Dot className="size-4 text-zinc-800 dark:text-zinc-200" />
                         <span className="capitalize text-zinc-400 font-semibold">
                             {formatRelative(reply.repliedAt, new Date())}
                             {reply.isEdited && " (Edited)"}
                         </span>
                     </div>
-                    <p className="text-sm leading-6 text-zinc-800 font-medium mt-0.5 line-clamp-3">
+                    <p className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5 line-clamp-3">
                         {reply.reply}
                     </p>
                 </div>

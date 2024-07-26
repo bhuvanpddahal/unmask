@@ -11,7 +11,7 @@ const RightPanel = () => {
     return (
         <div className="hidden lg:block sticky top-[60px] h-fit p-4 pl-0">
             <Card className="w-[330px] p-4">
-                <div className="text-zinc-500 text-sm font-semibold tracking-tight mb-2">
+                <div className="text-zinc-500 dark:text-zinc-400 text-sm font-semibold tracking-tight mb-2">
                     For You
                 </div>
                 <div className="bg-primary rounded-sm p-4 space-y-4">
@@ -19,7 +19,7 @@ const RightPanel = () => {
                         Join the Unmask community, and share your experiences anonymously
                     </p>
                     <Button
-                        className="w-full bg-white text-primary hover:bg-zinc-100"
+                        className="w-full bg-white dark:bg-zinc-700 text-primary dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800"
                         onClick={() => router.push("/signup")}
                     >
                         Sign up

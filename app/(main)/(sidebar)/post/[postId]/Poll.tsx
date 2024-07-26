@@ -68,7 +68,7 @@ const Poll = ({
                     <span className="font-semibold text-[13.5px]">Poll</span>
                 </div>
                 <Separator orientation="vertical" className="bg-zinc-400 h-5" />
-                <p className="text-[13.5px] text-zinc-800 font-medium">
+                <p className="text-[13.5px] text-zinc-800 dark:text-zinc-200 font-medium">
                     <span className="font-semibold">{pollVotesCount} </span>
                     {pollVotesCount === 1 ? "Participant" : "Participants"}
                 </p>
@@ -89,9 +89,9 @@ const Poll = ({
                         <RadioGroupItem
                             value={option.id}
                             id={`option-${index}`}
-                            className="shrink-0 size-[18px] border-black text-black focus-visible:ring-0 focus-visible:ring-transparent"
+                            className="shrink-0 size-[18px] border-black dark:border-white text-black dark:text-white focus-visible:ring-0 focus-visible:ring-transparent"
                         />
-                        <p className="text-[13.5px] leading-[22px] text-zinc-800 cursor-pointer">
+                        <p className="text-[13.5px] leading-[22px] text-zinc-800 dark:text-zinc-200 cursor-pointer">
                             {option.option}
                         </p>
                     </Label>

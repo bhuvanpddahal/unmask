@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 
 import PostFooter, { PostFooterLoader } from "../../PostFooter";
-import PostHeader, { PostHeaderLoader } from "../PostHeader";
+import PostHeader, { PostHeaderLoader } from "../../PostHeader";
 import PostContent, { PostContentLoader } from "./PostContent";
 import { Card } from "@/components/ui/Card";
 import { PollOption } from "../post/[postId]/PostContent";

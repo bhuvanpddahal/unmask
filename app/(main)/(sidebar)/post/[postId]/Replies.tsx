@@ -64,7 +64,7 @@ const Replies = ({
         isFetchingNextPage
     } = useInfiniteQuery({
         enabled,
-        queryKey: ["posts", postId, { sort, commentId }],
+        queryKey: ["post", postId, { sort, commentId }],
         queryFn: fetchMoreReplies,
         initialPageParam: 1,
         getNextPageParam: (lastPage, pages) => {
@@ -103,7 +103,7 @@ const Replies = ({
             {(!enabled && totalReplies > replies.length) && (
                 <Button
                     variant="link"
-                    className="h-fit w-fit p-0 text-black font-semibold hover:text-accent-foreground"
+                    className="h-fit w-fit p-0 text-black dark:text-white font-semibold hover:text-accent-foreground"
                     onClick={() => setEnabled(true)}
                 >
                     View {remainingReplies} more {remainingReplies === 1 ? "reply" : "replies"}

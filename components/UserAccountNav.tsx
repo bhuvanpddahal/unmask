@@ -41,13 +41,13 @@ const UserAccountNav = () => {
 
                 <DropdownMenuItem asChild className="text-sm font-medium">
                     <Link href="/user/profile" className="flex items-center gap-2">
-                        <User className="size-4 text-zinc-600" />
+                        <User className="size-4 text-zinc-600 dark:text-zinc-400" />
                         Profile
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="text-sm font-medium">
                     <Link href="/user/bookmarks" className="flex items-center gap-2">
-                        <Bookmark className="size-4 text-zinc-600" />
+                        <Bookmark className="size-4 text-zinc-600 dark:text-zinc-400" />
                         Bookmarks
                     </Link>
                 </DropdownMenuItem>
@@ -60,7 +60,7 @@ const UserAccountNav = () => {
                         callbackUrl: `${window.location.origin}/signin`
                     });
                 }} className="cursor-pointer flex items-center gap-2 text-sm font-medium">
-                    <LogOut className="size-4 text-zinc-600" />
+                    <LogOut className="size-4 text-zinc-600 dark:text-zinc-400" />
                     Sign out
                 </DropdownMenuItem>
             </DropdownMenuContent>

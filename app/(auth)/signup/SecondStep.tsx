@@ -87,7 +87,7 @@ const SecondStep = ({
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight mt-2">
                 Verify your email
             </h1>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                 Please enter the code below to verify your email.
             </p>
             <div className="flex justify-center mt-4 mb-5">

@@ -68,17 +68,17 @@ const PollResult = ({
                                             ) : (
                                                 <Circle className="size-[18px]" />
                                             )}
-                                            <p className="text-[13.5px] leading-[22px] text-zinc-800 font-medium">
+                                            <p className="text-[13.5px] leading-[22px] text-zinc-800 dark:text-zinc-200 font-medium">
                                                 {option.option}
                                             </p>
                                         </div>
                                         <div className="shrink-0 flex items-center gap-x-1">
-                                            <span className="text-sm font-bold text-zinc-800">
+                                            <span className="text-sm font-bold text-zinc-800 dark:text-zinc-200">
                                                 {Math.trunc(percentValue) === percentValue
                                                     ? percentValue : percentValue.toFixed(2)
                                                 }%
                                             </span>
-                                            <span className="text-xs font-semibold text-zinc-600">
+                                            <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
                                                 ({option.votesCount} {option.votesCount === 1 ? "vote" : "votes"})
                                             </span>
                                         </div>

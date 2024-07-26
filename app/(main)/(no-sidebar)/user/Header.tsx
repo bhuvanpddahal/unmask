@@ -12,7 +12,7 @@ const Header = ({
             <h1 className="text-xl font-bold text-foreground">
                 {title}
             </h1>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
                 {description}
             </p>
         </header>

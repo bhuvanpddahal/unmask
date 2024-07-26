@@ -34,6 +34,7 @@ const PostHeader = ({
 }: PostHeaderProps) => {
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === creatorId;
+    const isSignedIn = !!(currentUser && currentUser.id);
     const isEdited = new Date(updatedAt) > new Date(createdAt);
     const dateTitle = `Posted on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
 
@@ -69,6 +70,7 @@ const PostHeader = ({
                 <div className="flex">
                     <BookmarkOption
                         postId={postId}
+                        isSignedIn={isSignedIn}
                         initialIsBookmarked={isBookmarked}
                     />
                     <PostOptions

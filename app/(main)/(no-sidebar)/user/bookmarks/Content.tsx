@@ -71,7 +71,7 @@ const UserBookmarksContent = () => {
         if (data.error) {
             toast({
                 variant: "destructive",
-                title: "Error",
+                title: "Failed to fetch more bookmarks",
                 description: "Something went wrong"
             });
             return { bookmarks: [], hasNextPage: false };
@@ -162,7 +162,7 @@ const UserBookmarksContent = () => {
                                 isLiked={isLiked}
                                 commentsCount={commentsCount}
                                 viewsCount={bookmark.post._count.views}
-                                className="flex-1 border-none rounded-t-none shadow-none transition-colors hover:bg-slate-50 hover:shadow-none"
+                                className="flex-1 border-none rounded-t-none shadow-none transition-colors hover:bg-slate-50 dark:hover:bg-slate-950 hover:shadow-none"
                             />
                         </div>
                     )

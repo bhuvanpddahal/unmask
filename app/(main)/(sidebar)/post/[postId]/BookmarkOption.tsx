@@ -4,19 +4,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/useToast";
+import { useSigninModal } from "@/hooks/useSigninModal";
 import { bookmarkOrUnbookmarkPost as bookmarkOrUnbookmarkPostAction } from "@/actions/bookmark";
 
 interface BookmarkOptionProps {
     postId: string;
+    isSignedIn: boolean;
     initialIsBookmarked: boolean;
 }
 
 const BookmarkOption = ({
     postId,
+    isSignedIn,
     initialIsBookmarked
 }: BookmarkOptionProps) => {
     const queryClient = useQueryClient();
     const { toast } = useToast();
+    const { open } = useSigninModal();
     const [isBookmarked, setIsBookmarked] = useState(initialIsBookmarked);
 
     const { mutate: bookmarkOrUnbookmarkPost } = useMutation({
@@ -52,7 +56,10 @@ const BookmarkOption = ({
     return (
         <div
             className="h-10 w-10 flex items-center justify-center rounded-full cursor-pointer hover:bg-accent"
-            onClick={() => bookmarkOrUnbookmarkPost()}
+            onClick={() => {
+                if (isSignedIn) bookmarkOrUnbookmarkPost();
+                else open();
+            }}
         >
             <Bookmark className={cn(
                 "size-5",

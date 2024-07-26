@@ -90,7 +90,7 @@ const ThirdStep = ({
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight mt-2">
                 Create your account
             </h1>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                 Remember your password! Lost passwords cannot be recovered.
             </p>
             <Form {...form}>

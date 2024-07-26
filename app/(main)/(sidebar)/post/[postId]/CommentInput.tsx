@@ -57,19 +57,19 @@ const CommentInput = ({
 
     return (
         <Card className="sticky bottom-0 p-4 mt-5">
-            <div className="bg-zinc-50 border rounded-md">
+            <div className="bg-zinc-50 dark:bg-zinc-900 border rounded-md">
                 <Textarea
                     rows={2}
                     value={comment}
                     placeholder="Add a comment"
-                    className="leading-6 border-0 min-h-fit max-h-screen font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                    className="bg-zinc-50 dark:bg-zinc-900 leading-6 border-0 min-h-fit max-h-screen font-medium focus-visible:ring-0 focus-visible:ring-transparent"
                     onChange={(e) => setComment(e.target.value)}
                     disabled={isPending}
                 />
                 <div className="text-right p-2">
                     <Button
                         variant="ghost"
-                        disabled={isPending}
+                        disabled={isPending || !comment.length}
                         onClick={() => setComment("")}
                     >
                         Clear
@@ -94,11 +94,11 @@ export default CommentInput;
 
 export const CommentInputLoader = () => (
     <Card className="sticky bottom-0 p-4 mt-5">
-        <Skeleton className="bg-zinc-100 w-full">
+        <Skeleton className="bg-zinc-100 dark:bg-zinc-900 w-full">
             <div className="h-[64px] w-full" />
             <div className="text-right p-2">
-                <Skeleton className="bg-slate-200/50 inline-block h-9 w-[65px]" />
-                <Skeleton className="bg-slate-200/50 inline-block h-9 w-[60px]" />
+                <Skeleton className="bg-slate-200/50 dark:bg-slate-800/50 inline-block h-9 w-[65px]" />
+                <Skeleton className="bg-slate-200/50 dark:bg-slate-800/50 inline-block h-9 w-[60px]" />
             </div>
         </Skeleton>
     </Card>

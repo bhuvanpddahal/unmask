@@ -12,7 +12,7 @@ const UserBookmarksPage = () => {
                 title="Bookmarks"
                 description="All of your bookmarks in one place."
             />
-            <div className="bg-white p-5 rounded-md">
+            <div className="bg-white dark:bg-card p-5 rounded-md">
                 <Bookmarks />
             </div>
         </div>

@@ -13,7 +13,7 @@ const SigninPage = () => {
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
                 Welcome Back!
             </h1>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                 We&apos;re happy to see you again! Dive back into exploring Unmask.
             </p>
             <SigninForm />

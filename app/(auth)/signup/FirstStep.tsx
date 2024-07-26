@@ -67,7 +67,7 @@ const FirstStep = ({
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
                 Join the Unmask community
             </h1>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                 To protect anonymity, we do not store emails in plain text.
             </p>
             <Form {...form}>

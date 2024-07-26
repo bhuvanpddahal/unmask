@@ -15,7 +15,7 @@ const FormError = ({
 
     return (
         <div className={cn(
-            "w-full bg-destructive/15 px-3 py-2 rounded-md flex items-center gap-x-2 text-sm text-destructive max-w-4xl",
+            "w-full bg-destructive/15 dark:bg-destructive/50 px-3 py-2 rounded-md flex items-center gap-x-2 text-sm text-destructive dark:text-destructive-foreground max-w-4xl",
             className
         )}>
             <TriangleAlert className="h-4 w-4 flex-shrink-0" />

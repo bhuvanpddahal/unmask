@@ -132,7 +132,7 @@ const PostForm = ({
                                         {...field}
                                         type="text"
                                         placeholder="Title"
-                                        className="h-20 text-3xl px-0 border-0 focus-visible:ring-0"
+                                        className="bg-background h-20 text-3xl px-0 border-0 focus-visible:ring-0"
                                         disabled={isPending}
                                     />
                                 </FormControl>
@@ -222,8 +222,8 @@ const PostForm = ({
                                                     >
                                                         <X className="size-5" />
                                                     </div>
-                                                    <Alert className="bg-yellow-200 mb-3">
-                                                        <TriangleAlert className="h-5 w-5" />
+                                                    <Alert className="bg-yellow-200 mb-3 dark:text-black">
+                                                        <TriangleAlert className="h-5 w-5 dark:text-black" />
                                                         <AlertTitle>Heads Up: Poll Can&apos;t Be Edited After Posting!</AlertTitle>
                                                         <AlertDescription>
                                                             This is a friendly reminder that once you create a poll in your Unmask post, you won&apos;t be able to edit it afterwards. So for best results, take your time crafting your poll to avoid any need for edits later.
@@ -233,7 +233,7 @@ const PostForm = ({
                                             )}
                                             <ul className="space-y-3">
                                                 {form.getValues("pollOptions")?.map((option, index) => (
-                                                    <li key={index} className="flex items-center gap-x-2 border rounded-sm px-4">
+                                                    <li key={index} className="dark:bg-black flex items-center gap-x-2 border rounded-sm px-4">
                                                         <X
                                                             className={cn(
                                                                 "size-8 p-2 rounded-full cursor-pointer hover:bg-muted",

@@ -23,7 +23,7 @@ const PostContent = ({
             <h3 className="font-semibold text-accent-foreground line-clamp-1 mb-2">
                 {title}
             </h3>
-            <p className="text-[13.5px] font-medium text-zinc-700 line-clamp-3">
+            <p className="text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300 line-clamp-3">
                 {description}
             </p>
             {postImage && (
@@ -44,7 +44,7 @@ const PostContent = ({
                         <span className="font-semibold text-[13.5px]">Poll</span>
                     </div>
                     <Separator orientation="vertical" className="bg-zinc-400 h-5" />
-                    <p className="text-[13.5px] text-zinc-700 font-medium">
+                    <p className="text-[13.5px] text-zinc-700 dark:text-zinc-300 font-medium">
                         <span className="font-semibold">{pollVotesCount} </span>
                         {pollVotesCount === 1 ? "Participant" : "Participants"}
                     </p>

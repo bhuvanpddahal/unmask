@@ -59,12 +59,12 @@ const ReplyEdit = ({
     });
 
     return (
-        <div className="mt-3 bg-white border rounded-md">
+        <div className="mt-3 bg-white dark:bg-card border rounded-md">
             <Textarea
                 rows={2}
                 value={reply}
                 placeholder="Edit reply"
-                className="bg-white leading-6 border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                className="bg-white dark:bg-card leading-6 border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
                 onChange={(e) => setReply(e.target.value)}
                 disabled={isPending}
             />

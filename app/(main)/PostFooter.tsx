@@ -41,7 +41,7 @@ const PostFooter = ({
             <div className="w-full flex justify-between">
                 <div className="flex gap-3 text-sm">
                     <div
-                        className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-zinc-600 rounded-full cursor-pointer hover:bg-slate-200"
+                        className="flex items-center gap-1 px-2 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800"
                         onClick={(e) => {
                             e.stopPropagation();
                             if (isSignedIn) likeOrUnlikePost();
@@ -55,16 +55,16 @@ const PostFooter = ({
                         )}
                         {likesCount}
                     </div>
-                    <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-zinc-600 rounded-full cursor-pointer hover:bg-slate-200">
+                    <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800">
                         <LuMessageSquare className="size-3.5" />
                         {commentsCount}
                     </div>
-                    <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 text-zinc-600 rounded-full cursor-pointer hover:bg-slate-200">
+                    <div className="flex items-center gap-1 px-2 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800">
                         <MdOutlineRemoveRedEye className="size-4" />
                         {viewsCount}
                     </div>
                 </div>
-                <div className="flex items-center gap-1 px-2 py-1 text-sm bg-zinc-100 text-zinc-600 rounded-full cursor-pointer hover:bg-slate-200">
+                <div className="flex items-center gap-1 px-2 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800">
                     <LuShare className="size-4" />
                     Share
                 </div>
@@ -79,17 +79,17 @@ export const PostFooterLoader = () => (
     <CardFooter className="p-4 pt-6">
         <div className="w-full flex justify-between">
             <div className="flex gap-3 text-sm">
-                <div className="flex items-center gap-1 pl-2 pr-5 py-1 bg-zinc-100 text-zinc-500 rounded-full">
+                <div className="flex items-center gap-1 pl-2 pr-5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full">
                     <HiOutlineHeart className="size-4" />
                 </div>
-                <div className="flex items-center gap-1 pl-2 pr-6 py-1 bg-zinc-100 text-zinc-500 rounded-full">
+                <div className="flex items-center gap-1 pl-2 pr-6 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full">
                     <LuMessageSquare className="size-3.5" />
                 </div>
-                <div className="flex items-center gap-1 pl-2 pr-7 py-1 bg-zinc-100 text-zinc-500 rounded-full">
+                <div className="flex items-center gap-1 pl-2 pr-7 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full">
                     <MdOutlineRemoveRedEye className="size-4" />
                 </div>
             </div>
-            <div className="flex items-center gap-1 px-2 py-1 text-sm bg-zinc-100 text-zinc-500 rounded-full">
+            <div className="flex items-center gap-1 px-2 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full">
                 <LuShare className="size-4" />
                 Share
             </div>

@@ -26,11 +26,11 @@ const ReplyInput = ({
     commentId,
     setIsReplyOpen
 }: ReplyInputProps) => {
-    const { toast } = useToast();
     const user = useCurrentUser();
-    const { open } = useSigninModal();
     const queryClient = useQueryClient();
     const isSignedIn = !!(user && user.id);
+    const { toast } = useToast();
+    const { open } = useSigninModal();
     const [reply, setReply] = useState("");
 
     const {
@@ -62,19 +62,19 @@ const ReplyInput = ({
     });
 
     return (
-        <div className="ml-[92px] mt-3 bg-zinc-50 border rounded-md">
+        <div className="ml-[92px] mt-3 bg-zinc-50 dark:bg-zinc-900 border rounded-md">
             <Textarea
                 rows={2}
                 value={reply}
                 placeholder="Add a reply"
-                className="leading-6 border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                className="bg-zinc-50 dark:bg-zinc-900 leading-6 border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
                 onChange={(e) => setReply(e.target.value)}
                 disabled={isPending}
             />
             <div className="text-right p-2">
                 <Button
                     variant="ghost"
-                    disabled={isPending}
+                    disabled={isPending || !reply.length}
                     onClick={() => setReply("")}
                 >
                     Clear

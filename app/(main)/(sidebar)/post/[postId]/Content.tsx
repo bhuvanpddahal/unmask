@@ -29,7 +29,7 @@ const PostDetailsContent = ({
         data,
         isLoading
     } = useQuery({
-        queryKey: ["posts", postId],
+        queryKey: ["post", postId],
         queryFn: async () => {
             const payload = { postId };
             const data = await getPost(payload);

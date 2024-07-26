@@ -6,6 +6,7 @@ import Modals from "@/components/Modals";
 import Providers from "@/components/Providers";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/Toaster";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -30,11 +31,17 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={plusJakartaSans.className}>
-                <Providers session={session}>
-                    {children}
-                    <Modals />
-                </Providers>
-                <Toaster />
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                >
+                    <Providers session={session}>
+                        {children}
+                        <Modals />
+                    </Providers>
+                    <Toaster />
+                </ThemeProvider>
             </body>
         </html>
     )

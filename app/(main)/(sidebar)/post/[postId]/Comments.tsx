@@ -1,18 +1,17 @@
-import Image from "next/image";
 import {
     Comment as CommentType,
     Reply as ReplyType
 } from "@prisma/client";
-import { notFound, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import SortBy from "./SortBy";
 import Replies from "./Replies";
 import Comment, { CommentLoader } from "./Comment";
+import AdBanner, { AdBannerLoader } from "./AdBanner";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
 import { getComments } from "@/actions/comment";
-import { Skeleton } from "@/components/ui/Skeleton";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { COMMENTS_PER_PAGE, REPLIES_PER_PAGE } from "@/constants";
 
@@ -66,7 +65,6 @@ const Comments = ({
     postId,
     sort
 }: CommentsProps) => {
-    const router = useRouter();
     const user = useCurrentUser();
     const { toast } = useToast();
 
@@ -97,7 +95,7 @@ const Comments = ({
         fetchNextPage,
         isFetchingNextPage
     } = useInfiniteQuery({
-        queryKey: ["posts", postId, { sort }],
+        queryKey: ["post", postId, { sort }],
         queryFn: fetchComments,
         initialPageParam: 1,
         getNextPageParam: (lastPage, pages) => {
@@ -173,24 +171,7 @@ const Comments = ({
                     No comments
                 </p>
             )}
-            <div
-                className="bg-primary flex gap-4 p-6 mt-6 rounded-sm cursor-pointer hover:opacity-90"
-                onClick={() => router.push("https://rave-hq.vercel.app")}
-            >
-                <Image
-                    src="https://rave-hq.vercel.app/logo-icon.png"
-                    alt="RaveHQ Logo"
-                    width={40}
-                    height={11}
-                    className="h-[40px] w-auto"
-                />
-                <p className="text-xl text-primary-foreground font-semibold">
-                    Grow Trust & Credibility with Authentic Testimonials using RaveHQ
-                </p>
-                <Button className="min-w-fit bg-white self-center text-primary transition-opacity hover:bg-zinc-100">
-                    Open
-                </Button>
-            </div>
+            <AdBanner />
         </div >
     )
 };
@@ -214,6 +195,6 @@ export const CommentsLoader = ({
                 <CommentLoader key={index} />
             ))}
         </ul>
-        <Skeleton className="h-[104px] w-full rounded-sm mt-6" />
+        <AdBannerLoader />
     </div>
 );

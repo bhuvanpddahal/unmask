@@ -21,11 +21,12 @@ const PostContent = ({
             <h3 className="font-semibold text-accent-foreground line-clamp-1 mb-2">
                 {title}
             </h3>
-            <p className="text-[13.5px] font-medium text-zinc-700 line-clamp-3">
+            <p className="text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300 line-clamp-3">
                 {description}
             </p>
             {poll && (
                 <Poll
+                    key={poll.id}
                     postId={postId}
                     pollId={poll.id}
                     pollOptions={poll.options}

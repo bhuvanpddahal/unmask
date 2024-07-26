@@ -38,7 +38,7 @@ const DeleteCommentModal = () => {
                         description: data.success
                     });
                     queryClient.invalidateQueries({
-                        queryKey: ["posts", comment.postId]
+                        queryKey: ["post", comment.postId]
                     });
                 }
                 if (data.error) {
@@ -71,7 +71,7 @@ const DeleteCommentModal = () => {
                 </AlertDialogHeader>
                 <div className="bg-accent w-full p-4 border rounded-md rounded-ss-none">
                     <div className="text-xs flex items-center gap-0.5">
-                        <span className="text-zinc-500 font-semibold">
+                        <span className="text-zinc-500 dark:text-zinc-400 font-semibold">
                             {comment.commenterUsername}
                         </span>
                         <Dot className="size-4 text-zinc-800" />
@@ -80,7 +80,7 @@ const DeleteCommentModal = () => {
                             {comment.isEdited && " (Edited)"}
                         </span>
                     </div>
-                    <p className="text-sm leading-6 text-zinc-800 font-medium mt-0.5 line-clamp-3">
+                    <p className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5 line-clamp-3">
                         {comment.comment}
                     </p>
                 </div>

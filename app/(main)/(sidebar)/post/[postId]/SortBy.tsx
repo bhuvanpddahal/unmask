@@ -24,7 +24,7 @@ const SortBy = ({
 
     const handleValueChange = (value: string) => {
         if (!postId) return;
-        router.push(`/posts/${postId}?sort=${value}`);
+        router.push(`/post/${postId}?sort=${value}`);
     };
 
     return (

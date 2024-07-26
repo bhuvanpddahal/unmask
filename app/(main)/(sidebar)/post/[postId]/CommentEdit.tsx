@@ -59,12 +59,12 @@ const CommentEdit = ({
     });
 
     return (
-        <div className="mt-3 bg-white border rounded-md">
+        <div className="mt-3 bg-white dark:bg-card border rounded-md">
             <Textarea
                 rows={2}
                 value={comment}
                 placeholder="Edit comment"
-                className="bg-white leading-6 border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
+                className="bg-white dark:bg-card leading-6 border-0 min-h-fit font-medium focus-visible:ring-0 focus-visible:ring-transparent"
                 onChange={(e) => setComment(e.target.value)}
                 disabled={isPending}
             />

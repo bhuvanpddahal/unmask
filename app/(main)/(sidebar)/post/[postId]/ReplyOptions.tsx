@@ -52,7 +52,7 @@ const ReplyOptions = ({
 
     if (isEditOpen) return (
         <div
-            className="absolute top-2 right-2 h-8 w-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-zinc-200"
+            className="absolute top-2 right-2 h-8 w-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-600"
             onClick={() => setIsEditOpen(false)}
         >
             <X className="size-4" />
@@ -61,7 +61,7 @@ const ReplyOptions = ({
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className="absolute top-2 right-2 h-8 w-8 flex items-center justify-center rounded-full hover:bg-zinc-200">
+            <DropdownMenuTrigger className="absolute top-2 right-2 h-8 w-8 flex items-center justify-center rounded-full hover:bg-zinc-200 dark:hover:bg-zinc-600">
                 <EllipsisVertical className="size-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="text-[13px] font-medium">

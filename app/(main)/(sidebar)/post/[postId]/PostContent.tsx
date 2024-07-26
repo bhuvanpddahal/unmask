@@ -35,10 +35,10 @@ const PostContent = ({
 }: PostContentProps) => {
     return (
         <CardContent className="px-4 py-0">
-            <h3 className="font-semibold text-xl text-black mb-2">
+            <h3 className="font-semibold text-xl text-black dark:text-white mb-2">
                 {title}
             </h3>
-            <p className="text-sm leading-6 font-medium text-zinc-800">
+            <p className="text-sm leading-6 font-medium text-zinc-800 dark:text-zinc-200">
                 {description}
             </p>
             {postImage && (
