@@ -50,7 +50,7 @@ const Post = ({
         <Card
             ref={lastPostRef}
             className="cursor-pointer transition-shadow hover:shadow-md"
-            onClick={() => router.push(`/posts/${postId}`)}
+            onClick={() => router.push(`/post/${postId}`)}
         >
             <PostHeader
                 creatorId={creatorId}

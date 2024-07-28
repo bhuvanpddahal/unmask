@@ -4,7 +4,6 @@ import { Package2 } from "lucide-react";
 
 import PollResult from "./PollResult";
 import { cn } from "@/lib/utils";
-import { PollOption } from "./PostContent";
 import { Label } from "@/components/ui/Label";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { POLL_OPTIONS_PER_POST } from "@/constants";
@@ -12,6 +11,7 @@ import { Separator } from "@/components/ui/Separator";
 import { useVoteOnPoll } from "@/hooks/useVoteOnPoll";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useSigninModal } from "@/hooks/useSigninModal";
+import { PollOption } from "./post/[postId]/PostContent";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 
@@ -102,7 +102,7 @@ const Poll = ({
                     href={`/post/${postId}`}
                     className={cn(buttonVariants({
                         variant: "link",
-                        className: "h-fit w-fit p-0 mt-4 text-black font-semibold hover:text-accent-foreground"
+                        className: "h-fit w-fit p-0 mt-4 text-black dark:text-white font-semibold hover:text-accent-foreground"
                     }))}
                 >
                     View {morePollOptionsCount} more {morePollOptionsCount === 1 ? "option" : "options"}

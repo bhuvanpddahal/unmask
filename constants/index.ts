@@ -68,13 +68,25 @@ export const sidebarItems = [
         href: "/"
     },
     {
-        icon: Building2,
-        label: "Company",
-        href: "/company"
-    },
-    {
         icon: Inbox,
         label: "Polls",
         href: "/polls"
+    },
+    {
+        icon: Inbox,
+        label: "All Channels",
+        href: "/topics"
     }
 ];
+
+export const channelTypes = {
+    academics: "Academics and Learning",
+    career: "Career and Job Search",
+    personal_development: "Personal Development",
+    campus_life: "Campus Life",
+    general: "General Interest",
+    technology: "Technology",
+    industry: "Industry",
+    creative_arts: "Creative Arts",
+    social_issues: "Social Issues"
+};

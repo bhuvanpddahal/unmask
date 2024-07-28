@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import Poll from "./Poll";
+import Poll from "../../Poll";
 import { CardContent } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
 

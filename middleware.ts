@@ -18,6 +18,7 @@ export async function middleware(req: NextRequest) {
 export const config = {
     matcher: [
         "/user/profile",
-        "/user/bookmarks"
+        "/user/bookmarks",
+        "/topics/create"
     ]
 };

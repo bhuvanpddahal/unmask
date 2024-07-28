@@ -1,4 +1,4 @@
-import Poll, { PollLoader } from "../post/[postId]/Poll";
+import Poll, { PollLoader } from "../Poll";
 import { Poll as PollType } from "./Post";
 import { CardContent } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";

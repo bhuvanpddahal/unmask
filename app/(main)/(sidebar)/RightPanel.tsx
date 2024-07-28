@@ -1,12 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
 const RightPanel = () => {
     const router = useRouter();
+    const pathname = usePathname();
+
+    if (pathname.includes("/topics")) return null;
 
     return (
         <div className="hidden lg:block sticky top-[60px] h-fit p-4 pl-0">

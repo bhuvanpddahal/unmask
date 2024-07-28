@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, UseFormReturn } from "react-hook-form";
 
 import {
     Form,
@@ -42,8 +42,7 @@ const UserForm = () => {
     });
 
     const handleImgChange = (
-        e: ChangeEvent<HTMLInputElement>,
-        form: UseFormReturn<UpdateUserPayload, any, undefined>
+        e: ChangeEvent<HTMLInputElement>
     ) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -93,7 +92,7 @@ const UserForm = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="w-full"
             >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-4">
                     <FormField
                         control={form.control}
                         name="username"
@@ -121,7 +120,7 @@ const UserForm = () => {
                                         Image
                                     </p>
                                     <div className={cn(
-                                        "relative h-[300px] w-full border rounded-md cursor-pointer",
+                                        "relative h-[300px] w-full border rounded-md cursor-pointer overflow-hidden",
                                         form.getValues("image") || user?.image
                                             ? "border-solid"
                                             : "border-dashed flex items-center justify-center"
@@ -147,7 +146,7 @@ const UserForm = () => {
                                     <Input
                                         type="file"
                                         className="hidden"
-                                        onChange={(e) => handleImgChange(e, form)}
+                                        onChange={handleImgChange}
                                         disabled={isPending}
                                         accept="image/*"
                                     />
@@ -156,35 +155,35 @@ const UserForm = () => {
                             </FormItem>
                         )}
                     />
-                        <FormField
-                            control={form.control}
-                            name="newPassword"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>New Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            type="password"
-                                            value={form.getValues("newPassword") || ""}
-                                            onChange={(e) => {
-                                                const value = e.target.value;
-                                                if (value.length) {
-                                                    form.setValue("newPassword", value);
-                                                } else {
-                                                    form.setValue("newPassword", undefined);
-                                                }
-                                            }}
-                                            disabled={isPending}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                    <p className="text-xs text-zinc-500 mt-1">
-                                        Make sure you remember the new password if you want to change the current one.
-                                    </p>
-                                </FormItem>
-                            )}
-                        />
+                    <FormField
+                        control={form.control}
+                        name="newPassword"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>New Password</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        type="password"
+                                        value={form.getValues("newPassword") || ""}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            if (value.length) {
+                                                form.setValue("newPassword", value);
+                                            } else {
+                                                form.setValue("newPassword", undefined);
+                                            }
+                                        }}
+                                        disabled={isPending}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                                <p className="text-xs text-zinc-500 mt-1">
+                                    Make sure you remember the new password if you want to change the current one.
+                                </p>
+                            </FormItem>
+                        )}
+                    />
                 </div>
                 <div className="flex flex-col-reverse sm:flex-row sm:justify-between gap-y-2 mt-5">
                     <Button

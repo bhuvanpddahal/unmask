@@ -130,9 +130,9 @@ export default Reply;
 
 export const ReplyLoader = () => (
     <li className="flex gap-2">
-        <Skeleton className="h-8 w-8 rounded-full" />
+        <Skeleton className="h-8 w-8 bg-zinc-100 dark:bg-zinc-800 rounded-full" />
         <div className="w-full">
-            <Skeleton className="h-[74px] w-full rounded-md rounded-ss-none" />
+            <Skeleton className="h-[74px] w-full bg-zinc-100 dark:bg-zinc-800 rounded-md rounded-ss-none" />
             <div className="flex items-center gap-x-3 mt-2">
                 <div className="pl-2 pr-5 py-1.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full">
                     <HiOutlineHeart className="size-4" />

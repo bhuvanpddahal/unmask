@@ -1,4 +1,4 @@
-import Header from "../Header";
+import Header from "../../Header";
 import Bookmarks from "./Content";
 
 export const metadata = {
