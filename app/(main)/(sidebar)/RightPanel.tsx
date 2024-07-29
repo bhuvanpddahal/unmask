@@ -9,7 +9,7 @@ const RightPanel = () => {
     const router = useRouter();
     const pathname = usePathname();
 
-    if (pathname.includes("/topics")) return null;
+    if (pathname === "/topics") return null;
 
     return (
         <div className="hidden lg:block sticky top-[60px] h-fit p-4 pl-0">

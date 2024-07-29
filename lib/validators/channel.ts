@@ -18,4 +18,9 @@ export const UpsertChannelValidator = z.object({
     visibility: z.enum(["private", "public"])
 });
 
+export const ChannelIdValidator = z.object({
+    channelId: z.string()
+});
+
 export type UpsertChannelPayload = z.infer<typeof UpsertChannelValidator>;
+export type ChannelIdPayload = z.infer<typeof ChannelIdValidator>;

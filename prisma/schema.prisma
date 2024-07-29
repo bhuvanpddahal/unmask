@@ -25,6 +25,7 @@ model User {
     replyLikes      ReplyLike[]
     pollOptionVotes PollOptionVote[]
     bookmarks       Bookmark[]
+    follows         Follow[]
 }
 
 model VerificationToken {
@@ -202,5 +203,17 @@ model Channel {
     createdAt    DateTime    @default(now())
     updatedAt    DateTime    @updatedAt
 
-    posts Post[]
+    posts   Post[]
+    follows Follow[]
+}
+
+model Follow {
+    id         String @id @default(auto()) @map("_id") @db.ObjectId
+    followerId String @db.ObjectId
+    channelId  String @db.ObjectId
+
+    follower User    @relation(fields: [followerId], references: [id], onDelete: Cascade)
+    channel  Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+    @@unique([followerId, channelId])
 }

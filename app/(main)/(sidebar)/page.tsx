@@ -1,4 +1,5 @@
 import Posts from "./Posts";
+import AdBanner from "./AdBanner";
 import CreatePost from "./CreatePost";
 
 const MainPage = () => {
@@ -8,6 +9,7 @@ const MainPage = () => {
                 Unmask - Anonymous and Professional Community
             </h1>
             <CreatePost />
+            <AdBanner />
             <Posts />
         </div>
     )

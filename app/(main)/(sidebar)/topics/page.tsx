@@ -2,6 +2,10 @@ import IndustryChannels from "./IndustryChannels";
 import NewChannelButton from "./NewChannelButton";
 import { Separator } from "@/components/ui/Separator";
 
+export const metadata = {
+    title: "Create Channel"
+};
+
 const TopicsPage = () => {
     return (
         <div className="flex-1 p-6 pt-10">

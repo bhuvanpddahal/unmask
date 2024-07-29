@@ -76,7 +76,6 @@ const ChannelForm = () => {
     };
 
     const onSubmit = (payload: UpsertChannelPayload) => {
-        console.log({ payload });
         startTransition(async () => {
             const data = await createChannel(payload);
             if (data.success) {

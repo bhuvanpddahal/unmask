@@ -8,7 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import SortBy from "./SortBy";
 import Replies from "./Replies";
 import Comment, { CommentLoader } from "./Comment";
-import AdBanner, { AdBannerLoader } from "./AdBanner";
+import AdBanner, { AdBannerLoader } from "../../AdBanner";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
 import { getComments } from "@/actions/comment";

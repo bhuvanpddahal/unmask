@@ -6,6 +6,8 @@ import { v2 as cloudinary } from "cloudinary";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import {
+    GetChannelPostsPayload,
+    GetChannelPostsValidator,
     GetPostsPayload,
     GetPostsValidator,
     GetPostsWithPollPayload,
@@ -486,7 +488,7 @@ export const editPost = async (payload: UpsertPostPayload) => {
         const session = await auth();
         if (!session?.user || !session.user.id) return { error: "Unauthorized" };
 
-        const { id, title, description, image, pollOptions } = validatedFields.data;
+        const { id, title, description, image } = validatedFields.data;
 
         const post = await db.post.findUnique({
             where: {
@@ -545,5 +547,91 @@ export const deletePost = async (payload: PostIdPayload) => {
     } catch (error) {
         console.error(error);
         throw new Error("Something went wrong");
+    }
+};
+
+
+export const getChannelPosts = async (payload: GetChannelPostsPayload) => {
+    try {
+        const validatedFields = GetChannelPostsValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+
+        const { channelId, page, limit, sort } = validatedFields.data;
+
+        let orderByClause = {};
+
+        if (sort === "hot") {
+            orderByClause = [
+                { likes: { _count: "desc" } },
+                { createdAt: "desc" }
+            ];
+        } else if (sort === "recent") {
+            orderByClause = { createdAt: "desc" };
+        }
+
+        const posts = await db.post.findMany({
+            where: {
+                channelId
+            },
+            orderBy: orderByClause,
+            take: limit,
+            skip: (page - 1) * limit,
+            include: {
+                creator: {
+                    select: {
+                        username: true,
+                        image: true
+                    }
+                },
+                poll: {
+                    select: {
+                        options: {
+                            select: {
+                                _count: {
+                                    select: {
+                                        votes: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                likes: {
+                    where: {
+                        likerId: session?.user.id
+                    },
+                    select: {
+                        likerId: true
+                    }
+                },
+                comments: {
+                    select: {
+                        _count: {
+                            select: {
+                                replies: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        likes: true,
+                        views: true
+                    }
+                }
+            }
+        });
+
+        const totalPosts = await db.post.count({
+            where: { channelId }
+        });
+        const hasNextPage = totalPosts > (page * limit);
+
+        return { posts, hasNextPage };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
     }
 };

@@ -19,7 +19,7 @@ interface FetchPostsParams {
 
 export type Sort = "hot" | "recent" | "views";
 
-interface PostsData {
+export interface PostsData {
     posts: (PostType & {
         creator: {
             image: string | null;
@@ -65,7 +65,7 @@ const Posts = () => {
         if (data.error) {
             toast({
                 variant: "destructive",
-                title: "Error",
+                title: "Failed to fetch posts",
                 description: "Something went wrong"
             });
             return { posts: [], hasNextPage: false };

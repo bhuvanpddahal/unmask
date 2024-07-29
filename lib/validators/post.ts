@@ -39,7 +39,15 @@ export const PostIdValidator = z.object({
     postId: z.string()
 });
 
+export const GetChannelPostsValidator = z.object({
+    channelId: z.string(),
+    page: z.number(),
+    limit: z.number(),
+    sort: z.enum(["hot", "recent"])
+});
+
 export type UpsertPostPayload = z.infer<typeof UpsertPostValidator>;
 export type GetPostsPayload = z.infer<typeof GetPostsValidator>;
 export type GetPostsWithPollPayload = z.infer<typeof GetPostsWithPollValidator>;
 export type PostIdPayload = z.infer<typeof PostIdValidator>;
+export type GetChannelPostsPayload = z.infer<typeof GetChannelPostsValidator>;
