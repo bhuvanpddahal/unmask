@@ -1,6 +1,10 @@
 import Header from "../../Header";
 import ChannelForm from "./ChannelForm";
 
+export const metadata = {
+    title: "Create Channel"
+};
+
 const TopicCreationPage = () => {
     return (
         <div>

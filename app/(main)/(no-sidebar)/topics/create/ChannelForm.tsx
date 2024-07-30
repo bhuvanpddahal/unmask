@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -33,10 +34,11 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Button } from "@/components/ui/Button";
 import { Switch } from "@/components/ui/Switch";
-import { Textarea } from "@/components/ui/Textarea";
 import { createChannel } from "@/actions/channel";
+import { Textarea } from "@/components/ui/Textarea";
 
 const ChannelForm = () => {
+    const router = useRouter();
     const { toast } = useToast();
     const [isPending, startTransition] = useTransition();
 
@@ -83,6 +85,7 @@ const ChannelForm = () => {
                     title: "Success",
                     description: data.success
                 });
+                router.push(`/topics/${data.channelId}`);
             }
             if (data.error) {
                 toast({

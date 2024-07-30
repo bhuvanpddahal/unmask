@@ -1,30 +1,66 @@
 import Image from "next/image";
+import { useState } from "react";
 import { Visibility } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
 import { Dot, Globe, GlobeLock } from "lucide-react";
 
 import { Card } from "@/components/ui/Card";
+import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { followOrUnfollowChannel as followOrUnfollowChannelAction } from "@/actions/channel";
 
 interface ChannelInfoProps {
+    channelId: string;
     channelName: string;
     channelDescription: string | null;
     bannerImage: string | null;
     profileImage: string | null;
     visibility: Visibility;
-    followsCount: number;
-    isFollowed: boolean;
+    initialFollowsCount: number;
+    initialIsFollowed: boolean;
 }
 
 const ChannelInfo = ({
+    channelId,
     channelName,
     channelDescription,
     bannerImage,
     profileImage,
     visibility,
-    followsCount,
-    isFollowed
+    initialFollowsCount,
+    initialIsFollowed
 }: ChannelInfoProps) => {
+    const { toast } = useToast();
+    const [isFollowed, setIsFollowed] = useState(initialIsFollowed);
+    const [followsCount, setFollowsCount] = useState(initialFollowsCount);
+
+    const {
+        mutate: followOrUnfollowChannel,
+        isPending
+    } = useMutation({
+        mutationFn: async () => {
+            const payload = { channelId };
+            await followOrUnfollowChannelAction(payload);
+        },
+        onSuccess: () => {
+            if (isFollowed) {
+                setIsFollowed(false);
+                setFollowsCount((prev) => prev - 1);
+            } else {
+                setIsFollowed(true);
+                setFollowsCount((prev) => prev + 1);
+            }
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: `Failed to ${isFollowed ? "unfollow" : "follow"} channel`,
+                description: error.message
+            });
+        }
+    });
+
     return (
         <Card className="relative">
             <div className="relative h-[120px] sm:h-[180px] md:h-[200px] rounded-t-md bg-gray-200 dark:bg-gray-800">
@@ -48,8 +84,13 @@ const ChannelInfo = ({
                 <Button
                     variant="outline"
                     className="rounded-full"
+                    onClick={() => followOrUnfollowChannel()}
+                    isLoading={isPending}
                 >
-                    {isFollowed ? "Unfollow" : "Follow"}
+                    {isFollowed
+                        ? isPending ? "Unfollowing" : "Unfollow"
+                        : isPending ? "Following" : "Follow"
+                    }
                 </Button>
             </div>
             <div className="px-4 pt-[55px] pb-6">

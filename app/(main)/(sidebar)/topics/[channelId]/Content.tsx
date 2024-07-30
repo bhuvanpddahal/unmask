@@ -59,13 +59,14 @@ const ChannelDetailsContent = ({
     return (
         <div className="space-y-4">
             <ChannelInfo
+                channelId={channelId}
                 channelName={data.channel?.name || ""}
                 channelDescription={data.channel?.description || ""}
-                bannerImage={null}
-                profileImage={null}
+                bannerImage={data.channel?.bannerImage || null}
+                profileImage={data.channel?.profileImage || null}
                 visibility={data.channel?.visibility || "public"}
-                followsCount={data.channel?._count.follows || 0}
-                isFollowed={!!isFollowed}
+                initialFollowsCount={data.channel?._count.follows || 0}
+                initialIsFollowed={!!isFollowed}
             />
             <AdBanner />
             <Posts
