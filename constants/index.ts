@@ -31,12 +31,17 @@ export const REPLIES_PER_PAGE = 2;
 /**
  * The number of replies fetched in a single query
  */
-export const REPLIES_PER_QUERY = 20;
+export const REPLIES_PER_QUERY = 10;
 
 /**
  * The number of poll options displayed in a single post
  */
 export const POLL_OPTIONS_PER_POST = 3;
+
+/**
+ * The number of channels displayed in a single page
+ */
+export const CHANNELS_PER_PAGE = 12;
 
 export const navItems = [
     {

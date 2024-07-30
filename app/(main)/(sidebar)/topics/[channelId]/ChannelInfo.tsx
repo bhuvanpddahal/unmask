@@ -29,7 +29,7 @@ const ChannelInfo = ({
         <Card className="relative">
             <div className="relative h-[120px] sm:h-[180px] md:h-[200px] rounded-t-md bg-gray-200 dark:bg-gray-800">
                 <Image
-                    src={bannerImage || ""}
+                    src={bannerImage || "/channel-banner.jpg"}
                     alt="Channel Banner"
                     fill
                     className="object-cover rounded-t-md"
@@ -38,9 +38,10 @@ const ChannelInfo = ({
             <div className="absolute w-full top-[120px] sm:top-[180px] md:top-[200px] -translate-y-[35%] flex items-end justify-between px-4">
                 <div className="relative h-[72px] w-[72px] border-[3px] border-card bg-gray-400 dark:bg-gray-600 rounded-full">
                     <Image
-                        src={profileImage || ""}
+                        src={profileImage || "/channel-profile.png"}
                         alt="Channel Profile"
                         fill
+                        sizes="66px"
                         className="object-cover rounded-full"
                     />
                 </div>

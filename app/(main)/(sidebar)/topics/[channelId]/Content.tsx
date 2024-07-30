@@ -61,8 +61,8 @@ const ChannelDetailsContent = ({
             <ChannelInfo
                 channelName={data.channel?.name || ""}
                 channelDescription={data.channel?.description || ""}
-                bannerImage={data.channel?.bannerImage || null}
-                profileImage={data.channel?.profileImage || null}
+                bannerImage={null}
+                profileImage={null}
                 visibility={data.channel?.visibility || "public"}
                 followsCount={data.channel?._count.follows || 0}
                 isFollowed={!!isFollowed}

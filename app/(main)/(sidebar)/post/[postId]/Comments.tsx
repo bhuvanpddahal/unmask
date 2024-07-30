@@ -154,7 +154,7 @@ const Comments = ({
                                 <CommentLoader key={index} />
                             ))
                         ) : (
-                            < div className="text-center">
+                            <div className="text-center">
                                 <Button
                                     variant="outline"
                                     className="font-semibold"

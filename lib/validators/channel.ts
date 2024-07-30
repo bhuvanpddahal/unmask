@@ -22,5 +22,12 @@ export const ChannelIdValidator = z.object({
     channelId: z.string()
 });
 
+export const GetTopicChannelsValidator = z.object({
+    channelType: z.enum(["academics", "career", "personal_development", "campus_life", "general", "technology", "industry", "creative_arts", "social_issues"]),
+    page: z.number(),
+    limit: z.number()
+});
+
 export type UpsertChannelPayload = z.infer<typeof UpsertChannelValidator>;
 export type ChannelIdPayload = z.infer<typeof ChannelIdValidator>;
+export type GetTopicChannelsPayload = z.infer<typeof GetTopicChannelsValidator>;

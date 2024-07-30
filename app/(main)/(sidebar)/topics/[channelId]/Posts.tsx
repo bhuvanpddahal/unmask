@@ -127,8 +127,8 @@ const Posts = ({
                     <Image
                         src="/empty.png"
                         alt="Empty"
-                        height={100}
-                        width={100}
+                        height={80}
+                        width={80}
                     />
                     <p className="text-sm font-medium text-zinc-400">
                         No posts in this channel

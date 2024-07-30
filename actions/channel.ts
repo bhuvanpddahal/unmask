@@ -7,6 +7,8 @@ import { auth } from "@/auth";
 import {
     ChannelIdPayload,
     ChannelIdValidator,
+    GetTopicChannelsPayload,
+    GetTopicChannelsValidator,
     UpsertChannelPayload,
     UpsertChannelValidator
 } from "@/lib/validators/channel";
@@ -93,6 +95,48 @@ export const getChannelInfo = async (payload: ChannelIdPayload) => {
         if (!channel) return { error: "Channel not found" };
 
         return { channel };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const getTopicChannels = async (payload: GetTopicChannelsPayload) => {
+    try {
+        const validatedFields = GetTopicChannelsValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const { channelType, page, limit } = validatedFields.data;
+
+        const channels = await db.channel.findMany({
+            where: {
+                type: channelType
+            },
+            orderBy: {
+                follows: {
+                    _count: "desc"
+                }
+            },
+            take: limit,
+            skip: (page - 1) * limit,
+            select: {
+                id: true,
+                name: true,
+                profileImage: true,
+                _count: {
+                    select: {
+                        follows: true
+                    }
+                }
+            }
+        });
+
+        const totalChannels = await db.channel.count({
+            where: { type: channelType }
+        });
+        const hasNextPage = totalChannels > (page * limit);
+
+        return { channels, hasNextPage };
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };
