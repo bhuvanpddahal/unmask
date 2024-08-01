@@ -139,7 +139,7 @@ const TopicChannels = ({
                 </div>
             )}
         </>
-    )
+    );
 };
 
 export default TopicChannels;

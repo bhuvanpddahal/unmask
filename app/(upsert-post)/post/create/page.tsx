@@ -9,7 +9,7 @@ const PostCreationPage = () => {
         <div>
             <PostCreationContent />
         </div>
-    )
+    );
 };
 
 export default PostCreationPage;

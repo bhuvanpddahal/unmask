@@ -29,7 +29,7 @@ const PostEditContent = ({
         data,
         isLoading
     } = useQuery({
-        queryKey: ["posts", postId, "edit"],
+        queryKey: ["post", postId, "edit"],
         queryFn: async () => {
             const payload = { postId };
             const data = await getPostToEdit(payload);
@@ -42,11 +42,7 @@ const PostEditContent = ({
         if (data?.post?.image) setHasImage(true);
     }, [data]);
 
-    if (isLoading) return (
-        <>
-            <NavbarLoader />
-        </>
-    )
+    if (isLoading) return <NavbarLoader />
     if (!data || data.error) return (
         <div className="py-20 flex flex-col items-center justify-center gap-y-2">
             <Image
@@ -59,14 +55,15 @@ const PostEditContent = ({
                 {data?.error || "Something went wrong"}
             </p>
         </div>
-    )
+    );
 
     const defaultValues = {
         id: postId,
         title: data.post?.title || "",
         description: data.post?.description || "",
         image: data.post?.image || undefined,
-        pollOptions: data.post?.poll?.options.map((option) => option.option)
+        pollOptions: data.post?.poll?.options.map((option) => option.option),
+        channelId: data.post?.channel?.id
     };
 
     const onSubmit = (payload: UpsertPostPayload) => {
@@ -79,8 +76,8 @@ const PostEditContent = ({
                     });
                     queryClient.invalidateQueries({ queryKey: ["/"] });
                     queryClient.invalidateQueries({ queryKey: ["polls"] });
-                    queryClient.invalidateQueries({ queryKey: ["posts", postId] });
-                    router.push(`/posts/${postId}`);
+                    queryClient.invalidateQueries({ queryKey: ["post", postId] });
+                    router.push(`/post/${postId}`);
                 }
                 if (data.error) {
                     toast({
@@ -93,12 +90,17 @@ const PostEditContent = ({
         });
     };
 
+    const follows = data.post?.channel ? [{ channel: data.post.channel }] : [];
+
     return (
         <>
             <Navbar
                 hasImage={hasImage}
                 hasPoll={hasPoll}
                 setHasPoll={setHasPoll}
+                follows={follows}
+                channelId={data.post?.channel?.id}
+                mode="edit"
             />
             <div className="max-w-[1400px] w-full mx-auto px-6 pt-4 pb-2">
                 <PostForm
@@ -113,7 +115,7 @@ const PostEditContent = ({
                 />
             </div>
         </>
-    )
+    );
 };
 
 export default PostEditContent;

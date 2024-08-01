@@ -23,7 +23,7 @@ const SigninPage = () => {
                 <Link href="/signup" className="text-primary hover:underline"> Sign up</Link>
             </p>
         </>
-    )
+    );
 };
 
 export default SigninPage;

@@ -14,7 +14,7 @@ const NewChannelButton = () => {
         >
             New Channel
         </Button>
-    )
+    );
 };
 
 export default NewChannelButton;

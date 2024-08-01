@@ -47,7 +47,12 @@ export const createChannel = async (payload: UpsertChannelPayload) => {
                 type,
                 bannerImage: bannerImageUrl,
                 profileImage: profileImageUrl,
-                visibility
+                visibility,
+                follows: {
+                    create: {
+                        followerId: session.user.id
+                    }
+                }
             },
             select: {
                 id: true
@@ -192,5 +197,29 @@ export const followOrUnfollowChannel = async (payload: ChannelIdPayload) => {
     } catch (error: any) {
         console.error(error);
         throw new Error(error.message);
+    }
+};
+
+export const getChannelTitle = async (payload: ChannelIdPayload) => {
+    try {
+        const validatedFields = ChannelIdValidator.safeParse(payload);
+        if (!validatedFields.success) return { title: "❌ Invalid fields" };
+
+        const { channelId } = validatedFields.data;
+
+        const channel = await db.channel.findUnique({
+            where: {
+                id: channelId
+            },
+            select: {
+                name: true
+            }
+        });
+        if (!channel) return { title: "❌ Channel not found" };
+
+        return { title: channel.name };
+    } catch (error) {
+        console.error(error);
+        return { title: "❗⚠️ Server error" };
     }
 };

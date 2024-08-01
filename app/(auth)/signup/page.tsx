@@ -10,7 +10,7 @@ const SignupPage = () => {
         <SignupProvider>
             <SignupContent />
         </SignupProvider>
-    )
+    );
 };
 
 export default SignupPage;

@@ -101,7 +101,7 @@ const DeleteCommentModal = () => {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    )
+    );
 };
 
 export default DeleteCommentModal;

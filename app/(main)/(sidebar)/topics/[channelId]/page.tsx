@@ -1,4 +1,7 @@
+import { Metadata } from "next";
+
 import ChannelDetailsContent from "./Content";
+import { getChannelTitle } from "@/actions/channel";
 
 interface ChannelDetailsPageProps {
     params: {
@@ -6,8 +9,14 @@ interface ChannelDetailsPageProps {
     };
 }
 
-export const metadata = {
-    title: "Channel Details"
+export const generateMetadata = async (
+    { params: { channelId } }: ChannelDetailsPageProps
+): Promise<Metadata> => {
+    const payload = { channelId };
+    const channel = await getChannelTitle(payload);
+    return {
+        title: channel.title
+    };
 };
 
 const ChannelDetailsPage = ({
@@ -17,7 +26,7 @@ const ChannelDetailsPage = ({
         <div className="flex-1 p-6 pt-4">
             <ChannelDetailsContent channelId={channelId} />
         </div>
-    )
+    );
 };
 
 export default ChannelDetailsPage;

@@ -20,7 +20,8 @@ export const UpsertPostValidator = z.object({
         return false;
     }, {
         message: "Option cannot be empty"
-    })
+    }),
+    channelId: z.string().optional()
 });
 
 export const GetPostsValidator = z.object({

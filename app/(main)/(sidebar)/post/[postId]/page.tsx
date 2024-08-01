@@ -26,7 +26,7 @@ const PostDetailsPage = ({
         <div className="flex-1 p-6 pt-4">
             <PostDetailsContent postId={postId} />
         </div>
-    )
+    );
 };
 
 export default PostDetailsPage;

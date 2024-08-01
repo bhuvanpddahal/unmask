@@ -35,7 +35,8 @@ interface PostFormProps {
     setHasImage: Dispatch<SetStateAction<boolean>>;
     hasPoll: boolean;
     setHasPoll: Dispatch<SetStateAction<boolean>>;
-    defaultValues?: UpsertPostPayload;
+    channelId?: string;
+    defaultValues: UpsertPostPayload;
     onSubmit: (payload: UpsertPostPayload) => void;
     isPending: boolean;
     submitBtnText: string;
@@ -46,6 +47,7 @@ const PostForm = ({
     setHasImage,
     hasPoll,
     setHasPoll,
+    channelId,
     defaultValues,
     onSubmit,
     isPending,
@@ -54,13 +56,7 @@ const PostForm = ({
 }: PostFormProps) => {
     const form = useForm<UpsertPostPayload>({
         resolver: zodResolver(UpsertPostValidator),
-        defaultValues: defaultValues || {
-            id: undefined,
-            title: "",
-            description: "",
-            image: undefined,
-            pollOptions: undefined
-        }
+        defaultValues
     });
 
     const handleImgChange = (
@@ -84,7 +80,7 @@ const PostForm = ({
         form.setValue("title", "");
         form.setValue("description", "");
         form.setValue("image", undefined);
-        if (!defaultValues) form.setValue("pollOptions", undefined);
+        if (!defaultValues.id) form.setValue("pollOptions", undefined);
     };
 
     const addNewOption = () => {
@@ -97,7 +93,6 @@ const PostForm = ({
     const removeOption = (index: number) => {
         const filteredOptions = (form.getValues("pollOptions") ?? [])
             .filter((_, i) => i !== index);
-        console.log({ filteredOptions });
         form.setValue("pollOptions", filteredOptions);
     };
 
@@ -113,7 +108,10 @@ const PostForm = ({
                 form.setValue("pollOptions", ["", ""]);
             }
         }
-    }, [hasPoll, form]);
+        if (channelId) {
+            form.setValue("channelId", channelId);
+        }
+    }, [hasPoll, channelId, form]);
 
     return (
         <Form {...form}>
@@ -209,9 +207,9 @@ const PostForm = ({
                                     <FormControl>
                                         <div className={cn(
                                             "relative border rounded-md p-4",
-                                            !!defaultValues && "opacity-50 cursor-not-allowed pointer-events-none"
+                                            !!defaultValues.id && "opacity-50 cursor-not-allowed pointer-events-none"
                                         )}>
-                                            {!defaultValues && (
+                                            {!defaultValues.id && (
                                                 <>
                                                     <div
                                                         className="bg-border absolute bottom-full right-0 p-1 rounded-t-md cursor-pointer hover:bg-accent"

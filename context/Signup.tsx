@@ -49,10 +49,10 @@ export const SignupProvider = ({
         <Provider value={values}>
             {children}
         </Provider>
-    )
+    );
 };
 
 export const useSignup = () => {
     const state = useContext(signupContext);
     return state;
-}
+};

@@ -55,6 +55,7 @@ const ChannelDetailsContent = ({
     )
 
     const isFollowed = data.channel?.follows[0] && data.channel.follows[0].followerId === user?.id;
+    const canViewPosts = data.channel?.visibility === "public" || isFollowed;
 
     return (
         <div className="space-y-4">
@@ -64,17 +65,23 @@ const ChannelDetailsContent = ({
                 channelDescription={data.channel?.description || ""}
                 bannerImage={data.channel?.bannerImage || null}
                 profileImage={data.channel?.profileImage || null}
-                visibility={data.channel?.visibility || "public"}
+                visibility={data.channel?.visibility || "private"}
                 initialFollowsCount={data.channel?._count.follows || 0}
                 initialIsFollowed={!!isFollowed}
             />
             <AdBanner />
-            <Posts
-                channelId={channelId}
-                sort={sort}
-            />
+            {canViewPosts ? (
+                <Posts
+                    channelId={channelId}
+                    sort={sort}
+                />
+            ) : (
+                <div>
+                    This channel is private. You cannot view posts from this channel.
+                </div>
+            )}
         </div>
-    )
+    );
 };
 
 export default ChannelDetailsContent;

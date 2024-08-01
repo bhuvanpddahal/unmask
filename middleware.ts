@@ -17,6 +17,8 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
     matcher: [
+        "/post/create",
+        "/post/:postId/edit",
         "/user/profile",
         "/user/bookmarks",
         "/topics/create"

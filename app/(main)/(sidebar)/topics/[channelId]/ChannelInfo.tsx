@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { useState } from "react";
 import { Visibility } from "@prisma/client";
-import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Dot, Globe, GlobeLock } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Card } from "@/components/ui/Card";
 import { useToast } from "@/hooks/useToast";
@@ -31,6 +31,7 @@ const ChannelInfo = ({
     initialFollowsCount,
     initialIsFollowed
 }: ChannelInfoProps) => {
+    const queryClient = useQueryClient();
     const { toast } = useToast();
     const [isFollowed, setIsFollowed] = useState(initialIsFollowed);
     const [followsCount, setFollowsCount] = useState(initialFollowsCount);
@@ -60,6 +61,14 @@ const ChannelInfo = ({
             });
         }
     });
+
+    useEffect(() => {
+        return () => {
+            if (initialIsFollowed !== isFollowed) {
+                queryClient.invalidateQueries({ queryKey: ["topics", channelId] });
+            }
+        };
+    }, []);
 
     return (
         <Card className="relative">
@@ -116,7 +125,7 @@ const ChannelInfo = ({
                 </div>
             </div>
         </Card>
-    )
+    );
 };
 
 export default ChannelInfo;

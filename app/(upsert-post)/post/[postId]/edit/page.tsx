@@ -17,7 +17,7 @@ const PostEditPage = ({
         <div>
             <PostEditContent postId={postId} />
         </div>
-    )
+    );
 };
 
 export default PostEditPage;

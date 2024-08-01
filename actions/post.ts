@@ -32,7 +32,7 @@ export const createPost = async (payload: UpsertPostPayload) => {
         const session = await auth();
         if (!session?.user || !session.user.id) return { error: "Unauthorized" };
 
-        const { title, description, image, pollOptions } = validatedFields.data;
+        const { channelId, title, description, image, pollOptions } = validatedFields.data;
 
         let imageUrl: string | undefined = undefined;
         if (image) imageUrl = (await cloudinary.uploader.upload(image, { overwrite: false })).secure_url;
@@ -40,6 +40,7 @@ export const createPost = async (payload: UpsertPostPayload) => {
         const newPost = await db.post.create({
             data: {
                 creatorId: session.user.id,
+                channelId,
                 title,
                 description,
                 image: imageUrl,
@@ -459,6 +460,12 @@ export const getPostToEdit = async (payload: PostIdPayload) => {
                 title: true,
                 description: true,
                 image: true,
+                channel: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
                 poll: {
                     select: {
                         options: {
@@ -559,6 +566,27 @@ export const getChannelPosts = async (payload: GetChannelPostsPayload) => {
         const session = await auth();
 
         const { channelId, page, limit, sort } = validatedFields.data;
+
+        const channel = await db.channel.findUnique({
+            where: {
+                id: channelId
+            },
+            select: {
+                visibility: true,
+                follows: {
+                    where: {
+                        followerId: session?.user.id
+                    },
+                    select: {
+                        followerId: true
+                    }
+                }
+            }
+        });
+        if (!channel) return { error: "Channel not found" };
+
+        const isFollowed = channel.follows[0] && channel.follows[0].followerId === session?.user.id;
+        if (channel.visibility === "private" && !isFollowed) return { error: "Not allowed to view posts from this channel" };
 
         let orderByClause = {};
 

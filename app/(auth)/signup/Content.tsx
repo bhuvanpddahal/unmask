@@ -12,9 +12,9 @@ const Spinner = () => (
     </div>
 );
 
-const FirstStep = dynamic(() => import("./FirstStep"), { ssr: false, loading: FirstStepLoader });
-const SecondStep = dynamic(() => import("./SecondStep"), { ssr: false, loading: Spinner });
 const ThirdStep = dynamic(() => import("./ThirdStep"), { ssr: false, loading: Spinner });
+const SecondStep = dynamic(() => import("./SecondStep"), { ssr: false, loading: Spinner });
+const FirstStep = dynamic(() => import("./FirstStep"), { ssr: false, loading: FirstStepLoader });
 
 const SignupContent = () => {
     const [step, setStep] = useState(1);

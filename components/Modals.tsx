@@ -11,7 +11,7 @@ const Modals = () => {
             <DeleteReplyModal />
             <DeletePostModal />
         </>
-    )
+    );
 };
 
 export default Modals;
