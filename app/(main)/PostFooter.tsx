@@ -1,7 +1,8 @@
+import { LuMessageSquare } from "react-icons/lu";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
-import { LuMessageSquare, LuShare } from "react-icons/lu";
 
+import ShareButton, { ShareButtonLoader } from "./ShareButton";
 import { CardFooter } from "@/components/ui/Card";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useSigninModal } from "@/hooks/useSigninModal";
@@ -64,10 +65,7 @@ const PostFooter = ({
                         {viewsCount}
                     </div>
                 </div>
-                <div className="flex items-center gap-1 px-2 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800">
-                    <LuShare className="size-4" />
-                    Share
-                </div>
+                <ShareButton postId={postId} />
             </div>
         </CardFooter>
     )
@@ -89,10 +87,7 @@ export const PostFooterLoader = () => (
                     <MdOutlineRemoveRedEye className="size-4" />
                 </div>
             </div>
-            <div className="flex items-center gap-1 px-2 py-1 text-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-full">
-                <LuShare className="size-4" />
-                Share
-            </div>
+            <ShareButtonLoader />
         </div>
     </CardFooter>
 );
