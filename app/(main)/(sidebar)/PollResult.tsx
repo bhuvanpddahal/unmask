@@ -64,11 +64,11 @@ const PollResult = ({
                                     <div className="relative flex items-center justify-between gap-4 z-10">
                                         <div className="flex items-center gap-4">
                                             {isVoted ? (
-                                                <CircleCheckBig className="size-[18px]" />
+                                                <CircleCheckBig className="shrink-0 size-[18px]" />
                                             ) : (
-                                                <Circle className="size-[18px]" />
+                                                <Circle className="shrink-0 size-[18px]" />
                                             )}
-                                            <p className="text-[13.5px] leading-[22px] text-zinc-800 dark:text-zinc-200 font-medium">
+                                            <p className="text-[13.5px] text-zinc-800 dark:text-zinc-200 font-medium">
                                                 {option.option}
                                             </p>
                                         </div>

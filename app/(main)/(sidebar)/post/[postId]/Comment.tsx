@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useState } from "react";
 import { Dot } from "lucide-react";
 import { format, formatRelative } from "date-fns";
@@ -62,21 +61,16 @@ const Comment = ({
     return (
         <>
             <li className="flex items-start gap-2">
-                <Link href={`/users/${commenterId}`}>
-                    <UserAvatar
-                        image={commenterImage}
-                        username={commenterUsername}
-                    />
-                </Link>
+                <UserAvatar
+                    image={commenterImage}
+                    username={commenterUsername}
+                />
                 <div className="w-full">
                     <div className="relative bg-accent w-full p-4 rounded-md rounded-ss-none">
                         <div className="text-xs flex items-center gap-0.5">
-                            <Link
-                                href={`/users/${commenterId}`}
-                                className="text-zinc-500 dark:text-zinc-400 font-semibold hover:underline"
-                            >
+                            <div className="text-zinc-500 dark:text-zinc-400 font-semibold">
                                 {commenterUsername}
-                            </Link>
+                            </div>
                             <Dot className="size-4 text-zinc-800 dark:text-zinc-200" />
                             <span
                                 title={title}

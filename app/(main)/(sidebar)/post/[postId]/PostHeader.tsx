@@ -13,6 +13,8 @@ interface PostHeaderProps {
     creatorId: string;
     creatorUsername: string;
     creatorImage: string | null;
+    channelId: string | null;
+    channelName: string;
     postId: string;
     title: string;
     description: string;
@@ -25,6 +27,8 @@ const PostHeader = ({
     creatorId,
     creatorUsername,
     creatorImage,
+    channelId,
+    channelName,
     postId,
     title,
     description,
@@ -42,20 +46,15 @@ const PostHeader = ({
         <CardHeader className="p-4">
             <div className="flex justify-between">
                 <div className="flex items-center gap-2">
-                    <Link href={`/users/${creatorId}`}>
-                        <UserAvatar
-                            image={creatorImage}
-                            username={creatorUsername}
-                        />
-                    </Link>
+                    <UserAvatar
+                        image={creatorImage}
+                        username={creatorUsername}
+                    />
                     <div>
                         <p className="text-[13px] flex items-center gap-0.5">
-                            <Link
-                                href={`/users/${creatorId}`}
-                                className="text-accent-foreground font-semibold hover:underline"
-                            >
+                            <div className="text-accent-foreground font-semibold">
                                 {creatorUsername}
-                            </Link>
+                            </div>
                             <Dot className="size-4" />
                             <span
                                 title={dateTitle}
@@ -65,6 +64,16 @@ const PostHeader = ({
                                 {isEdited && " (Edited)"}
                             </span>
                         </p>
+                        {channelId && (
+                            <div className="-mt-1">
+                                <Link
+                                    href={`/topics/${channelId}`}
+                                    className="text-xs text-zinc-600 dark:text-zinc-300 font-medium hover:underline"
+                                >
+                                    {channelName}
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="flex">
@@ -86,7 +95,7 @@ const PostHeader = ({
                 </div>
             </div>
         </CardHeader>
-    )
+    );
 };
 
 export default PostHeader;

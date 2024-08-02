@@ -48,7 +48,7 @@ const PostDetailsContent = ({
             </Card>
             <CommentInputLoader />
         </div>
-    )
+    );
     if (!data || data.error) return (
         <div className="py-20 flex flex-col items-center justify-center gap-y-2">
             <Image
@@ -61,7 +61,7 @@ const PostDetailsContent = ({
                 {data?.error || "Something went wrong"}
             </p>
         </div>
-    )
+    );
 
     const repliesCount = data.post?.comments.reduce((acc, comment) => {
         return acc + comment._count.replies;
@@ -77,6 +77,8 @@ const PostDetailsContent = ({
                     creatorId={data.post?.creatorId || ""}
                     creatorUsername={data.post?.creator.username || ""}
                     creatorImage={data.post?.creator.image || ""}
+                    channelId={data.post?.channelId || null}
+                    channelName={data.post?.channel?.name || ""}
                     postId={data.post?.id || ""}
                     title={data.post?.title || ""}
                     description={data.post?.description || ""}

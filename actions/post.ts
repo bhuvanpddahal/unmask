@@ -105,6 +105,11 @@ export const getPosts = async (payload: GetPostsPayload) => {
                         image: true
                     }
                 },
+                channel: {
+                    select: {
+                        name: true
+                    }
+                },
                 poll: {
                     select: {
                         options: {
@@ -188,6 +193,7 @@ export const getPostsWithPoll = async (payload: GetPostsWithPollPayload) => {
             select: {
                 id: true,
                 creatorId: true,
+                channelId: true,
                 title: true,
                 description: true,
                 createdAt: true,
@@ -196,6 +202,11 @@ export const getPostsWithPoll = async (payload: GetPostsWithPollPayload) => {
                     select: {
                         username: true,
                         image: true
+                    }
+                },
+                channel: {
+                    select: {
+                        name: true
                     }
                 },
                 poll: {
@@ -283,6 +294,11 @@ export const getPost = async (payload: PostIdPayload) => {
                     select: {
                         username: true,
                         image: true
+                    }
+                },
+                channel: {
+                    select: {
+                        name: true
                     }
                 },
                 bookmarks: {

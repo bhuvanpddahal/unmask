@@ -91,7 +91,7 @@ const Poll = ({
                             id={`option-${index}`}
                             className="shrink-0 size-[18px] border-black dark:border-white text-black dark:text-white focus-visible:ring-0 focus-visible:ring-transparent"
                         />
-                        <p className="text-[13.5px] leading-[22px] text-zinc-800 dark:text-zinc-200 cursor-pointer">
+                        <p className="text-[13.5px] leading-[20px] text-zinc-800 dark:text-zinc-200 cursor-pointer">
                             {option.option}
                         </p>
                     </Label>
@@ -142,7 +142,7 @@ const Poll = ({
                 )}
             </div>
         </div>
-    )
+    );
 };
 
 export default Poll;
@@ -160,11 +160,19 @@ export const PollLoader = () => (
         <div className="my-3 py-[3.25px]">
             <Skeleton className="h-[13px] w-[140px]" />
         </div>
-        <div className="space-y-2">
-            {Array.from({ length: 3 }, (_, index) => (
-                <Skeleton key={index} className="h-[42px] w-full" />
+        <RadioGroup className="pointer-events-none">
+            {Array.from({ length: 2 }, (_, index) => (
+                <div
+                    key={index}
+                    className="bg-accent px-4 py-2.5 rounded-md"
+                >
+                    <RadioGroupItem
+                        value={`option-${index}`}
+                        className="shrink-0 size-[18px] border-black dark:border-white text-black dark:text-white focus-visible:ring-0 focus-visible:ring-transparent"
+                    />
+                </div>
             ))}
-        </div>
+        </RadioGroup>
         <div className="mt-4 space-y-2">
             <Skeleton className="h-10 w-full" />
             <Skeleton className="h-10 w-full" />

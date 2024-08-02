@@ -64,7 +64,7 @@ export const PostContentLoader = () => (
         <div className="py-1 space-y-1.5">
             <Skeleton className="h-[13.5px] w-full" />
             <Skeleton className="h-[13.5px] w-full" />
-            <Skeleton className="h-[13.5px] w-12" />
+            <Skeleton className="h-[13.5px] w-20" />
         </div>
     </CardContent>
 );

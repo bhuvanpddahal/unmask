@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/useToast";
 import { POSTS_PER_PAGE } from "@/constants";
 import { getPostsWithPoll } from "@/actions/post";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import Image from "next/image";
 
 interface FetchPostsWithPollParams {
     pageParam: number;
@@ -25,6 +26,9 @@ interface PostsData {
             image: string | null;
             username: string;
         };
+        channel: {
+            name: string;
+        } | null;
         poll: {
             id: string;
             options: {
@@ -113,40 +117,56 @@ const PollsContent = () => {
     return (
         <div>
             <SortBy sort={sort} />
-            <ul className="space-y-5">
-                {posts.map((post, index) => {
-                    const repliesCount = post.comments.reduce((acc, comment) => {
-                        return acc + comment._count.replies;
-                    }, 0);
-                    const commentsCount = post.comments.length + repliesCount;
-                    const isLiked = post.likes[0] && post.likes[0].likerId === user?.id;
+            {posts.length ? (
+                <ul className="space-y-5">
+                    {posts.map((post, index) => {
+                        const repliesCount = post.comments.reduce((acc, comment) => {
+                            return acc + comment._count.replies;
+                        }, 0);
+                        const commentsCount = post.comments.length + repliesCount;
+                        const isLiked = post.likes[0] && post.likes[0].likerId === user?.id;
 
-                    return (
-                        <Post
-                            key={index}
-                            creatorId={post.creatorId}
-                            creatorUsername={post.creator.username}
-                            creatorImage={post.creator.image}
-                            postId={post.id}
-                            title={post.title}
-                            description={post.description}
-                            poll={post.poll}
-                            createdAt={post.createdAt}
-                            updatedAt={post.updatedAt}
-                            likesCount={post._count.likes}
-                            isLiked={isLiked}
-                            commentsCount={commentsCount}
-                            viewsCount={post._count.views}
-                            lastPostRef={index === posts.length - 1 ? ref : undefined}
-                        />
-                    )
-                })}
-                {isFetchingNextPage && (
-                    Array.from({ length: 3 }, (_, index) => (
-                        <PostLoader key={index} />
-                    ))
-                )}
-            </ul>
+                        return (
+                            <Post
+                                key={index}
+                                creatorId={post.creatorId}
+                                creatorUsername={post.creator.username}
+                                creatorImage={post.creator.image}
+                                channelId={post.channelId}
+                                channelName={post.channel?.name || ""}
+                                postId={post.id}
+                                title={post.title}
+                                description={post.description}
+                                poll={post.poll}
+                                createdAt={post.createdAt}
+                                updatedAt={post.updatedAt}
+                                likesCount={post._count.likes}
+                                isLiked={isLiked}
+                                commentsCount={commentsCount}
+                                viewsCount={post._count.views}
+                                lastPostRef={index === posts.length - 1 ? ref : undefined}
+                            />
+                        )
+                    })}
+                    {isFetchingNextPage && (
+                        Array.from({ length: 3 }, (_, index) => (
+                            <PostLoader key={index} />
+                        ))
+                    )}
+                </ul>
+            ) : (
+                <div className="py-20 flex flex-col items-center justify-center gap-y-2">
+                    <Image
+                        src="/empty.png"
+                        alt="Empty"
+                        height={80}
+                        width={80}
+                    />
+                    <p className="text-sm font-medium text-zinc-400">
+                        No channels with poll
+                    </p>
+                </div>
+            )}
         </div>
     )
 };

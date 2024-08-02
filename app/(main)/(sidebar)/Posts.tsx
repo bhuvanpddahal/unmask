@@ -25,6 +25,9 @@ export interface PostsData {
             image: string | null;
             username: string;
         };
+        channel: {
+            name: string;
+        } | null;
         poll: {
             options: {
                 _count: {
@@ -124,6 +127,8 @@ const Posts = () => {
                             creatorId={post.creatorId}
                             creatorUsername={post.creator.username}
                             creatorImage={post.creator.image}
+                            channelId={post.channelId}
+                            channelName={post.channel?.name || ""}
                             postId={post.id}
                             title={post.title}
                             description={post.description}

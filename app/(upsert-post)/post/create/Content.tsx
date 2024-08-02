@@ -57,7 +57,6 @@ const PostCreationContent = () => {
     };
 
     const onSubmit = (payload: UpsertPostPayload) => {
-        console.log({ payload });
         startTransition(() => {
             createPost(payload).then((data) => {
                 if (data.success) {

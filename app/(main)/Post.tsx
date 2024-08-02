@@ -10,6 +10,8 @@ interface PostProps {
     creatorId: string;
     creatorUsername: string;
     creatorImage: string | null;
+    channelId: string | null;
+    channelName: string;
     postId: string;
     title: string;
     description: string;
@@ -29,6 +31,8 @@ const Post = ({
     creatorId,
     creatorUsername,
     creatorImage,
+    channelId,
+    channelName,
     postId,
     title,
     description,
@@ -55,6 +59,8 @@ const Post = ({
                 creatorId={creatorId}
                 creatorUsername={creatorUsername}
                 creatorImage={creatorImage}
+                channelId={channelId}
+                channelName={channelName}
                 postId={postId}
                 title={title}
                 description={description}
