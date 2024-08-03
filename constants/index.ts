@@ -1,12 +1,20 @@
 import {
     Briefcase,
-    Building2,
     DollarSign,
-    Fence,
     Home,
-    Inbox,
     Star
 } from "lucide-react";
+import {
+    RiInbox2Fill,
+    RiInbox2Line,
+    RiMoneyDollarBoxFill,
+    RiMoneyDollarBoxLine
+} from "react-icons/ri";
+import { FaRegStar, FaStar } from "react-icons/fa";
+import { BsGrid, BsGridFill } from "react-icons/bs";
+import { GoHome, GoHomeFill } from "react-icons/go";
+import { BiBriefcase, BiSolidBriefcase  } from "react-icons/bi";
+import { HiRectangleStack, HiOutlineRectangleStack } from "react-icons/hi2";
 
 /**
  * The expiry time of verification token in minutes
@@ -45,22 +53,34 @@ export const CHANNELS_PER_PAGE = 12;
 
 export const navItems = [
     {
-        icon: Home,
+        icon: {
+            default: GoHome,
+            active: GoHomeFill
+        },
         label: "Community",
         href: "/"
     },
     {
-        icon: DollarSign,
+        icon: {
+            default: RiMoneyDollarBoxLine,
+            active: RiMoneyDollarBoxFill
+        },
         label: "Salaries",
         href: "/salaries"
     },
     {
-        icon: Star,
+        icon: {
+            default: FaRegStar,
+            active: FaStar
+        },
         label: "Reviews",
         href: "/reviews"
     },
     {
-        icon: Briefcase,
+        icon: {
+            default: BiBriefcase,
+            active: BiSolidBriefcase
+        },
         label: "Jobs",
         href: "/jobs"
     }
@@ -68,19 +88,47 @@ export const navItems = [
 
 export const sidebarItems = [
     {
-        icon: Fence,
+        icon: {
+            default: HiOutlineRectangleStack,
+            active: HiRectangleStack
+        },
         label: "Feed",
         href: "/"
     },
     {
-        icon: Inbox,
+        icon: {
+            default: RiInbox2Line,
+            active: RiInbox2Fill
+        },
         label: "Polls",
         href: "/polls"
     },
     {
-        icon: Inbox,
+        icon: {
+            default: BsGrid,
+            active: BsGridFill
+        },
         label: "All Channels",
         href: "/topics"
+    }
+];
+
+export const mobileSidebarItems = [
+    {
+        header: "Community",
+        items: [...sidebarItems]
+    },
+    {
+        header: "Salaries",
+        items: []
+    },
+    {
+        header: "Reviews",
+        items: []
+    },
+    {
+        header: "Jobs",
+        items: []
     }
 ];
 

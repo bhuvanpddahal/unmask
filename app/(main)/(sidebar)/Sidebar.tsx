@@ -26,15 +26,19 @@ const Sidebar = () => {
                                     isActive ? "text-accent-foreground bg-accent" : "text-zinc-500"
                                 )}
                             >
-                                <item.icon className={cn("size-5", isActive && "fill-accent-foreground")}/>
+                                {isActive ? (
+                                    <item.icon.active className="size-5" />
+                                ) : (
+                                    <item.icon.default className="size-5" />
+                                )}
                                 <span className="text-sm font-medium">{item.label}</span>
                             </Link>
                         </li>
-                    )
+                    );
                 })}
             </ul>
         </aside>
-    )
+    );
 };
 
 export default Sidebar;

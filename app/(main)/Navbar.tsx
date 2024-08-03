@@ -14,6 +14,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 const Navbar = () => {
     const user = useCurrentUser();
     const pathname = usePathname();
+    const isSignedIn = !!(user && user.id);
 
     return (
         <nav className="sticky top-0 h-[60px] bg-card px-4 py-2 shadow-lg z-10">
@@ -27,15 +28,23 @@ const Navbar = () => {
                         alt="Logo"
                         height={50}
                         width={175}
-                        className="h-[35px] w-auto"
+                        className="h-[35px] w-auto hidden lg:inline-block"
+                        priority
+                    />
+                    <Image
+                        src="/logo-icon.png"
+                        alt="Logo"
+                        height={50}
+                        width={50}
+                        className="h-[35px] w-auto lg:hidden"
                         priority
                     />
                 </Link>
 
-                <ul className="hidden lg:flex gap-x-2">
+                <ul className="hidden lg:flex gap-x-2 absolute left-1/2 top-0 h-full -translate-x-1/2">
                     {navItems.map((item) => {
                         const isActive = item.href === "/"
-                            ? pathname === "/"
+                            ? pathname === "/" || pathname === "/polls" || pathname.includes("/topics") || pathname.includes("/post")
                             : pathname.includes(item.href);
 
                         return (
@@ -50,7 +59,11 @@ const Navbar = () => {
                                         isActive ? "text-accent-foreground" : "text-zinc-500"
                                     )}
                                 >
-                                    <item.icon className={cn("size-4", isActive && "fill-accent-foreground")} />
+                                    {isActive ? (
+                                        <item.icon.active className="size-4" />
+                                    ) : (
+                                        <item.icon.default className="size-4" />
+                                    )}
                                     <span className="text-xs font-medium">{item.label}</span>
                                 </Link>
                                 {isActive && <div className="absolute top-[calc(100%+6px)] left-0 w-full h-[2px] bg-accent-foreground" />}
@@ -60,7 +73,7 @@ const Navbar = () => {
                 </ul>
 
                 <div className="flex gap-x-2">
-                    {user && user.id ? (
+                    {isSignedIn ? (
                         <UserAccountNav />
                     ) : (
                         <>
@@ -78,7 +91,7 @@ const Navbar = () => {
                 </div>
             </div>
         </nav>
-    )
+    );
 };
 
 export default Navbar;

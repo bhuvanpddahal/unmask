@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 
+import AdBanner from "../../AdBanner";
 import Posts, { PostsLoader } from "./Posts";
-import AdBanner, { AdBannerLoader } from "../../AdBanner";
 import ChannelInfo, { ChannelInfoLoader } from "./ChannelInfo";
 import { getChannelInfo } from "@/actions/channel";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -36,7 +36,7 @@ const ChannelDetailsContent = ({
     if (isLoading) return (
         <div className="space-y-4">
             <ChannelInfoLoader />
-            <AdBannerLoader />
+            <AdBanner />
             <PostsLoader sort={sort} />
         </div>
     )

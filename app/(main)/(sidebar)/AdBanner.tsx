@@ -27,11 +27,7 @@ const AdBanner = () => {
                 Open
             </Button>
         </Link>
-    )
+    );
 };
 
 export default AdBanner;
-
-export const AdBannerLoader = () => (
-    <Skeleton className="h-[104px] w-full rounded-sm mt-6" />
-);

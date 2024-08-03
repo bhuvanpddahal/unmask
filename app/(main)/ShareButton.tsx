@@ -34,19 +34,28 @@ const ShareButton = ({
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="top" className="flex flex-col">
-                <FacebookShareButton url={url}>
+                <FacebookShareButton
+                    url={url}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <DropdownMenuItem className="gap-x-2">
                         <FacebookIcon size={16} round />
                         Facebook
                     </DropdownMenuItem>
                 </FacebookShareButton>
-                <TwitterShareButton url={url}>
+                <TwitterShareButton
+                    url={url}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <DropdownMenuItem className="gap-x-2">
                         <TwitterIcon size={16} round />
                         Twitter
                     </DropdownMenuItem>
                 </TwitterShareButton>
-                <WhatsappShareButton url={url}>
+                <WhatsappShareButton
+                    url={url}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <DropdownMenuItem className="gap-x-2">
                         <WhatsappIcon size={16} round />
                         Whatsapp
