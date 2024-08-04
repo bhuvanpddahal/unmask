@@ -7,7 +7,7 @@ interface NoSidebarLayoutProps {
 const NoSidebarLayout = ({ children }: NoSidebarLayoutProps) => {
     return (
         <>
-            <div className="max-w-6xl w-full min-h-[calc(100vh-60px)] mx-auto p-6">
+            <div className="max-w-6xl w-full min-h-[calc(100vh-60px)] mx-auto p-4 sm:p-6">
                 {children}
             </div>
             <Footer />

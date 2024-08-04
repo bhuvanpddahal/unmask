@@ -68,7 +68,7 @@ const ChannelInfo = ({
                 queryClient.invalidateQueries({ queryKey: ["topics", channelId] });
             }
         };
-    }, []);
+    }, [channelId, initialIsFollowed, isFollowed, queryClient]);
 
     return (
         <Card className="relative">

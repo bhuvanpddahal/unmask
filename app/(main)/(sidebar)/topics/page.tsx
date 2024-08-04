@@ -9,7 +9,7 @@ export const metadata = {
 
 const TopicsPage = () => {
     return (
-        <div className="flex-1 p-6 pt-10">
+        <div className="flex-1 p-4 sm:p-6 pt-10">
             <header className="flex flex-col lg:flex-row items-start lg:items-end lg:justify-between gap-y-5">
                 <div>
                     <h1 className="text-xl sm:text-3xl font-extrabold text-slate-700 dark:text-slate-300">

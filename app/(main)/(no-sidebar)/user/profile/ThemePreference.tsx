@@ -11,10 +11,10 @@ const ThemePreference = () => {
     const { theme, setTheme } = useTheme();
 
     return (
-        <div className="flex gap-5">
+        <div className="flex flex-col sm:flex-row gap-5">
             <div
                 className={cn(
-                    "border-4 border-transparent rounded-2xl cursor-pointer overflow-hidden",
+                    "w-fit border-4 border-transparent rounded-2xl cursor-pointer overflow-hidden",
                     theme === "light" && "border-primary"
                 )}
                 onClick={() => setTheme("light")}
@@ -23,7 +23,7 @@ const ThemePreference = () => {
             </div>
             <div
                 className={cn(
-                    "border-4 border-transparent rounded-2xl cursor-pointer overflow-hidden",
+                    "w-fit border-4 border-transparent rounded-2xl cursor-pointer overflow-hidden",
                     theme === "dark" && "border-primary"
                 )}
                 onClick={() => setTheme("dark")}
@@ -32,7 +32,7 @@ const ThemePreference = () => {
             </div>
             <div
                 className={cn(
-                    "border-4 border-transparent rounded-2xl cursor-pointer overflow-hidden",
+                    "w-fit border-4 border-transparent rounded-2xl cursor-pointer overflow-hidden",
                     theme === "system" && "border-primary"
                 )}
                 onClick={() => setTheme("system")}

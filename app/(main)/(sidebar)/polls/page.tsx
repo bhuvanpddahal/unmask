@@ -8,7 +8,7 @@ export const metadata = {
 
 const PollsPage = () => {
     return (
-        <div className="flex-1 p-6 pt-4 space-y-4">
+        <div className="flex-1 p-4 sm:p-6 pt-4 space-y-4">
             <PollsContent />
         </div>
     )

@@ -52,7 +52,7 @@ const Post = ({
     return (
         <Card
             ref={lastPostRef}
-            className={cn("cursor-pointer transition-shadow hover:shadow-md", className)}
+            className={cn("cursor-pointer transition-shadow hover:shadow-md dark:hover:shadow-zinc-700", className)}
             onClick={() => router.push(`/post/${postId}`)}
         >
             <PostHeader
