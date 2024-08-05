@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
 
     if (!user || !user.id) {
         return NextResponse.redirect(
-            new URL("/signin", req.url)
+            new URL(`/signin?redirectTo=${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
         );
     }
 

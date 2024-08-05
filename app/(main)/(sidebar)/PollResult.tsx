@@ -88,7 +88,7 @@ const PollResult = ({
                                         className="absolute top-0 left-0 h-full w-full opacity-35"
                                     />
                                 </div>
-                            )
+                            );
                         })}
                         {insidePolls && hasMorePollOptions && (
                             <p className="px-4 text-[13.5px] leading-[22px] font-medium text-slate-500">

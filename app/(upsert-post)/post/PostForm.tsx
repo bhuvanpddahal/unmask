@@ -231,7 +231,7 @@ const PostForm = ({
                                             )}
                                             <ul className="space-y-3">
                                                 {form.getValues("pollOptions")?.map((option, index) => (
-                                                    <li key={index} className="dark:bg-black flex items-center gap-x-2 border rounded-sm px-4">
+                                                    <li key={index} className="bg-white dark:bg-black flex items-center gap-x-2 border rounded-sm px-4">
                                                         <X
                                                             className={cn(
                                                                 "size-8 p-2 rounded-full cursor-pointer hover:bg-muted",
@@ -271,14 +271,14 @@ const PostForm = ({
                     <Button
                         type="button"
                         variant="outline"
-                        className="h-[50px] w-[200px] text-[15px]"
+                        className="h-[45px] sm:h-[50px] w-full sm:w-[200px] text-[15px]"
                         onClick={resetValues}
                     >
                         Clear
                     </Button>
                     <Button
                         type="submit"
-                        className="h-[50px] w-[200px] text-[15px]"
+                        className="h-[45px] sm:h-[50px] w-full sm:w-[200px] text-[15px]"
                         disabled={isPending}
                         isLoading={isPending}
                     >

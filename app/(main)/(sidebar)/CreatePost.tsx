@@ -11,11 +11,14 @@ const CreatePost = () => {
     const router = useRouter();
     const user = useCurrentUser();
     const isSignedIn = user && user.id;
-    const { open } = useSigninModal();
+    const { open, setPathToRedirect } = useSigninModal();
 
     const handleClick = () => {
         if (isSignedIn) router.push("/post/create");
-        else open();
+        else {
+            setPathToRedirect("/post/create");
+            open();
+        }
     };
 
     return (

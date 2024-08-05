@@ -20,11 +20,11 @@ interface CommentInputProps {
 const CommentInput = ({
     postId
 }: CommentInputProps) => {
-    const { toast } = useToast();
     const user = useCurrentUser();
-    const { open } = useSigninModal();
     const queryClient = useQueryClient();
     const isSignedIn = !!(user && user.id);
+    const { toast } = useToast();
+    const { open, setPathToRedirect } = useSigninModal();
     const [comment, setComment] = useState("");
 
     const {
@@ -79,7 +79,10 @@ const CommentInput = ({
                         disabled={isPending || comment.length < 3}
                         onClick={() => {
                             if (isSignedIn) handleComment();
-                            else open();
+                            else {
+                                setPathToRedirect(`/post/${postId}`);
+                                open();
+                            }
                         }}
                     >
                         {isPending ? "Posting" : "Post"}

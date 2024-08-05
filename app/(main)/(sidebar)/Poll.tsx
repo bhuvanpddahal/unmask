@@ -30,14 +30,14 @@ const Poll = ({
 }: PollProps) => {
     const user = useCurrentUser();
     const isSignedIn = !!(user && user.id);
+    const votedOption = pollOptions.find((option) => {
+        return option.votes.length && option.votes[0].voterId === user?.id;
+    });
     const pollResultData = pollOptions.map((option) => ({
         id: option.id,
         option: option.option,
         votesCount: option._count.votes
     }));
-    const votedOption = pollOptions.find((option) => {
-        return option.votes.length && option.votes[0].voterId === user?.id;
-    });
     const pollVotesCount = pollOptions.reduce((acc, option) => {
         return acc + option._count.votes;
     }, 0);
@@ -45,7 +45,7 @@ const Poll = ({
     const slicedPollResultData = pollResultData.slice(0, POLL_OPTIONS_PER_POST);
     const hasMorePollOptions = pollOptions.length > POLL_OPTIONS_PER_POST;
     const morePollOptionsCount = pollOptions.length - POLL_OPTIONS_PER_POST;
-    const { open } = useSigninModal();
+    const { open, setPathToRedirect } = useSigninModal();
     const [activePollOptionId, setActivePollOptionId] = useState<string | undefined>(votedOption?.id);
 
     const {
@@ -56,6 +56,11 @@ const Poll = ({
         pollId,
         activePollOptionId || ""
     );
+
+    const openSigninModal = () => {
+        setPathToRedirect(`/post/${postId}`);
+        open();
+    };
 
     return (
         <div
@@ -114,7 +119,7 @@ const Poll = ({
                     className="w-full"
                     onClick={() => {
                         if (isSignedIn) voteOnPoll();
-                        else open();
+                        else openSigninModal();
                     }}
                     isLoading={isPending}
                     disabled={!activePollOptionId || isPending}
@@ -135,7 +140,7 @@ const Poll = ({
                         size="lg"
                         variant="ghost"
                         className="w-full"
-                        onClick={open}
+                        onClick={openSigninModal}
                     >
                         View Result
                     </Button>

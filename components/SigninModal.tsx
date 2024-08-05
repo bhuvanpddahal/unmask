@@ -16,7 +16,7 @@ import { buttonVariants } from "./ui/Button";
 import { useSigninModal } from "@/hooks/useSigninModal";
 
 const SigninModal = () => {
-    const { isOpen, close } = useSigninModal();
+    const { isOpen, pathToRedirect, close } = useSigninModal();
 
     return (
         <Dialog open={isOpen} onOpenChange={close}>
@@ -45,7 +45,7 @@ const SigninModal = () => {
                 </DialogHeader>
                 <DialogFooter className="flex-col sm:flex-col space-y-2 sm:space-x-0 mt-2">
                     <Link
-                        href="/signup"
+                        href={`/signup?redirectTo=${pathToRedirect}`}
                         className={cn(buttonVariants({
                             size: "lg"
                         }))}
@@ -54,7 +54,7 @@ const SigninModal = () => {
                         Sign up
                     </Link>
                     <Link
-                        href="/signin"
+                        href={`/signin?redirectTo=${pathToRedirect}`}
                         className={cn(buttonVariants({
                             size: "lg",
                             variant: "ghost",

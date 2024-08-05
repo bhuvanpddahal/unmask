@@ -81,7 +81,7 @@ const SecondStep = ({
                 variant="outline"
                 onClick={() => setStep(1)}
             >
-                <ChevronLeft className="size-4 text-zinc-700 mr-1" />
+                <ChevronLeft className="size-4 text-zinc-700" />
                 Back
             </Button>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight mt-2">

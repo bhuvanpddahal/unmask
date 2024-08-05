@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { v2 as cloudinary } from "cloudinary";
 import { generateUsername } from "unique-username-generator";
-import { isRedirectError } from "next/dist/client/components/redirect";
 
 import { db } from "@/lib/db";
 import {
@@ -23,7 +22,6 @@ import {
 } from "@/lib/validators/auth";
 import { auth, signIn } from "@/auth";
 import { hashEmail } from "@/lib/utils";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { sendVerificationEmail } from "@/lib/mail";
 import { getUserByEmail } from "@/lib/queries/user";
 import { generateVerificationToken } from "@/lib/token";
@@ -152,7 +150,7 @@ export const signup = async (payload: SignupPayload) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        await db.user.create({
+        const newUser = await db.user.create({
             data: {
                 username: finalizedUsername,
                 email: hashedEmail,
@@ -163,10 +161,19 @@ export const signup = async (payload: SignupPayload) => {
         await signIn("credentials", {
             email,
             password,
-            redirectTo: DEFAULT_LOGIN_REDIRECT
+            redirect: false
         });
+
+        return {
+            user: {
+                id: newUser.id,
+                username: newUser.username,
+                image: newUser.image,
+                joinedAt: newUser.joinedAt,
+                updatedAt: newUser.updatedAt
+            }
+        };
     } catch (error) {
-        if (isRedirectError(error)) throw error;
         console.error(error);
         if (error instanceof AuthError) {
             switch (error.type) {
@@ -199,10 +206,19 @@ export const signin = async (payload: SigninPayload) => {
         await signIn("credentials", {
             email,
             password,
-            redirectTo: DEFAULT_LOGIN_REDIRECT
+            redirect: false
         });
+
+        return {
+            user: {
+                id: user.id,
+                username: user.username,
+                image: user.image,
+                joinedAt: user.joinedAt,
+                updatedAt: user.updatedAt
+            }
+        };
     } catch (error) {
-        if (isRedirectError(error)) throw error;
         console.error(error);
         if (error instanceof AuthError) {
             switch (error.type) {

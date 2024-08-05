@@ -1,6 +1,8 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -21,8 +23,17 @@ import {
 import { signin } from "@/actions/auth";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
-const LogInForm = () => {
+interface SigninFormProps {
+    redirectTo?: string;
+}
+
+const SigninForm = ({
+    redirectTo
+}: SigninFormProps) => {
+    const router = useRouter();
+    const { update } = useSession();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [isPending, startTransition] = useTransition();
@@ -41,10 +52,13 @@ const LogInForm = () => {
 
         startTransition(() => {
             signin(payload).then((data) => {
-                if (data?.error) {
+                if (data.user) {
+                    update({ ...data.user });
+                    setSuccess("Signed in sucessfully");
+                    router.push(redirectTo || DEFAULT_LOGIN_REDIRECT);
+                }
+                if (data.error) {
                     setError(data.error);
-                } else {
-                    setSuccess("Signed in successfully");
                 }
             }).catch(() => {
                 setError("Something went wrong");
@@ -116,4 +130,4 @@ const LogInForm = () => {
     );
 };
 
-export default LogInForm;
+export default SigninForm;

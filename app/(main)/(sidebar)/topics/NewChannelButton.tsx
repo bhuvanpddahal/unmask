@@ -10,14 +10,17 @@ const NewChannelButton = () => {
     const router = useRouter();
     const user = useCurrentUser();
     const isSignedIn = !!(user && user.id);
-    const { open } = useSigninModal();
+    const { open, setPathToRedirect } = useSigninModal();
 
     return (
         <Button
             size="lg"
             onClick={() => {
                 if (isSignedIn) router.push("/topics/create");
-                else open();
+                else {
+                    setPathToRedirect("/topics/create");
+                    open();
+                }
             }}
         >
             New Channel

@@ -6,6 +6,7 @@ import {
     useTransition
 } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import FormError from "@/components/FormError";
@@ -35,6 +36,8 @@ interface FirstStepProps {
 const FirstStep = ({
     setStep
 }: FirstStepProps) => {
+    const searchParams = useSearchParams();
+    const redirectTo = searchParams.get("redirectTo");
     const [error, setError] = useState("");
     const { email, setEmail } = useSignup();
     const [isLoading, startTransition] = useTransition();
@@ -87,6 +90,7 @@ const FirstStep = ({
                                             {...field}
                                             type="email"
                                             placeholder="example@mail.com"
+                                            disabled={isLoading}
                                             autoComplete="email"
                                         />
                                     </FormControl>
@@ -110,8 +114,13 @@ const FirstStep = ({
             </Form>
             <Separator />
             <p className="text-sm font-medium text-center mt-4">
-                Already a member?
-                <Link href="/signin" className="text-primary hover:underline"> Sign in</Link>
+                Already a member? {" "}
+                <Link
+                    href={`/signin${redirectTo ? `?redirectTo=${redirectTo}` : ""}`}
+                    className="text-primary hover:underline"
+                >
+                    Sign in
+                </Link>
             </p>
         </>
     )

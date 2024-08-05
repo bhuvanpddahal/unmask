@@ -54,7 +54,15 @@ const Navbar = ({
                         alt="Logo"
                         height={50}
                         width={175}
-                        className="h-[35px] w-auto"
+                        className="hidden sm:inline-block h-[35px] w-auto"
+                        priority
+                    />
+                    <Image
+                        src="/logo-icon.png"
+                        alt="Logo"
+                        height={50}
+                        width={50}
+                        className="sm:hidden h-[35px] w-auto"
                         priority
                     />
                 </Link>

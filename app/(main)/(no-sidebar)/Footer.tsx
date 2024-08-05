@@ -21,7 +21,7 @@ const Footer = () => {
                     </Link>
                 </div>
                 <div className="text-sm text-zinc-500 dark:text-zinc-400">
-                    © 2024 Unmask, Inc. Privacy and Terms
+                    © {(new Date()).getFullYear()} Unmask, Inc. Privacy and Terms
                 </div>
             </div>
         </footer>

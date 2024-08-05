@@ -25,7 +25,7 @@ const PostFooter = ({
 }: PostFooterProps) => {
     const user = useCurrentUser();
     const isSignedIn = !!(user && user.id);
-    const { open } = useSigninModal();
+    const { open, setPathToRedirect } = useSigninModal();
 
     const {
         likeOrUnlikePost,
@@ -46,7 +46,10 @@ const PostFooter = ({
                         onClick={(e) => {
                             e.stopPropagation();
                             if (isSignedIn) likeOrUnlikePost();
-                            else open();
+                            else {
+                                setPathToRedirect(`/post/${postId}`);
+                                open();
+                            }
                         }}
                     >
                         {isLiked ? (

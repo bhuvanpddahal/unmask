@@ -1,4 +1,7 @@
 import nodemailer from "nodemailer";
+import { render } from "@react-email/components";
+
+import VerifyEmailTemplate from "./templates/VerifyEmail";
 
 export const sendVerificationEmail = async (email: string, token: string) => {
     const transporter = nodemailer.createTransport({
@@ -20,7 +23,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         to: email,
         subject: "Verify your email",
         text: `This is your code: ${token}`,
-        html: `<p>This is your code: <h1>${token}</h1></p>`
+        html: render(VerifyEmailTemplate({ token }))
     };
 
     await transporter.sendMail(mailOptions);

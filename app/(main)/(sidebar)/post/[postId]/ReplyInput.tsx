@@ -30,7 +30,7 @@ const ReplyInput = ({
     const queryClient = useQueryClient();
     const isSignedIn = !!(user && user.id);
     const { toast } = useToast();
-    const { open } = useSigninModal();
+    const { open, setPathToRedirect } = useSigninModal();
     const [reply, setReply] = useState("");
 
     const {
@@ -84,7 +84,10 @@ const ReplyInput = ({
                     disabled={isPending || reply.length < 3}
                     onClick={() => {
                         if (isSignedIn) handleReply();
-                        else open();
+                        else {
+                            setPathToRedirect(`/post/${postId}`);
+                            open();
+                        }
                     }}
                 >
                     {isPending ? "Replying" : "Reply"}

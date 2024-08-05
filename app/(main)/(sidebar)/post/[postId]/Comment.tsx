@@ -44,7 +44,7 @@ const Comment = ({
     const isSignedIn = !!(currentUser && currentUser.id);
     const isEdited = new Date(updatedAt) > new Date(commentedAt);
     const title = `Commented on ${format(commentedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
-    const { open } = useSigninModal();
+    const { open, setPathToRedirect } = useSigninModal();
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isReplyOpen, setIsReplyOpen] = useState(false);
 
@@ -110,7 +110,10 @@ const Comment = ({
                             className="flex items-center gap-1 px-2 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-sm rounded-full cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-800"
                             onClick={() => {
                                 if (isSignedIn) likeOrUnlikeComment();
-                                else open();
+                                else {
+                                    setPathToRedirect(`/post/${postId}`);
+                                    open();
+                                }
                             }}
                         >
                             {isLiked ? (

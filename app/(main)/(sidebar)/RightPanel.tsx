@@ -4,10 +4,13 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const RightPanel = () => {
     const router = useRouter();
+    const user = useCurrentUser();
     const pathname = usePathname();
+    const isSignedIn = !!(user && user.id);
 
     if (pathname === "/topics") return null;
 
@@ -19,13 +22,16 @@ const RightPanel = () => {
                 </div>
                 <div className="bg-primary rounded-sm p-4 space-y-4">
                     <p className="text-primary-foreground text-xl font-semibold">
-                        Join the Unmask community, and share your experiences anonymously
+                        {isSignedIn
+                            ? "Ready to share your experiences? Start a conversation on Unmask"
+                            : "Join the Unmask community, and share your experiences anonymously"
+                        }
                     </p>
                     <Button
                         className="w-full bg-white dark:bg-zinc-700 text-primary dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                        onClick={() => router.push("/signup")}
+                        onClick={() => router.push(isSignedIn ? "/post/create" : "/signin")}
                     >
-                        Sign up
+                        {isSignedIn ? "Create post" : "Sign up"}
                     </Button>
                 </div>
             </Card>
