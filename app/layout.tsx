@@ -1,3 +1,4 @@
+import PlausibleProvider from "next-plausible";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
@@ -8,9 +9,8 @@ import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/Toaster";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
-
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL!;
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: {
@@ -36,9 +36,14 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const session = await auth();
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
+    const domain = appUrl.replace("https://", "");
 
     return (
         <html lang="en">
+            <head>
+                <PlausibleProvider domain={domain} />
+            </head>
             <body className={plusJakartaSans.className}>
                 <ThemeProvider
                     attribute="class"

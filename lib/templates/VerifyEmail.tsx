@@ -9,6 +9,8 @@ import {
     Text
 } from "@react-email/components";
 
+import { TOKEN_EXPIRY_TIME_IN_MIN } from "@/constants";
+
 interface VerifyEmailTemplateProps {
     token: string;
 }
@@ -31,7 +33,7 @@ const VerifyEmailTemplate = ({
                 />
                 <Text style={tertiary}>Verify Your Email</Text>
                 <Heading style={secondary}>
-                    Enter the following code to move to the final step of your account creation.
+                    Enter the following code to move to the final step of your account creation. This code will expire in {TOKEN_EXPIRY_TIME_IN_MIN} minutes.
                 </Heading>
                 <Section style={codeContainer}>
                     <Text style={code}>{token}</Text>

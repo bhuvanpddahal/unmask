@@ -31,7 +31,7 @@ const CreatePost = () => {
                 Start a post...
             </span>
         </Card>
-    )
+    );
 };
 
 export default CreatePost;
