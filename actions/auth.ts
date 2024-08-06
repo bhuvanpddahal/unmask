@@ -26,6 +26,7 @@ import { sendVerificationEmail } from "@/lib/mail";
 import { getUserByEmail } from "@/lib/queries/user";
 import { generateVerificationToken } from "@/lib/token";
 import { getVerificationTokenByEmail } from "@/lib/queries/verification-token";
+import { User } from "@prisma/client";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -127,7 +128,11 @@ export const checkUsernameAvailability = async (username: string) => {
     }
 };
 
-export const signup = async (payload: SignupPayload) => {
+type SignupResponse =
+    { error: string; user?: undefined; } |
+    { user: Omit<User, "email" | "password">; error?: undefined; };
+
+export const signup = async (payload: SignupPayload): Promise<SignupResponse> => {
     try {
         const validatedFields = SignupValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
@@ -157,7 +162,6 @@ export const signup = async (payload: SignupPayload) => {
                 password: hashedPassword
             }
         });
-
         await signIn("credentials", {
             email,
             password,
