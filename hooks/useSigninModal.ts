@@ -12,6 +12,6 @@ export const useSigninModal = create<UseSigninModalState>((set) => ({
     isOpen: false,
     pathToRedirect: "/",
     open: () => set({ isOpen: true }),
-    close: () => set({ isOpen: false }),
-    setPathToRedirect: (path) => ({ pathToRedirect: path })
+    close: () => set({ isOpen: false, pathToRedirect: "/" }),
+    setPathToRedirect: (path) => set({ pathToRedirect: path })
 }));
