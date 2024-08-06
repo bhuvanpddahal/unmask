@@ -74,6 +74,7 @@ const ThirdStep = ({
 
         startTransition(() => {
             signup(values).then((data) => {
+                // @ts-nocheck
                 if (data.user) {
                     update({ ...data.user });
                     setSuccess("Signed up sucessfully");

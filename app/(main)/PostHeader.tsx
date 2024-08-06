@@ -47,7 +47,7 @@ const PostHeader = ({
                         username={creatorUsername}
                     />
                     <div>
-                        <p className="text-[13px] flex items-center gap-0.5">
+                        <div className="text-[13px] flex items-center gap-0.5">
                             <div className="text-accent-foreground font-semibold">
                                 {creatorUsername}
                             </div>
@@ -59,7 +59,7 @@ const PostHeader = ({
                                 {formatRelative(createdAt, new Date())}
                                 {isEdited && " (Edited)"}
                             </span>
-                        </p>
+                        </div>
                         {channelId && (
                             <div className="-mt-1">
                                 <Link
