@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Metadata } from "next";
 
 import SigninForm from "./SigninForm";
 import { Separator } from "@/components/ui/Separator";
@@ -9,7 +10,7 @@ interface SigninPageProps {
     };
 }
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Sign In"
 };
 

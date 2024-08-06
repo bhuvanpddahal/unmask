@@ -1,9 +1,11 @@
+import { Metadata } from "next";
+
 import TopicChannels from "./TopicChannels";
 import NewChannelButton from "./NewChannelButton";
 import TopicChannelsWrapper from "./TopicChannelsWrapper";
 import { Separator } from "@/components/ui/Separator";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "All Channels"
 };
 

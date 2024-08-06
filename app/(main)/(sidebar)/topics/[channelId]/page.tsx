@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import ChannelDetailsContent from "./Content";
-import { getChannelTitle } from "@/actions/channel";
+import { getChannelMetadata } from "@/actions/channel";
 
 interface ChannelDetailsPageProps {
     params: {
@@ -13,9 +13,14 @@ export const generateMetadata = async (
     { params: { channelId } }: ChannelDetailsPageProps
 ): Promise<Metadata> => {
     const payload = { channelId };
-    const channel = await getChannelTitle(payload);
+    const channel = await getChannelMetadata(payload);
     return {
-        title: channel.title
+        title: channel.name,
+        openGraph: {
+            title: channel.name,
+            description: channel.description || undefined,
+            siteName: "Unmask"
+        }
     };
 };
 

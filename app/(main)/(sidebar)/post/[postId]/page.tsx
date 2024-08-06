@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import PostDetailsContent from "./Content";
-import { getPostTitle } from "@/actions/post";
+import { getPostMetadata } from "@/actions/post";
 
 interface PostDetailsPageProps {
     params: {
@@ -13,9 +13,14 @@ export const generateMetadata = async (
     { params: { postId } }: PostDetailsPageProps
 ): Promise<Metadata> => {
     const payload = { postId };
-    const post = await getPostTitle(payload);
+    const post = await getPostMetadata(payload);
     return {
-        title: post.title
+        title: post.title,
+        openGraph: {
+            title: post.title,
+            description: post.description,
+            siteName: "Unmask"
+        }
     };
 };
 

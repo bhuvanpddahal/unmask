@@ -1,6 +1,8 @@
+import { Metadata } from "next";
+
 import PostCreationContent from "./Content";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Create Post"
 };
 

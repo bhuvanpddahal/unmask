@@ -200,10 +200,10 @@ export const followOrUnfollowChannel = async (payload: ChannelIdPayload) => {
     }
 };
 
-export const getChannelTitle = async (payload: ChannelIdPayload) => {
+export const getChannelMetadata = async (payload: ChannelIdPayload) => {
     try {
         const validatedFields = ChannelIdValidator.safeParse(payload);
-        if (!validatedFields.success) return { title: "❌ Invalid fields" };
+        if (!validatedFields.success) return { name: "❌ Invalid fields", description: undefined };
 
         const { channelId } = validatedFields.data;
 
@@ -212,14 +212,15 @@ export const getChannelTitle = async (payload: ChannelIdPayload) => {
                 id: channelId
             },
             select: {
-                name: true
+                name: true,
+                description: true
             }
         });
-        if (!channel) return { title: "❌ Channel not found" };
+        if (!channel) return { name: "❌ Channel not found", description: undefined };
 
-        return { title: channel.name };
+        return { name: channel.name, description: channel.description };
     } catch (error) {
         console.error(error);
-        return { title: "❗⚠️ Server error" };
+        return { name: "❗⚠️ Server error", description: undefined };
     }
 };

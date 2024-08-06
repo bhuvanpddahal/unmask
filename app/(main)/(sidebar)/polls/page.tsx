@@ -1,9 +1,9 @@
+import { Metadata } from "next";
+
 import PollsContent from "./Content";
 
-export const metadata = {
-    title: {
-        absolute: "Unmask - Anonymous and Professional Community"
-    }
+export const metadata: Metadata = {
+    title: "Polls: Popular opinions of Unmask Community"
 };
 
 const PollsPage = () => {

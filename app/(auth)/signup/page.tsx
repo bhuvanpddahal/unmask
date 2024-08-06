@@ -1,7 +1,9 @@
+import { Metadata } from "next";
+
 import SignupContent from "./Content";
 import { SignupProvider } from "@/context/Signup";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Sign Up"
 };
 

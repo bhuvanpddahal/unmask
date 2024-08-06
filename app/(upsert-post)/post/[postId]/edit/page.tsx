@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import PostEditContent from "./Content";
 
 interface PostEditPageProps {
@@ -6,7 +8,7 @@ interface PostEditPageProps {
     };
 }
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Edit Post"
 };
 

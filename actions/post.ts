@@ -384,10 +384,10 @@ export const getPost = async (payload: PostIdPayload) => {
     }
 };
 
-export const getPostTitle = async (payload: PostIdPayload) => {
+export const getPostMetadata = async (payload: PostIdPayload) => {
     try {
         const validatedFields = PostIdValidator.safeParse(payload);
-        if (!validatedFields.success) return { title: "❌ Invalid fields" };
+        if (!validatedFields.success) return { title: "❌ Invalid fields", description: undefined };
 
         const { postId } = validatedFields.data;
 
@@ -396,15 +396,16 @@ export const getPostTitle = async (payload: PostIdPayload) => {
                 id: postId
             },
             select: {
-                title: true
+                title: true,
+                description: true
             }
         });
-        if (!post) return { title: "❌ Post not found" };
+        if (!post) return { title: "❌ Post not found", description: undefined };
 
-        return { title: post.title };
+        return { title: post.title, description: post.description };
     } catch (error) {
         console.error(error);
-        return { title: "❗⚠️ Server error" };
+        return { title: "❗⚠️ Server error", description: undefined };
     }
 };
 

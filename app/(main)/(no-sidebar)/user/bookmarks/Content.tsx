@@ -25,11 +25,15 @@ interface BookmarksData {
     bookmarks: {
         id: string;
         bookmarkedAt: Date;
-        post: (Omit<PostType, "image"> & {
+        post: (Omit<PostType, "channelId" | "image"> & {
             creator: {
                 image: string | null;
                 username: string;
             };
+            channel: {
+                id: string;
+                name: string;
+            } | null;
             poll: {
                 options: {
                     _count: {
@@ -151,6 +155,8 @@ const UserBookmarksContent = () => {
                                 creatorId={bookmark.post.creatorId}
                                 creatorUsername={bookmark.post.creator.username}
                                 creatorImage={bookmark.post.creator.image}
+                                channelId={bookmark.post.channel?.id || null}
+                                channelName={bookmark.post.channel?.name || ""}
                                 postId={bookmark.post.id}
                                 title={bookmark.post.title}
                                 description={bookmark.post.description}

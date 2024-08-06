@@ -104,6 +104,12 @@ export const getBookmarkedPosts = async (payload: GetBookmarkedPostsPayload) => 
                                 image: true
                             }
                         },
+                        channel: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        },
                         poll: {
                             select: {
                                 options: {

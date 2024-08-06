@@ -1,8 +1,10 @@
+import { Metadata } from "next";
+
 import Header from "../../Header";
 import UserForm from "./UserForm";
 import ThemePreference from "./ThemePreference";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Your Profile"
 };
 

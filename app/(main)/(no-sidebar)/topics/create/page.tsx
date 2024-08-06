@@ -1,7 +1,9 @@
+import { Metadata } from "next";
+
 import Header from "../../Header";
 import ChannelForm from "./ChannelForm";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: "Create Channel"
 };
 

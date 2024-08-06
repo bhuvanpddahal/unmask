@@ -38,8 +38,8 @@ const FirstStep = ({
 }: FirstStepProps) => {
     const searchParams = useSearchParams();
     const redirectTo = searchParams.get("redirectTo");
-    const [error, setError] = useState("");
     const { email, setEmail } = useSignup();
+    const [error, setError] = useState("");
     const [isLoading, startTransition] = useTransition();
 
     const form = useForm<FirstStepPayload>({

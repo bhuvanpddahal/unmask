@@ -1,6 +1,14 @@
+import { Metadata } from "next";
+
 import Posts from "./Posts";
 import AdBanner from "./AdBanner";
 import CreatePost from "./CreatePost";
+
+export const metadata: Metadata = {
+    title: {
+        absolute: "Unmask - Anonymous and Professional Community"
+    }
+};
 
 const MainPage = () => {
     return (
