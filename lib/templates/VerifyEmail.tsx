@@ -1,7 +1,6 @@
 import {
     Body,
     Container,
-    Head,
     Heading,
     Html,
     Img,
@@ -21,26 +20,31 @@ const VerifyEmailTemplate = ({
     token
 }: VerifyEmailTemplateProps) => (
     <Html>
-        <Head />
         <Body style={main}>
             <Container style={container}>
                 <Img
                     src={`${baseUrl}/logo-icon.png`}
-                    width="212"
+                    width="88"
                     height="88"
                     alt="Unmask Logo"
                     style={logo}
                 />
                 <Text style={tertiary}>Verify Your Email</Text>
                 <Heading style={secondary}>
-                    Enter the following code to move to the final step of your account creation. This code will expire in {TOKEN_EXPIRY_TIME_IN_MIN} minutes.
+                    Enter the following code to move to the final step of your account creation.
                 </Heading>
+                <Text style={{ ...paragraph, marginTop: "10px" }}>
+                    This code will expire in {TOKEN_EXPIRY_TIME_IN_MIN} minutes.
+                </Text>
                 <Section style={codeContainer}>
                     <Text style={code}>{token}</Text>
                 </Section>
                 <Text style={paragraph}>Not expecting this email?</Text>
                 <Text style={paragraph}>
                     If you didn&apos;t request this email, there&apos;s nothing to worry about, you can safely ignore it.
+                </Text>
+                <Text style={footer}>
+                    © {(new Date()).getFullYear()} | Unmask, Inc. Privacy and Terms
                 </Text>
             </Container>
         </Body>
@@ -62,7 +66,7 @@ const container = {
     marginTop: "20px",
     maxWidth: "420px",
     margin: "0 auto",
-    padding: "50px 20px 70px"
+    padding: "50px 20px 40px"
 };
 
 const logo = {
@@ -126,4 +130,10 @@ const paragraph = {
     padding: "0 20px",
     margin: "0",
     textAlign: "center" as const
+};
+
+const footer = {
+    textAlign: "center" as const,
+    fontSize: 12,
+    color: "rgb(0,0,0, 0.7)"
 };
