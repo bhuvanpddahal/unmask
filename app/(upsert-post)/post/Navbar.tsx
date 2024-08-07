@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/Label";
 import { Skeleton } from "@/components/ui/Skeleton";
 
 interface NavbarProps {
+    mode: "create" | "edit";
     hasImage: boolean;
     hasPoll: boolean;
     setHasPoll: Dispatch<SetStateAction<boolean>>;
@@ -30,17 +31,16 @@ interface NavbarProps {
     }[];
     channelId: string | undefined;
     setChannelId?: Dispatch<SetStateAction<string | undefined>>;
-    mode: "create" | "edit";
 }
 
 const Navbar = ({
+    mode,
     hasImage,
     hasPoll,
     setHasPoll,
     follows,
     channelId,
-    setChannelId,
-    mode
+    setChannelId
 }: NavbarProps) => {
     return (
         <nav className="sticky top-0 h-[60px] bg-card px-4 py-2 shadow-lg z-10">

@@ -21,7 +21,7 @@ const FormSuccess = ({
             <CheckCircle className="h-4 w-4 flex-shrink-0" />
             <p>{message}</p>
         </div>
-    )
+    );
 };
 
 export default FormSuccess;

@@ -95,12 +95,12 @@ const PostEditContent = ({
     return (
         <>
             <Navbar
+                mode="edit"
                 hasImage={hasImage}
                 hasPoll={hasPoll}
                 setHasPoll={setHasPoll}
                 follows={follows}
                 channelId={data.post?.channel?.id}
-                mode="edit"
             />
             <div className="max-w-[1400px] w-full mx-auto px-6 pt-4 pb-2">
                 <PostForm

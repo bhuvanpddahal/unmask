@@ -158,7 +158,7 @@ const PostForm = ({
                     />
                     <FormField
                         control={form.control}
-                        name="description"
+                        name="image"
                         render={() => (
                             <FormItem className="relative mt-12">
                                 {form.getValues("image") && (
@@ -198,7 +198,7 @@ const PostForm = ({
                             </FormItem>
                         )}
                     />
-                    {form.getValues("pollOptions") && (
+                    {hasPoll && (
                         <FormField
                             control={form.control}
                             name="pollOptions"

@@ -82,13 +82,13 @@ const PostCreationContent = () => {
     return (
         <>
             <Navbar
+                mode="create"
                 hasImage={hasImage}
                 hasPoll={hasPoll}
                 setHasPoll={setHasPoll}
                 follows={data?.follows || []}
                 channelId={channelId}
                 setChannelId={setChannelId}
-                mode="create"
             />
             <div className="max-w-[1400px] w-full mx-auto px-6 pt-4 pb-2">
                 <PostForm
@@ -104,7 +104,7 @@ const PostCreationContent = () => {
                 />
             </div>
         </>
-    )
+    );
 };
 
 export default PostCreationContent;
