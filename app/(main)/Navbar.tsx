@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 
+import Logo from "@/components/Logo";
 import MobileSidebar from "./(sidebar)/MobileSidebar";
 import UserAccountNav from "@/components/UserAccountNav";
 import { cn } from "@/lib/utils";
@@ -19,27 +19,7 @@ const Navbar = () => {
     return (
         <nav className="sticky top-0 h-[60px] bg-card px-4 py-2 shadow-lg z-10">
             <div className="relative max-w-[1400px] w-full h-full mx-auto flex items-center justify-between">
-                <Link
-                    href="/"
-                    className="flex items-center justify-center"
-                >
-                    <Image
-                        src="/logo.svg"
-                        alt="Logo"
-                        height={50}
-                        width={175}
-                        className="h-[35px] w-auto hidden lg:inline-block"
-                        priority
-                    />
-                    <Image
-                        src="/logo-icon.png"
-                        alt="Logo"
-                        height={50}
-                        width={50}
-                        className="h-[35px] w-auto lg:hidden"
-                        priority
-                    />
-                </Link>
+                <Logo />
 
                 <ul className="hidden lg:flex gap-x-2 absolute left-1/2 top-0 h-full -translate-x-1/2">
                     {navItems.map((item) => {
@@ -68,7 +48,7 @@ const Navbar = () => {
                                 </Link>
                                 {isActive && <div className="absolute top-[calc(100%+6px)] left-0 w-full h-[2px] bg-accent-foreground" />}
                             </li>
-                        )
+                        );
                     })}
                 </ul>
 

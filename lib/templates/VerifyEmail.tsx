@@ -24,8 +24,8 @@ const VerifyEmailTemplate = ({
             <Container style={container}>
                 <Img
                     src={`${baseUrl}/logo-icon.png`}
-                    width="88"
-                    height="88"
+                    width="50"
+                    height="50"
                     alt="Unmask Logo"
                     style={logo}
                 />
@@ -66,7 +66,7 @@ const container = {
     marginTop: "20px",
     maxWidth: "420px",
     margin: "0 auto",
-    padding: "50px 20px 40px"
+    padding: "40px 20px"
 };
 
 const logo = {

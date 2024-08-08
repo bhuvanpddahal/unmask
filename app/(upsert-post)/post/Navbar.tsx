@@ -1,8 +1,7 @@
-import Link from "next/link";
-import Image from "next/image";
 import { ImagePlus, Rows3 } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
+import Logo from "@/components/Logo";
 import {
     Button,
     buttonVariants
@@ -45,27 +44,7 @@ const Navbar = ({
     return (
         <nav className="sticky top-0 h-[60px] bg-card px-4 py-2 shadow-lg z-10">
             <div className="max-w-[1400px] w-full h-full mx-auto flex items-center justify-between">
-                <Link
-                    href="/"
-                    className="flex items-center justify-center"
-                >
-                    <Image
-                        src="/logo.svg"
-                        alt="Logo"
-                        height={50}
-                        width={175}
-                        className="hidden sm:inline-block h-[35px] w-auto"
-                        priority
-                    />
-                    <Image
-                        src="/logo-icon.png"
-                        alt="Logo"
-                        height={50}
-                        width={50}
-                        className="sm:hidden h-[35px] w-auto"
-                        priority
-                    />
-                </Link>
+                <Logo />
                 <div className="flex">
                     <Label
                         htmlFor="image-input"
@@ -118,19 +97,7 @@ export default Navbar;
 export const NavbarLoader = () => (
     <nav className="sticky top-0 h-[60px] bg-card px-4 py-2 shadow-lg z-10">
         <div className="max-w-[1400px] w-full h-full mx-auto flex items-center justify-between">
-            <Link
-                href="/"
-                className="flex items-center justify-center"
-            >
-                <Image
-                    src="/logo.svg"
-                    alt="Logo"
-                    height={50}
-                    width={175}
-                    className="h-[35px] w-auto"
-                    priority
-                />
-            </Link>
+            <Logo />
             <div className="flex">
                 <Skeleton className="h-9 w-[120px]" />
                 <Skeleton className="h-9 w-[102px]" />

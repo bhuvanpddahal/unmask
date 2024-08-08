@@ -24,12 +24,20 @@ const SigninModal = () => {
                 <DialogHeader>
                     <DialogTitle className="text-center">
                         <Image
-                            src="/logo.svg"
-                            alt="Unmask Logo"
-                            width={140}
-                            height={40}
+                            src="/logo-light.svg"
+                            alt="Logo"
+                            height={35}
+                            width={116}
+                            className="h-[35px] w-auto dark:hidden"
                             priority
-                            className="inline-block h-10 w-auto"
+                        />
+                        <Image
+                            src="/logo-dark.svg"
+                            alt="Logo"
+                            height={35}
+                            width={116}
+                            className="hidden h-[35px] w-auto dark:inline-block"
+                            priority
                         />
                     </DialogTitle>
                     <DialogDescription className="text-center">
