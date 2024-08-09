@@ -1,4 +1,5 @@
 import Image from "next/image";
+import DOMPurify from "isomorphic-dompurify";
 
 import Poll from "../../Poll";
 import { CardContent } from "@/components/ui/Card";
@@ -38,9 +39,10 @@ const PostContent = ({
             <h3 className="font-semibold text-xl text-black dark:text-white mb-2">
                 {title}
             </h3>
-            <p className="text-sm leading-6 font-medium text-zinc-800 dark:text-zinc-200">
-                {description}
-            </p>
+            <div
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}
+                className="text-sm leading-6 font-medium text-zinc-800 dark:text-zinc-200"
+            />
             {postImage && (
                 <div className="relative h-[350px] w-full border mt-4">
                     <Image

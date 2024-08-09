@@ -66,7 +66,7 @@ const container = {
     marginTop: "20px",
     maxWidth: "420px",
     margin: "0 auto",
-    padding: "40px 20px"
+    padding: "48px 20px 40px"
 };
 
 const logo = {

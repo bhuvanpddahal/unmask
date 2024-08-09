@@ -90,7 +90,7 @@ const PostOptions = ({
                 )}
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 };
 
 export default PostOptions;

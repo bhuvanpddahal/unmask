@@ -9,6 +9,7 @@ import { TriangleAlert, X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, UseFormReturn } from "react-hook-form";
 
+import TextEditor from "./TextEditor";
 import {
     Form,
     FormControl,
@@ -29,7 +30,6 @@ import {
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { Textarea } from "@/components/ui/Textarea";
 
 interface PostFormProps {
     setHasImage: Dispatch<SetStateAction<boolean>>;
@@ -144,11 +144,9 @@ const PostForm = ({
                         render={({ field }) => (
                             <FormItem className="mt-4">
                                 <FormControl>
-                                    <Textarea
-                                        {...field}
-                                        placeholder="Description"
-                                        rows={16}
-                                        className="text-lg px-0 border-0 focus-visible:ring-0"
+                                    <TextEditor
+                                        content={field.value}
+                                        onChange={field.onChange}
                                         disabled={isPending}
                                     />
                                 </FormControl>
@@ -273,6 +271,7 @@ const PostForm = ({
                         variant="outline"
                         className="h-[45px] sm:h-[50px] w-full sm:w-[200px] text-[15px]"
                         onClick={resetValues}
+                        disabled={isPending}
                     >
                         Clear
                     </Button>

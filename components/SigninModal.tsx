@@ -28,7 +28,7 @@ const SigninModal = () => {
                             alt="Logo"
                             height={35}
                             width={116}
-                            className="h-[35px] w-auto dark:hidden"
+                            className="inline-block h-[35px] w-auto dark:hidden"
                             priority
                         />
                         <Image
