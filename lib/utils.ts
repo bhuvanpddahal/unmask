@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { Editor } from "@tiptap/react";
 import { twMerge } from "tailwind-merge";
 import { type ClassValue, clsx } from "clsx";
 
@@ -15,3 +16,20 @@ export async function hashEmail(email: string) {
 
     return hashedEmail;
 }
+
+export const setLink = (editor: Editor) => {
+    const previousUrl = editor.getAttributes("link").href;
+    const url = window.prompt("URL", previousUrl);
+
+    if (url === null) return;
+    if (url === "") {
+        editor.chain().focus().extendMarkRange("link").unsetLink().run();
+        return;
+    }
+
+    editor.chain().focus().extendMarkRange("link").setLink({
+        href: url,
+        target: "_blank",
+        class: "text-blue-600 underline cursor-pointer hover:text-blue-500"
+    }).run();
+};

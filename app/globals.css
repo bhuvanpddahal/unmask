@@ -79,7 +79,3 @@
 html, body {
   @apply scroll-smooth;
 }
-
-.sticky-nav {
-  @apply sticky top-0 bg-gray-200/50 backdrop-blur z-10 transition;
-}

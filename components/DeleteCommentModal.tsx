@@ -1,5 +1,6 @@
 "use client";
 
+import DOMPurify from "isomorphic-dompurify";
 import { Dot } from "lucide-react";
 import { useTransition } from "react";
 import { formatRelative } from "date-fns";
@@ -80,9 +81,10 @@ const DeleteCommentModal = () => {
                             {comment.isEdited && " (Edited)"}
                         </span>
                     </div>
-                    <p className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5 line-clamp-3">
-                        {comment.comment}
-                    </p>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.comment) }}
+                        className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5 line-clamp-3 pointer-events-none"
+                    />
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel className={cn(buttonVariants({

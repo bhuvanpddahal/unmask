@@ -1,5 +1,6 @@
 "use client";
 
+import DOMPurify from "isomorphic-dompurify";
 import { Dot } from "lucide-react";
 import { useTransition } from "react";
 import { formatRelative } from "date-fns";
@@ -91,9 +92,10 @@ const DeletePostModal = () => {
                         <h3 className="font-semibold text-base text-black dark:text-white mb-2 line-clamp-1">
                             {post.title}
                         </h3>
-                        <p className="text-sm leading-6 font-medium text-zinc-800 dark:text-zinc-200 line-clamp-3">
-                            {post.description}
-                        </p>
+                        <div
+                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.description) }}
+                            className="text-sm leading-6 font-medium text-zinc-800 dark:text-zinc-200 line-clamp-3 pointer-events-none"
+                        />
                     </div>
                 </div>
                 <AlertDialogFooter>
@@ -113,7 +115,7 @@ const DeletePostModal = () => {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    )
+    );
 };
 
 export default DeletePostModal;

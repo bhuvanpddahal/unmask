@@ -101,7 +101,8 @@ const TextEditor = ({
             defaultProtocol: "https"
         }),
         Placeholder.configure({
-            placeholder: "Description"
+            placeholder: "Description",
+            emptyEditorClass: "cursor-text before:content-[attr(data-placeholder)] before:absolute before:top-2 before:left-3 before:text-muted-foreground before-pointer-events-none"
         })
     ];
 
@@ -113,7 +114,7 @@ const TextEditor = ({
             editorProps={{
                 attributes: {
                     class: cn(
-                        "prose focus:outline-none",
+                        "min-h-[8rem] focus:outline-none",
                         disabled && "opacity-50 pointer-events-none cursor-not-allowed"
                     )
                 }

@@ -33,6 +33,7 @@ export const getComments = async (payload: GetCommentsPayload) => {
         } else {
             orderByClause = [
                 { likes: { _count: "desc" } },
+                { replies: { _count: "desc" } },
                 { commentedAt: "desc" }
             ];
         }

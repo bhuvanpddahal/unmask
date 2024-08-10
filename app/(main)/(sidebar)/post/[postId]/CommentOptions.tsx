@@ -57,7 +57,7 @@ const CommentOptions = ({
         >
             <X className="size-4" />
         </div>
-    )
+    );
 
     return (
         <DropdownMenu>
@@ -79,7 +79,7 @@ const CommentOptions = ({
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 };
 
 export default CommentOptions;
