@@ -26,9 +26,9 @@ interface TextEditorProps extends MenuProps {
 const Menu = ({ disabled }: MenuProps) => {
     const { editor } = useCurrentEditor();
 
-    if (!editor) return null;
-
     const setLink = useCallback(() => {
+        if (!editor) return;
+        
         const previousUrl = editor.getAttributes("link").href;
         const url = window.prompt("URL", previousUrl);
 
@@ -44,6 +44,8 @@ const Menu = ({ disabled }: MenuProps) => {
             class: "text-blue-600 underline cursor-pointer hover:text-blue-500"
         }).run();
     }, [editor]);
+
+    if (!editor) return null;
 
     return (
         <div className="flex gap-x-2 mb-4">
