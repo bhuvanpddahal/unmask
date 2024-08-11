@@ -88,9 +88,7 @@ const CommentInput = ({
     return (
         <Card className="sticky bottom-0 p-4 mt-5">
             <div className="bg-zinc-50 dark:bg-zinc-900 border rounded-md">
-                <EditorContent
-                    editor={editor}
-                />
+                <EditorContent editor={editor} />
                 <div className="flex justify-between p-2">
                     <Button
                         variant={editor.isActive("link") ? "secondary" : "outline"}

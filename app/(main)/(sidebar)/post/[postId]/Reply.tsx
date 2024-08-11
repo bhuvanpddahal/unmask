@@ -60,7 +60,7 @@ const Reply = ({
             <UserAvatar
                 image={replierImage}
                 username={replierUsername}
-                className="size-8"
+                className="size-8 text-sm"
             />
             <div className="w-full">
                 <div className="relative bg-zinc-100 dark:bg-zinc-800 p-4 rounded-md rounded-ss-none">

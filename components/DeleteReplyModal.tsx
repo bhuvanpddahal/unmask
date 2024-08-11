@@ -1,5 +1,6 @@
 "use client";
 
+import DOMPurify from "isomorphic-dompurify";
 import { Dot } from "lucide-react";
 import { useTransition } from "react";
 import { formatRelative } from "date-fns";
@@ -80,9 +81,10 @@ const DeleteReplyModal = () => {
                             {reply.isEdited && " (Edited)"}
                         </span>
                     </div>
-                    <p className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5 line-clamp-3">
-                        {reply.reply}
-                    </p>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(reply.reply) }}
+                        className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5 line-clamp-3 pointer-events-none"
+                    />
                 </div>
                 <AlertDialogFooter>
                     <AlertDialogCancel className={cn(buttonVariants({
@@ -101,7 +103,7 @@ const DeleteReplyModal = () => {
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    )
+    );
 };
 
 export default DeleteReplyModal;
