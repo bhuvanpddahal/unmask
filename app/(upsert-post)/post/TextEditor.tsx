@@ -41,7 +41,7 @@ const Menu = ({ disabled }: MenuProps) => {
         editor.chain().focus().extendMarkRange("link").setLink({
             href: url,
             target: "_blank",
-            class: "text-blue-600 underline cursor-pointer hover:text-blue-500"
+            class: "text-blue-600 dark:text-blue-500 underline cursor-pointer hover:text-blue-500 dark:hover:text-blue-400"
         }).run();
     }, [editor]);
 

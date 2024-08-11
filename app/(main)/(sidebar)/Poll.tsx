@@ -169,7 +169,7 @@ export const PollLoader = () => (
             {Array.from({ length: 2 }, (_, index) => (
                 <div
                     key={index}
-                    className="bg-accent h-10 flex items-center rounded-md"
+                    className="bg-accent h-10 flex items-center px-4 rounded-md"
                 >
                     <RadioGroupItem
                         value={`option-${index}`}

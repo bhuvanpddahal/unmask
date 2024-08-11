@@ -108,7 +108,7 @@ export const PostHeaderLoader = () => (
                 <div className="flex items-center gap-0.5">
                     <Skeleton className="h-[13px] w-[55px]" />
                     <Dot className="size-4" />
-                    <Skeleton className="h-3 w-[55px]" />
+                    <Skeleton className="h-3 w-[100px]" />
                 </div>
             </div>
             <div className="flex">

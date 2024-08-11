@@ -53,7 +53,7 @@ const Post = ({
     return (
         <Card
             ref={lastPostRef}
-            className="cursor-pointer transition-shadow hover:shadow-md"
+            className="cursor-pointer transition-shadow hover:shadow-md dark:hover:shadow-zinc-700"
             onClick={() => router.push(`/post/${postId}`)}
         >
             <PostHeader
@@ -82,7 +82,7 @@ const Post = ({
                 viewsCount={viewsCount}
             />
         </Card>
-    )
+    );
 };
 
 export default Post;

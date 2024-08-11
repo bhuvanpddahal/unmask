@@ -28,7 +28,7 @@ const RightPanel = () => {
                         }
                     </p>
                     <Button
-                        className="w-full bg-white dark:bg-zinc-700 text-primary dark:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                        className="w-full bg-card text-primary hover:bg-zinc-100 dark:hover:bg-zinc-800"
                         onClick={() => router.push(isSignedIn ? "/post/create" : "/signin")}
                     >
                         {isSignedIn ? "Create post" : "Sign up"}

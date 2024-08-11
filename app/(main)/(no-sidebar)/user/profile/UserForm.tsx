@@ -120,7 +120,7 @@ const UserForm = () => {
                                         Image
                                     </p>
                                     <div className={cn(
-                                        "relative h-[300px] w-full border rounded-md cursor-pointer overflow-hidden",
+                                        "relative h-[300px] w-full dark:bg-black border rounded-md cursor-pointer overflow-hidden",
                                         form.getValues("image") || user?.image
                                             ? "border-solid"
                                             : "border-dashed flex items-center justify-center"
@@ -204,7 +204,7 @@ const UserForm = () => {
                 </div>
             </form>
         </Form>
-    )
+    );
 };
 
 export default UserForm;

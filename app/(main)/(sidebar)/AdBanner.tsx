@@ -23,7 +23,7 @@ const AdBanner = () => {
                 <p className="text-lg sm:text-xl text-primary-foreground font-semibold">
                     Grow Trust & Credibility with Authentic Testimonials using RaveHQ
                 </p>
-                <Button className="min-w-fit bg-white dark:bg-zinc-700 text-primary dark:text-white transition-opacity hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                <Button className="min-w-fit bg-white dark:bg-card text-primary dark:text-white transition-opacity hover:bg-zinc-100 dark:hover:bg-zinc-800">
                     Open
                 </Button>
             </div>

@@ -17,7 +17,7 @@ const Navbar = () => {
     const isSignedIn = !!(user && user.id);
 
     return (
-        <nav className="sticky top-0 h-[60px] bg-card px-4 py-2 shadow-lg z-10">
+        <nav className="sticky top-0 h-[60px] bg-card px-4 py-2 shadow-lg dark:shadow-slate-800 z-10">
             <div className="relative max-w-[1400px] w-full h-full mx-auto flex items-center justify-between">
                 <Logo />
 
