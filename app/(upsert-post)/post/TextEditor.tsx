@@ -41,7 +41,7 @@ const Menu = ({ disabled }: MenuProps) => {
         editor.chain().focus().extendMarkRange("link").setLink({
             href: url,
             target: "_blank",
-            class: "text-blue-600 dark:text-blue-500 underline cursor-pointer hover:text-blue-500 dark:hover:text-blue-400"
+            class: "text-blue-600 dark:text-blue-400 underline cursor-pointer hover:text-blue-500"
         }).run();
     }, [editor]);
 
@@ -104,7 +104,7 @@ const TextEditor = ({
         }),
         Placeholder.configure({
             placeholder: "Description",
-            emptyEditorClass: "cursor-text before:content-[attr(data-placeholder)] before:absolute before:top-2 before:left-3 before:text-muted-foreground before-pointer-events-none"
+            emptyEditorClass: "cursor-text before:content-[attr(data-placeholder)] before:absolute before:top-0 before:left-0 before:text-muted-foreground before-pointer-events-none"
         })
     ];
 

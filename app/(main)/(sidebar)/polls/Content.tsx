@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect } from "react";
 import { Post as PostType } from "@prisma/client";
 import { useInView } from "react-intersection-observer";
@@ -12,7 +13,6 @@ import { useToast } from "@/hooks/useToast";
 import { POSTS_PER_PAGE } from "@/constants";
 import { getPostsWithPoll } from "@/actions/post";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import Image from "next/image";
 
 interface FetchPostsWithPollParams {
     pageParam: number;
@@ -146,7 +146,7 @@ const PollsContent = () => {
                                 viewsCount={post._count.views}
                                 lastPostRef={index === posts.length - 1 ? ref : undefined}
                             />
-                        )
+                        );
                     })}
                     {isFetchingNextPage && (
                         Array.from({ length: 3 }, (_, index) => (
@@ -168,7 +168,7 @@ const PollsContent = () => {
                 </div>
             )}
         </div>
-    )
+    );
 };
 
 export default PollsContent;

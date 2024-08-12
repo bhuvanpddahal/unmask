@@ -1,3 +1,5 @@
+import DOMPurify from "isomorphic-dompurify";
+
 import Poll, { PollLoader } from "../Poll";
 import { Poll as PollType } from "./Post";
 import { CardContent } from "@/components/ui/Card";
@@ -21,9 +23,10 @@ const PostContent = ({
             <h3 className="font-semibold text-accent-foreground line-clamp-1 mb-2">
                 {title}
             </h3>
-            <p className="text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300 line-clamp-3">
-                {description}
-            </p>
+            <div
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}
+                className="text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300 line-clamp-3 pointer-events-none [&_p]:min-h-2.5"
+            />
             {poll && (
                 <Poll
                     key={poll.id}
@@ -34,7 +37,7 @@ const PostContent = ({
                 />
             )}
         </CardContent>
-    )
+    );
 };
 
 export default PostContent;

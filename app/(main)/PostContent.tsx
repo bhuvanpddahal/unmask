@@ -26,7 +26,7 @@ const PostContent = ({
             </h3>
             <div
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}
-                className="text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300 line-clamp-3 pointer-events-none"
+                className="text-[13.5px] font-medium text-zinc-700 dark:text-zinc-300 line-clamp-3 pointer-events-none [&_p]:min-h-2.5"
             />
             {postImage && (
                 <div className="relative h-[350px] w-full border mt-4">

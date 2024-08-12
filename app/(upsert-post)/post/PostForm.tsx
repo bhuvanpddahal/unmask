@@ -130,7 +130,7 @@ const PostForm = ({
                                         {...field}
                                         type="text"
                                         placeholder="Title"
-                                        className="bg-background h-20 text-3xl px-0 border-0 focus-visible:ring-0"
+                                        className="bg-transparent dark:bg-transparent h-20 text-3xl px-0 border-0 focus-visible:ring-0"
                                         disabled={isPending}
                                     />
                                 </FormControl>
@@ -171,7 +171,7 @@ const PostForm = ({
                                             <X className="size-5" />
                                         </div>
                                         <FormLabel>
-                                            <div className="relative h-[300px] w-full border rounded-md rounded-se-none cursor-pointer">
+                                            <div className="relative h-[300px] w-full border rounded-md rounded-se-none cursor-pointer overflow-hidden">
                                                 <Image
                                                     src={form.getValues("image") || ""}
                                                     alt="Image"

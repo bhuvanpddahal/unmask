@@ -65,7 +65,7 @@ const Reply = ({
             <div className="w-full">
                 <div className="relative bg-zinc-100 dark:bg-zinc-800 p-4 rounded-md rounded-ss-none">
                     <div className="text-xs flex items-center gap-0.5">
-                        <div className="text-zinc-500 dark:text-zinc-400 font-semibold hover:underline">
+                        <div className="text-zinc-500 dark:text-zinc-400 font-semibold">
                             {replierUsername}
                         </div>
                         <Dot className="size-4 text-zinc-800 dark:text-zinc-200" />
