@@ -61,6 +61,7 @@ const ChannelDetailsContent = ({
         <div className="space-y-4">
             <ChannelInfo
                 channelId={channelId}
+                creatorId={data.channel?.creatorId || ""}
                 channelName={data.channel?.name || ""}
                 channelDescription={data.channel?.description || ""}
                 bannerImage={data.channel?.bannerImage || null}

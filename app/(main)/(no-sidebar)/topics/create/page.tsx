@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 
 import Header from "../../Header";
-import ChannelForm from "./ChannelForm";
+import ChannelCreationContent from "./Content";
 
 export const metadata: Metadata = {
     title: "Create Channel"
 };
 
-const TopicCreationPage = () => {
+const ChannelCreationPage = () => {
     return (
         <div>
             <Header
@@ -15,10 +15,10 @@ const TopicCreationPage = () => {
                 description="Build connections, share knowledge, and find your people. Create a channel to discuss topics that matter to you. Whether it's academics, career goals, or just hanging out, start your own community today."
             />
             <div className="bg-white dark:bg-card p-5 rounded-md">
-                <ChannelForm />
+                <ChannelCreationContent />
             </div>
         </div>
-    )
+    );
 };
 
-export default TopicCreationPage;
+export default ChannelCreationPage;

@@ -42,6 +42,7 @@ export const createChannel = async (payload: UpsertChannelPayload) => {
 
         const newChannel = await db.channel.create({
             data: {
+                creatorId: session.user.id,
                 name,
                 description,
                 type,
@@ -80,6 +81,7 @@ export const getChannelInfo = async (payload: ChannelIdPayload) => {
                 id: channelId
             },
             select: {
+                creatorId: true,
                 name: true,
                 description: true,
                 bannerImage: true,
@@ -178,6 +180,9 @@ export const followOrUnfollowChannel = async (payload: ChannelIdPayload) => {
         });
 
         if (existingFollow) { // If the user has previously followed the channel, unfollow it by deleting the follow
+            if (channel.creatorId === session.user.id) { // If the user is the creator of the channel, then they cannot unfollow
+                throw new Error("Cannot unfollow own's channel");
+            }
             await db.follow.delete({
                 where: {
                     followerId_channelId: {
@@ -222,5 +227,131 @@ export const getChannelMetadata = async (payload: ChannelIdPayload) => {
     } catch (error) {
         console.error(error);
         return { name: "❗⚠️ Server error", description: undefined };
+    }
+};
+
+export const getChannelToEdit = async (payload: ChannelIdPayload) => {
+    try {
+        const validatedFields = ChannelIdValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { channelId } = validatedFields.data;
+
+        const channel = await db.channel.findUnique({
+            where: {
+                id: channelId
+            },
+            select: {
+                creatorId: true,
+                name: true,
+                description: true,
+                type: true,
+                bannerImage: true,
+                profileImage: true,
+                visibility: true
+            }
+        });
+        if (!channel) return { error: "Channel not found" };
+        if (channel.creatorId !== session.user.id) return { error: "Unpermitted" };
+
+        return {
+            channel: {
+                name: channel.name,
+                description: channel.description,
+                type: channel.type,
+                bannerImage: channel.bannerImage,
+                profileImage: channel.profileImage,
+                visibility: channel.visibility
+            }
+        };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const updateChannel = async (payload: UpsertChannelPayload) => {
+    try {
+        const validatedFields = UpsertChannelValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { id, name, description, type, bannerImage, profileImage, visibility } = validatedFields.data;
+
+        const channel = await db.channel.findUnique({
+            where: { id }
+        });
+        if (!channel) return { error: "Channel not found" };
+        if (channel.creatorId !== session.user.id) return { error: "Not allowed" };
+
+        if (channel.name !== name) {
+            const existingChannelWithSameName = await db.channel.findUnique({
+                where: { name }
+            });
+            if (existingChannelWithSameName) return { error: "This channel name is already taken" };
+        }
+
+        let bannerImageUrl = channel.bannerImage || undefined;
+        let profileImageUrl = channel.profileImage || undefined;
+
+        if (bannerImageUrl !== bannerImage) {
+            bannerImageUrl = bannerImage ? (await cloudinary.uploader.upload(bannerImage, { overwrite: false })).secure_url : undefined;
+        }
+        if (profileImageUrl !== profileImage) {
+            profileImageUrl = profileImage ? (await cloudinary.uploader.upload(profileImage, { overwrite: false })).secure_url : undefined;
+        }
+
+        await db.channel.update({
+            where: { id },
+            data: {
+                name,
+                description,
+                type,
+                bannerImage: bannerImageUrl,
+                profileImage: profileImageUrl,
+                visibility
+            }
+        });
+
+        return { success: "Channel updated successfully" };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const deleteChannel = async (payload: ChannelIdPayload) => {
+    try {
+        const validatedFields = ChannelIdValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { channelId } = validatedFields.data;
+
+        const channel = await db.channel.findUnique({
+            where: {
+                id: channelId
+            }
+        });
+        if (!channel) return { error: "Channel not found" };
+        if (channel.creatorId !== session.user.id) return { error: "Not allowed" };
+
+        await db.channel.delete({
+            where: {
+                id: channelId
+            }
+        });
+
+        return { success: "Channel deleted successfully" };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
     }
 };

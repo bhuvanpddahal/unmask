@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const UpsertChannelValidator = z.object({
+    id: z.string().optional(),
     name: z.string().min(3, {
         message: "Name must be at least 3 characters long"
     }).max(30, {

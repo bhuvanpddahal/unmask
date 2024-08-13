@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Dot, Globe, GlobeLock } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import ChannelOptions from "./ChannelOptions";
 import { Card } from "@/components/ui/Card";
 import { useToast } from "@/hooks/useToast";
 import { Button } from "@/components/ui/Button";
@@ -12,6 +13,7 @@ import { followOrUnfollowChannel as followOrUnfollowChannelAction } from "@/acti
 
 interface ChannelInfoProps {
     channelId: string;
+    creatorId: string;
     channelName: string;
     channelDescription: string | null;
     bannerImage: string | null;
@@ -23,6 +25,7 @@ interface ChannelInfoProps {
 
 const ChannelInfo = ({
     channelId,
+    creatorId,
     channelName,
     channelDescription,
     bannerImage,
@@ -90,17 +93,23 @@ const ChannelInfo = ({
                         className="object-cover rounded-full"
                     />
                 </div>
-                <Button
-                    variant="outline"
-                    className="rounded-full"
-                    onClick={() => followOrUnfollowChannel()}
-                    isLoading={isPending}
-                >
-                    {isFollowed
-                        ? isPending ? "Unfollowing" : "Unfollow"
-                        : isPending ? "Following" : "Follow"
-                    }
-                </Button>
+                <div className="flex gap-x-2">
+                    <Button
+                        variant="outline"
+                        className="rounded-full"
+                        onClick={() => followOrUnfollowChannel()}
+                        isLoading={isPending}
+                    >
+                        {isFollowed
+                            ? isPending ? "Unfollowing" : "Unfollow"
+                            : isPending ? "Following" : "Follow"
+                        }
+                    </Button>
+                    <ChannelOptions
+                        channelId={channelId}
+                        creatorId={creatorId}
+                    />
+                </div>
             </div>
             <div className="px-4 pt-[55px] pb-6">
                 <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-50">
@@ -137,7 +146,10 @@ export const ChannelInfoLoader = () => (
             <div className="bg-card rounded-full">
                 <Skeleton className="h-[72px] w-[72px] border-[3px] border-card rounded-full" />
             </div>
-            <Skeleton className="h-9 w-[75px] rounded-full" />
+            <div className="flex gap-x-2">
+                <Skeleton className="h-9 w-[75px] rounded-full" />
+                <Skeleton className="h-9 w-9 rounded-full" />
+            </div>
         </div>
         <div className="px-4 pt-[55px] pb-6">
             <Skeleton className="h-5 w-[150px] mt-1" />

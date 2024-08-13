@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { ChangeEvent } from "react";
 import { ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -29,29 +28,31 @@ import {
     UpsertChannelValidator
 } from "@/lib/validators/channel";
 import { channelTypes } from "@/constants";
-import { useToast } from "@/hooks/useToast";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Button } from "@/components/ui/Button";
 import { Switch } from "@/components/ui/Switch";
-import { createChannel } from "@/actions/channel";
 import { Textarea } from "@/components/ui/Textarea";
+import { Skeleton } from "@/components/ui/Skeleton";
 
-const ChannelForm = () => {
-    const router = useRouter();
-    const { toast } = useToast();
-    const [isPending, startTransition] = useTransition();
+interface ChannelFormProps {
+    defaultValues: UpsertChannelPayload;
+    onSubmit: (payload: UpsertChannelPayload) => void;
+    isPending: boolean;
+    submitBtnText: string;
+    pendingSubmitBtnText: string;
+}
 
+const ChannelForm = ({
+    defaultValues,
+    onSubmit,
+    isPending,
+    submitBtnText,
+    pendingSubmitBtnText
+}: ChannelFormProps) => {
     const form = useForm<UpsertChannelPayload>({
         resolver: zodResolver(UpsertChannelValidator),
-        defaultValues: {
-            name: "",
-            description: undefined,
-            type: "general",
-            bannerImage: undefined,
-            profileImage: undefined,
-            visibility: "public"
-        }
+        defaultValues
     });
 
     const handleImgChange = (
@@ -75,26 +76,6 @@ const ChannelForm = () => {
         form.setValue("bannerImage", undefined);
         form.setValue("profileImage", undefined);
         form.setValue("visibility", "public");
-    };
-
-    const onSubmit = (payload: UpsertChannelPayload) => {
-        startTransition(async () => {
-            const data = await createChannel(payload);
-            if (data.success) {
-                toast({
-                    title: "Success",
-                    description: data.success
-                });
-                router.push(`/topics/${data.channelId}`);
-            }
-            if (data.error) {
-                toast({
-                    variant: "destructive",
-                    title: "Error",
-                    description: data.error
-                });
-            }
-        });
     };
 
     return (
@@ -127,7 +108,11 @@ const ChannelForm = () => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Type</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    disabled={isPending}
+                                >
                                     <FormControl>
                                         <SelectTrigger>
                                             <SelectValue />
@@ -148,13 +133,14 @@ const ChannelForm = () => {
                         name="description"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Description</FormLabel>
+                                <FormLabel>Description (Optional)</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         {...field}
                                         rows={3}
                                         value={form.getValues("description") || ""}
                                         className="max-h-[200px] bg-white dark:bg-black"
+                                        onChange={(e) => field.onChange(e.target.value.length ? e.target.value : undefined)}
                                         disabled={isPending}
                                     />
                                 </FormControl>
@@ -169,7 +155,10 @@ const ChannelForm = () => {
                             <FormItem>
                                 <FormLabel>Visibility</FormLabel>
                                 <FormControl>
-                                    <div className="flex items-center justify-between">
+                                    <div className={cn(
+                                        "flex items-center justify-between",
+                                        isPending && "opacity-50 pointer-events-none cursor-not-allowed"
+                                    )}>
                                         <Label
                                             htmlFor="visibility-switch"
                                             className="font-semibold"
@@ -200,10 +189,9 @@ const ChannelForm = () => {
                                         Banner Image (Optional)
                                     </p>
                                     <div className={cn(
-                                        "relative h-[300px] w-full border rounded-md cursor-pointer overflow-hidden",
-                                        form.getValues("bannerImage")
-                                            ? "border-solid"
-                                            : "border-dashed flex items-center justify-center"
+                                        "relative h-[300px] w-full dark:bg-black border rounded-md cursor-pointer overflow-hidden",
+                                        form.getValues("bannerImage") ? "border-solid" : "border-dashed flex items-center justify-center",
+                                        isPending && "opacity-50 pointer-events-none cursor-not-allowed"
                                     )}>
                                         {form.getValues("bannerImage") ? (
                                             <Image
@@ -245,10 +233,9 @@ const ChannelForm = () => {
                                         Profile Image (Optional)
                                     </p>
                                     <div className={cn(
-                                        "relative h-[300px] w-full border rounded-md cursor-pointer overflow-hidden",
-                                        form.getValues("profileImage")
-                                            ? "border-solid"
-                                            : "border-dashed flex items-center justify-center"
+                                        "relative h-[300px] w-full dark:bg-black border rounded-md cursor-pointer overflow-hidden",
+                                        form.getValues("profileImage") ? "border-solid" : "border-dashed flex items-center justify-center",
+                                        isPending && "opacity-50 pointer-events-none cursor-not-allowed"
                                     )}>
                                         {form.getValues("profileImage") ? (
                                             <Image
@@ -287,6 +274,7 @@ const ChannelForm = () => {
                         size="lg"
                         variant="outline"
                         onClick={resetValues}
+                        disabled={isPending}
                     >
                         Clear
                     </Button>
@@ -295,12 +283,55 @@ const ChannelForm = () => {
                         size="lg"
                         isLoading={isPending}
                     >
-                        {isPending ? "Creating" : "Create"}
+                        {isPending ? pendingSubmitBtnText : submitBtnText}
                     </Button>
                 </div>
             </form>
         </Form>
-    )
+    );
 };
 
 export default ChannelForm;
+
+export const ChannelFormLoader = () => (
+    <div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-4">
+            <div className="pt-[3px] space-y-[7px]">
+                <Skeleton className="h-3.5 w-10" />
+                <Skeleton className="h-10 w-full" />
+            </div>
+            <div className="pt-[3px] space-y-[7px]">
+                <Skeleton className="h-3.5 w-8" />
+                <Skeleton className="h-10 w-full" />
+            </div>
+            <div className="pt-[3px] space-y-[7px]">
+                <Skeleton className="h-3.5 w-[149px]" />
+                <Skeleton className="h-20 w-full" />
+            </div>
+            <div className="pt-[3px]">
+                <Skeleton className="h-3.5 w-14" />
+                <div className="flex items-center justify-between mt-[7px]">
+                    <Skeleton className="h-3.5 w-[47px]" />
+                    <Skeleton className="h-6 w-11 rounded-full" />
+                </div>
+                <div className="pt-1.5 pb-0.5 space-y-1">
+                    <Skeleton className="h-3 w-full" />
+                    <Skeleton className="h-3 w-full" />
+                    <Skeleton className="h-3 w-20" />
+                </div>
+            </div>
+            <div className="pt-[3px] space-y-[7px]">
+                <Skeleton className="h-3.5 w-[163px]" />
+                <Skeleton className="h-[300px] w-full" />
+            </div>
+            <div className="pt-[3px] space-y-[7px]">
+                <Skeleton className="h-3.5 w-[158px]" />
+                <Skeleton className="h-[300px] w-full" />
+            </div>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-y-2 mt-5">
+            <Skeleton className="h-10 w-full sm:w-[102px]" />
+            <Skeleton className="h-10 w-full sm:w-[91px]" />
+        </div>
+    </div>
+);

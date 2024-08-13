@@ -171,7 +171,10 @@ const PostForm = ({
                                             <X className="size-5" />
                                         </div>
                                         <FormLabel>
-                                            <div className="relative h-[300px] w-full border rounded-md rounded-se-none cursor-pointer overflow-hidden">
+                                            <div className={cn(
+                                                "relative h-[300px] w-full border rounded-md rounded-se-none cursor-pointer overflow-hidden",
+                                                isPending && "opacity-50 pointer-events-none cursor-not-allowed"
+                                            )}>
                                                 <Image
                                                     src={form.getValues("image") || ""}
                                                     alt="Image"
@@ -205,7 +208,7 @@ const PostForm = ({
                                     <FormControl>
                                         <div className={cn(
                                             "relative border rounded-md p-4",
-                                            !!defaultValues.id && "opacity-50 cursor-not-allowed pointer-events-none"
+                                            (!!defaultValues.id || isPending) && "opacity-50 cursor-not-allowed pointer-events-none"
                                         )}>
                                             {!defaultValues.id && (
                                                 <>

@@ -26,6 +26,7 @@ model User {
     pollOptionVotes PollOptionVote[]
     bookmarks       Bookmark[]
     follows         Follow[]
+    channels        Channel[]
 }
 
 model VerificationToken {
@@ -52,7 +53,7 @@ model Post {
     bookmarks Bookmark[]
 
     creator User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
-    channel Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+    channel Channel? @relation(fields: [channelId], references: [id], onDelete: SetNull)
 
     @@index(fields: [creatorId])
 }
@@ -194,6 +195,7 @@ enum Visibility {
 
 model Channel {
     id           String      @id @default(auto()) @map("_id") @db.ObjectId
+    creatorId    String      @db.ObjectId
     name         String      @unique
     description  String?
     type         ChannelType
@@ -205,6 +207,8 @@ model Channel {
 
     posts   Post[]
     follows Follow[]
+
+    creator User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 }
 
 model Follow {
