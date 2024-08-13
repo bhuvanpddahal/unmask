@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useDeleteChannelModal } from "@/hooks/useDeleteChannelModal";
 
 interface ChannelOptionsProps {
     channelId: string;
@@ -27,6 +28,7 @@ const ChannelOptions = ({
     const router = useRouter();
     const currentUser = useCurrentUser();
     const isSameUser = currentUser?.id === creatorId;
+    const { open, setChannelId } = useDeleteChannelModal();
 
     return (
         <DropdownMenu>
@@ -49,7 +51,10 @@ const ChannelOptions = ({
                             <Pencil className="size-4 mr-2" />
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {}}>
+                        <DropdownMenuItem onClick={() => {
+                            setChannelId(channelId);
+                            open();
+                        }}>
                             <Trash2 className="size-4 mr-2" />
                             Delete
                         </DropdownMenuItem>

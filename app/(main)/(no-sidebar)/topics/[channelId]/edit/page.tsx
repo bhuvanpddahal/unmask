@@ -20,7 +20,7 @@ const EditChannelPage = ({
         <div>
             <Header
                 title="Update Your Channel"
-                description="Make changes to your channel. Customize how it looks."
+                description="Customize your channel's look and feel. Update your channel name, description, images, and visibility settings. Make your channel stand out!"
             />
             <div className="bg-white dark:bg-card p-5 rounded-md">
                 <EditChannelContent channelId={channelId} />

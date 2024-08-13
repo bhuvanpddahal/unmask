@@ -244,7 +244,7 @@ const PostForm = ({
                                                             type="text"
                                                             value={option}
                                                             placeholder={`Option ${index + 1}`}
-                                                            className="h-[50px] text-lg px-0 border-0 focus-visible:ring-0"
+                                                            className="h-[50px] px-0 border-0 focus-visible:ring-0"
                                                             onChange={(e) => updateOption(index, e.target.value)}
                                                         />
                                                     </li>
