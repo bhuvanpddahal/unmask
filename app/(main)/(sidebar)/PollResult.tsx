@@ -92,7 +92,7 @@ const PollResult = ({
                         })}
                         {insidePolls && hasMorePollOptions && (
                             <p className="px-4 text-[13.5px] leading-[22px] font-medium text-slate-500">
-                                {morePollOptionsCount} options are hidden
+                                {morePollOptionsCount} {morePollOptionsCount === 1 ? "option is" : "options are"} hidden
                             </p>
                         )}
                     </ul>

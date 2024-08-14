@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect } from "react";
 import { Post as PostType } from "@prisma/client";
 import { useInView } from "react-intersection-observer";
@@ -110,6 +111,19 @@ const Posts = () => {
     return (
         <div>
             <SortBy sort={sort} />
+            {!posts.length && (
+                <div className="py-20 flex flex-col items-center justify-center">
+                    <Image
+                        src="/empty.svg"
+                        alt="Empty"
+                        height={80}
+                        width={80}
+                    />
+                    <p className="text-sm font-medium text-zinc-400">
+                        No posts
+                    </p>
+                </div>
+            )}
             <ul className="space-y-5">
                 {posts.map((post, index) => {
                     const pollVotesCount = post.poll?.options.reduce((acc, option) => {
@@ -151,7 +165,7 @@ const Posts = () => {
                 )}
             </ul>
         </div>
-    )
+    );
 };
 
 export default Posts;

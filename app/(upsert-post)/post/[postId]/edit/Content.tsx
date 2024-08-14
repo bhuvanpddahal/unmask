@@ -44,9 +44,9 @@ const PostEditContent = ({
 
     if (isLoading) return <NavbarLoader />
     if (!data || data.error) return (
-        <div className="py-20 flex flex-col items-center justify-center gap-y-2">
+        <div className="py-20 flex flex-col items-center justify-center gap-y-1">
             <Image
-                src="/error.png"
+                src="/error.svg"
                 alt="Error"
                 height={100}
                 width={100}

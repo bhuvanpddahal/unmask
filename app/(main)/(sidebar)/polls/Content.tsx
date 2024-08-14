@@ -155,15 +155,15 @@ const PollsContent = () => {
                     )}
                 </ul>
             ) : (
-                <div className="py-20 flex flex-col items-center justify-center gap-y-2">
+                <div className="py-20 flex flex-col items-center justify-center">
                     <Image
-                        src="/empty.png"
+                        src="/empty.svg"
                         alt="Empty"
                         height={80}
                         width={80}
                     />
                     <p className="text-sm font-medium text-zinc-400">
-                        No channels with poll
+                        No polls
                     </p>
                 </div>
             )}

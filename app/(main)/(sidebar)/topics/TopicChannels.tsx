@@ -126,9 +126,9 @@ const TopicChannels = ({
                     )}
                 </ul>
             ) : (
-                <div className="py-5 flex flex-col items-center justify-center gap-y-2">
+                <div className="py-5 flex flex-col items-center justify-center">
                     <Image
-                        src="/empty.png"
+                        src="/empty.svg"
                         alt="Empty"
                         height={80}
                         width={80}

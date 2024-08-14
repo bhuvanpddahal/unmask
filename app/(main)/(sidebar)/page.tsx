@@ -20,7 +20,7 @@ const MainPage = () => {
             <AdBanner />
             <Posts />
         </div>
-    )
+    );
 };
 
 export default MainPage;

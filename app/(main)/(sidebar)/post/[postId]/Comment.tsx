@@ -103,7 +103,7 @@ const Comment = ({
                         ) : (
                             <div
                                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment) }}
-                                className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5"
+                                className="text-sm leading-6 text-zinc-800 dark:text-zinc-200 font-medium mt-0.5 [&_p]:min-h-4"
                             />
                         )}
                     </div>

@@ -12,7 +12,7 @@ const SidebarLayout = ({ children }: SidebarLayoutProps) => {
             {children}
             <RightPanel />
         </div>
-    )
+    );
 };
 
 export default SidebarLayout;

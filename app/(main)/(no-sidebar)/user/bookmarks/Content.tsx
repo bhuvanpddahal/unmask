@@ -118,9 +118,9 @@ const UserBookmarksContent = () => {
         <>
             <SortBy sort={sort} />
             {!bookmarks.length && (
-                <div className="py-20 flex flex-col items-center justify-center gap-y-2">
+                <div className="py-20 flex flex-col items-center justify-center">
                     <Image
-                        src="/empty.png"
+                        src="/empty.svg"
                         alt="Empty"
                         height={80}
                         width={80}
