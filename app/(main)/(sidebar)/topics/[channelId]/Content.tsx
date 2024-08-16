@@ -78,8 +78,8 @@ const ChannelDetailsContent = ({
                     sort={sort}
                 />
             ) : (
-                <div>
-                    This channel is private. You cannot view posts from this channel.
+                <div className="max-w-md text-sm font-medium text-zinc-400 text-center mx-auto py-10">
+                    This channel is private. To view its content, you must be a member. Please request an invitation from the moderator to gain access.
                 </div>
             )}
         </div>

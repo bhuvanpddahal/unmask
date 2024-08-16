@@ -154,7 +154,7 @@ const SecondStep = ({
                 </p>
             )}
         </>
-    )
+    );
 };
 
 export default SecondStep;

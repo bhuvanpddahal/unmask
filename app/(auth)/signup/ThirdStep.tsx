@@ -6,9 +6,7 @@ import {
 } from "react";
 import { useForm } from "react-hook-form";
 import { ChevronLeft } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
 
 import FormError from "@/components/FormError";
 import FormSuccess from "@/components/FormSuccess";
@@ -28,7 +26,6 @@ import { signup } from "@/actions/auth";
 import { useSignup } from "@/context/Signup";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 interface ThirdStepProps {
     setStep: Dispatch<SetStateAction<number>>;
@@ -37,9 +34,6 @@ interface ThirdStepProps {
 const ThirdStep = ({
     setStep
 }: ThirdStepProps) => {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const redirectTo = searchParams.get("redirectTo");
     const {
         email,
         password,
@@ -47,7 +41,6 @@ const ThirdStep = ({
         username,
         setUsername
     } = useSignup();
-    const { update } = useSession();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [isPending, startTransition] = useTransition();
@@ -74,10 +67,9 @@ const ThirdStep = ({
 
         startTransition(() => {
             signup(values).then((data) => {
-                if (data.user) {
-                    update({ ...data.user });
-                    setSuccess("Signed up sucessfully");
-                    router.push(redirectTo || DEFAULT_LOGIN_REDIRECT);
+                if (data.success) {
+                    setSuccess(data.success);
+                    window.location.reload();
                 }
                 if (data.error) {
                     setError(data.error);
@@ -181,7 +173,7 @@ const ThirdStep = ({
                 </form>
             </Form>
         </>
-    )
+    );
 };
 
 export default ThirdStep;

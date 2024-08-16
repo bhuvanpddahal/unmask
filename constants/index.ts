@@ -13,7 +13,7 @@ import {
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { BsGrid, BsGridFill } from "react-icons/bs";
 import { GoHome, GoHomeFill } from "react-icons/go";
-import { BiBriefcase, BiSolidBriefcase  } from "react-icons/bi";
+import { BiBriefcase, BiSolidBriefcase } from "react-icons/bi";
 import { HiRectangleStack, HiOutlineRectangleStack } from "react-icons/hi2";
 
 /**
@@ -50,6 +50,20 @@ export const POLL_OPTIONS_PER_POST = 3;
  * The number of channels displayed in a single page
  */
 export const CHANNELS_PER_PAGE = 12;
+
+export const protectedRoutes = [
+    "/post/create",
+    "/post/:postId/edit",
+    "/user/profile",
+    "/user/bookmarks",
+    "/topics/create",
+    "/topics/:channelId/edit"
+];
+
+export const guestOnlyRoutes = [
+    "/signup",
+    "/signin"
+];
 
 export const navItems = [
     {

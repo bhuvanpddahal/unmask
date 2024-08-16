@@ -49,7 +49,7 @@ const PostContent = ({
                         src={postImage}
                         alt="Post Image"
                         fill
-                        className="object-cover"
+                        className="object-contain"
                         priority
                     />
                 </div>
@@ -62,7 +62,7 @@ const PostContent = ({
                 />
             )}
         </CardContent>
-    )
+    );
 };
 
 export default PostContent;

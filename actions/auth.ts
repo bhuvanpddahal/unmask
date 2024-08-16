@@ -129,8 +129,8 @@ export const checkUsernameAvailability = async (username: string) => {
 };
 
 type SignupResponse =
-    { error: string; user?: undefined; } |
-    { user: Omit<User, "email" | "password">; error?: undefined; };
+    { success: string; error?: undefined; } |
+    { success?: undefined; error: string; };
 
 export const signup = async (payload: SignupPayload): Promise<SignupResponse> => {
     try {
@@ -162,21 +162,14 @@ export const signup = async (payload: SignupPayload): Promise<SignupResponse> =>
                 password: hashedPassword
             }
         });
+
         await signIn("credentials", {
             email,
             password,
             redirect: false
         });
 
-        return {
-            user: {
-                id: newUser.id,
-                username: newUser.username,
-                image: newUser.image,
-                joinedAt: newUser.joinedAt,
-                updatedAt: newUser.updatedAt
-            }
-        };
+        return { success: "Signed up successfully" };
     } catch (error) {
         console.error(error);
         if (error instanceof AuthError) {
@@ -213,15 +206,7 @@ export const signin = async (payload: SigninPayload) => {
             redirect: false
         });
 
-        return {
-            user: {
-                id: user.id,
-                username: user.username,
-                image: user.image,
-                joinedAt: user.joinedAt,
-                updatedAt: user.updatedAt
-            }
-        };
+        return { success: "Signed in successfully" };
     } catch (error) {
         console.error(error);
         if (error instanceof AuthError) {

@@ -25,7 +25,7 @@ const SigninPage = ({
             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                 We&apos;re happy to see you again! Dive back into exploring Unmask.
             </p>
-            <SigninForm redirectTo={redirectTo} />
+            <SigninForm />
             <Separator />
             <p className="text-sm font-medium text-center mt-4">
                 New to Unmask? {" "}

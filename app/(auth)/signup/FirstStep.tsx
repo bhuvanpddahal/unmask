@@ -123,33 +123,31 @@ const FirstStep = ({
                 </Link>
             </p>
         </>
-    )
+    );
 };
 
 export default FirstStep;
 
-export const FirstStepLoader = () => {
-    return (
-        <>
-            <div className="py-1">
-                <Skeleton className="h-5 sm:h-6 w-[250px] sm:w-[320px] rounded-md" />
-            </div>
-            <div className="py-[3px]">
-                <Skeleton className="h-3.5 w-[380px] rounded-md" />
-            </div>
-            <div className="space-y-5 my-4">
-                <div className="space-y-1">
-                    <div className="py-[3px]">
-                        <Skeleton className="h-3.5 w-10 rounded-md" />
-                    </div>
-                    <Skeleton className="h-10 w-full rounded-md" />
+export const FirstStepLoader = () => (
+    <>
+        <div className="py-1">
+            <Skeleton className="h-5 sm:h-6 w-[250px] sm:w-[320px] rounded-md" />
+        </div>
+        <div className="py-[3px]">
+            <Skeleton className="h-3.5 w-[380px] rounded-md" />
+        </div>
+        <div className="space-y-5 my-4">
+            <div className="space-y-1">
+                <div className="py-[3px]">
+                    <Skeleton className="h-3.5 w-10 rounded-md" />
                 </div>
                 <Skeleton className="h-10 w-full rounded-md" />
             </div>
-            <Separator />
-            <div className="flex justify-center mt-4">
-                <Skeleton className="h-3.5 w-[176px] my-[3px] rounded-md" />
-            </div>
-        </>
-    )
-};
+            <Skeleton className="h-10 w-full rounded-md" />
+        </div>
+        <Separator />
+        <div className="flex justify-center mt-4">
+            <Skeleton className="h-3.5 w-[176px] my-[3px] rounded-md" />
+        </div>
+    </>
+);
