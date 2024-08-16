@@ -75,7 +75,7 @@ const SigninModal = () => {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-    )
+    );
 };
 
 export default SigninModal;

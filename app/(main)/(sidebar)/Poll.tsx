@@ -85,15 +85,15 @@ const Poll = ({
                 defaultValue={activePollOptionId}
                 onValueChange={setActivePollOptionId}
             >
-                {(insidePolls ? slicedPollOptions : pollOptions).map((option, index) => (
+                {(insidePolls ? slicedPollOptions : pollOptions).map((option) => (
                     <Label
                         key={option.id}
-                        htmlFor={`option-${index}`}
+                        htmlFor={`option-${option.id}`}
                         className="bg-accent flex items-center gap-4 px-4 py-2.5 rounded-md cursor-pointer"
                     >
                         <RadioGroupItem
                             value={option.id}
-                            id={`option-${index}`}
+                            id={`option-${option.id}`}
                             className="shrink-0 size-[18px] border-black dark:border-white text-black dark:text-white focus-visible:ring-0 focus-visible:ring-transparent"
                         />
                         <p className="text-[13.5px] leading-[20px] text-zinc-800 dark:text-zinc-200 cursor-pointer">

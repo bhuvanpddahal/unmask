@@ -29,6 +29,11 @@ export const GetTopicChannelsValidator = z.object({
     limit: z.number()
 });
 
+export const InviteCodeValidator = z.object({
+    inviteCode: z.string()
+});
+
 export type UpsertChannelPayload = z.infer<typeof UpsertChannelValidator>;
 export type ChannelIdPayload = z.infer<typeof ChannelIdValidator>;
 export type GetTopicChannelsPayload = z.infer<typeof GetTopicChannelsValidator>;
+export type InviteCodePayload = z.infer<typeof InviteCodeValidator>;

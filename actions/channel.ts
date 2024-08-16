@@ -9,9 +9,12 @@ import {
     ChannelIdValidator,
     GetTopicChannelsPayload,
     GetTopicChannelsValidator,
+    InviteCodePayload,
+    InviteCodeValidator,
     UpsertChannelPayload,
     UpsertChannelValidator
 } from "@/lib/validators/channel";
+import { generateInviteCode } from "@/lib/invite-code";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -40,6 +43,8 @@ export const createChannel = async (payload: UpsertChannelPayload) => {
         if (bannerImage) bannerImageUrl = (await cloudinary.uploader.upload(bannerImage, { overwrite: false })).secure_url;
         if (profileImage) profileImageUrl = (await cloudinary.uploader.upload(profileImage, { overwrite: false })).secure_url;
 
+        const inviteCode = await generateInviteCode();
+
         const newChannel = await db.channel.create({
             data: {
                 creatorId: session.user.id,
@@ -49,6 +54,7 @@ export const createChannel = async (payload: UpsertChannelPayload) => {
                 bannerImage: bannerImageUrl,
                 profileImage: profileImageUrl,
                 visibility,
+                inviteCode,
                 follows: {
                     create: {
                         followerId: session.user.id
@@ -87,6 +93,7 @@ export const getChannelInfo = async (payload: ChannelIdPayload) => {
                 bannerImage: true,
                 profileImage: true,
                 visibility: true,
+                inviteCode: true,
                 follows: {
                     where: {
                         followerId: session?.user.id
@@ -104,7 +111,12 @@ export const getChannelInfo = async (payload: ChannelIdPayload) => {
         });
         if (!channel) return { error: "Channel not found" };
 
-        return { channel };
+        return {
+            channel: {
+                ...channel,
+                inviteCode: channel.creatorId === session?.user.id ? channel.inviteCode : null
+            }
+        };
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };
@@ -192,6 +204,9 @@ export const followOrUnfollowChannel = async (payload: ChannelIdPayload) => {
                 }
             });
         } else { // If the user hasn't followed the channel, follow it by creating a new follow
+            if (channel.visibility === "private") { // If the channel is private, inform the user that they can only follow it by using invitation link
+                throw new Error("This channel can only be followed using invitation link");
+            }
             await db.follow.create({
                 data: {
                     followerId: session.user.id,
@@ -350,6 +365,79 @@ export const deleteChannel = async (payload: ChannelIdPayload) => {
         });
 
         return { success: "Channel deleted successfully" };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const acceptInvitation = async (payload: InviteCodePayload) => {
+    try {
+        const validatedFields = InviteCodeValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { inviteCode } = validatedFields.data;
+
+        const channel = await db.channel.findUnique({
+            where: { inviteCode }
+        });
+        if (!channel) return { error: "Invalid request" };
+
+        const alreadyFollowed = await db.follow.findUnique({
+            where: {
+                followerId_channelId: {
+                    followerId: session.user.id,
+                    channelId: channel.id
+                }
+            }
+        });
+        if (alreadyFollowed) return { channelId: channel.id };
+
+        await db.follow.create({
+            data: {
+                followerId: session.user.id,
+                channelId: channel.id
+            }
+        });
+
+        return { channelId: channel.id };
+    } catch (error) {
+        console.error(error);
+        return { error: "Something went wrong" };
+    }
+};
+
+export const generateNewInviteCode = async (payload: InviteCodePayload) => {
+    try {
+        const validatedFields = InviteCodeValidator.safeParse(payload);
+        if (!validatedFields.success) return { error: "Invalid fields" };
+
+        const session = await auth();
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
+        const { inviteCode } = validatedFields.data;
+
+        const channel = await db.channel.findUnique({
+            where: { inviteCode }
+        });
+        if (!channel) return { error: "Channel not found" };
+        if (channel.creatorId !== session.user.id) return { error: "Not allowed" };
+
+        const newInviteCode = await generateInviteCode();
+
+        await db.channel.update({
+            where: {
+                id: channel.id
+            },
+            data: {
+                inviteCode: newInviteCode
+            }
+        });
+
+        return { inviteCode: newInviteCode };
     } catch (error) {
         console.error(error);
         return { error: "Something went wrong" };

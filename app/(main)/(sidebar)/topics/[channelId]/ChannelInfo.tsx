@@ -1,14 +1,16 @@
 import Image from "next/image";
 import { Visibility } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { Dot, Globe, GlobeLock } from "lucide-react";
+import { Dot, Globe, GlobeLock, UserCog } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import ChannelOptions from "./ChannelOptions";
 import { Card } from "@/components/ui/Card";
 import { useToast } from "@/hooks/useToast";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { followOrUnfollowChannel as followOrUnfollowChannelAction } from "@/actions/channel";
 
 interface ChannelInfoProps {
@@ -19,6 +21,7 @@ interface ChannelInfoProps {
     bannerImage: string | null;
     profileImage: string | null;
     visibility: Visibility;
+    inviteCode: string | null;
     initialFollowsCount: number;
     initialIsFollowed: boolean;
 }
@@ -31,10 +34,13 @@ const ChannelInfo = ({
     bannerImage,
     profileImage,
     visibility,
+    inviteCode,
     initialFollowsCount,
     initialIsFollowed
 }: ChannelInfoProps) => {
+    const currentUser = useCurrentUser();
     const queryClient = useQueryClient();
+    const isCreator = currentUser?.id === creatorId;
     const { toast } = useToast();
     const [isFollowed, setIsFollowed] = useState(initialIsFollowed);
     const [followsCount, setFollowsCount] = useState(initialFollowsCount);
@@ -94,20 +100,28 @@ const ChannelInfo = ({
                     />
                 </div>
                 <div className="flex gap-x-2">
-                    <Button
-                        variant="outline"
-                        className="rounded-full"
-                        onClick={() => followOrUnfollowChannel()}
-                        isLoading={isPending}
-                    >
-                        {isFollowed
-                            ? isPending ? "Unfollowing" : "Unfollow"
-                            : isPending ? "Following" : "Follow"
-                        }
-                    </Button>
+                    {isCreator && (
+                        <Badge>
+                            <UserCog className="size-4" />
+                        </Badge>
+                    )}
+                    {!isCreator && (visibility === "public" || isFollowed) && (
+                        <Button
+                            variant="outline"
+                            className="rounded-full"
+                            onClick={() => followOrUnfollowChannel()}
+                            isLoading={isPending}
+                        >
+                            {isFollowed
+                                ? isPending ? "Unfollowing" : "Unfollow"
+                                : isPending ? "Following" : "Follow"
+                            }
+                        </Button>
+                    )}
                     <ChannelOptions
                         channelId={channelId}
-                        creatorId={creatorId}
+                        inviteCode={inviteCode || ""}
+                        isCreator={isCreator}
                     />
                 </div>
             </div>

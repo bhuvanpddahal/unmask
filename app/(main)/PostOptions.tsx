@@ -17,7 +17,7 @@ import { useDeletePostModal } from "@/hooks/useDeletePostModal";
 
 interface PostOptionsProps {
     postId: string;
-    isSameUser: boolean;
+    isCreator: boolean;
     creatorUsername: string;
     creatorImage: string | null;
     title: string;
@@ -28,7 +28,7 @@ interface PostOptionsProps {
 
 const PostOptions = ({
     postId,
-    isSameUser,
+    isCreator,
     creatorUsername,
     creatorImage,
     title,
@@ -69,7 +69,7 @@ const PostOptions = ({
                     <LinkIcon className="size-4 mr-2" />
                     Copy link
                 </DropdownMenuItem>
-                {isSameUser && (
+                {isCreator && (
                     <>
                         <DropdownMenuItem
                             onClick={(e) => {

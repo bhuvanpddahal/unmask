@@ -67,6 +67,7 @@ const ChannelDetailsContent = ({
                 bannerImage={data.channel?.bannerImage || null}
                 profileImage={data.channel?.profileImage || null}
                 visibility={data.channel?.visibility || "private"}
+                inviteCode={data.channel?.inviteCode || null}
                 initialFollowsCount={data.channel?._count.follows || 0}
                 initialIsFollowed={!!isFollowed}
             />

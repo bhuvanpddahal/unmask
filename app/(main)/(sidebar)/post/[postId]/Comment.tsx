@@ -41,7 +41,7 @@ const Comment = ({
     initialIsLiked
 }: CommentProps) => {
     const currentUser = useCurrentUser();
-    const isSameUser = currentUser?.id === commenterId;
+    const isCommenter = currentUser?.id === commenterId;
     const isSignedIn = !!(currentUser && currentUser.id);
     const isEdited = new Date(updatedAt) > new Date(commentedAt);
     const title = `Commented on ${format(commentedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
@@ -81,7 +81,7 @@ const Comment = ({
                                 {isEdited && " (Edited)"}
                             </span>
                         </div>
-                        {isSameUser && (
+                        {isCommenter && (
                             <CommentOptions
                                 postId={postId}
                                 commentId={commentId}

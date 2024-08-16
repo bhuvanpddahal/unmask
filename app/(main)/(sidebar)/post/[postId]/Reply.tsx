@@ -38,7 +38,7 @@ const Reply = ({
     initialIsLiked
 }: ReplyProps) => {
     const currentUser = useCurrentUser();
-    const isSameUser = currentUser?.id === replierId;
+    const isReplier = currentUser?.id === replierId;
     const isSignedIn = !!(currentUser && currentUser.id);
     const isEdited = new Date(updatedAt) > new Date(repliedAt);
     const title = `Replied on ${format(repliedAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
@@ -77,7 +77,7 @@ const Reply = ({
                             {isEdited && " (Edited)"}
                         </span>
                     </div>
-                    {isSameUser && (
+                    {isReplier && (
                         <ReplyOptions
                             postId={postId}
                             replyId={replyId}

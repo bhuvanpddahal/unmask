@@ -2,7 +2,8 @@ import {
     Ellipsis,
     LinkIcon,
     Pencil,
-    Trash2
+    Trash2,
+    UserPlus
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -13,22 +14,23 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useInviteMemberModal } from "@/hooks/useInviteMemberModal";
 import { useDeleteChannelModal } from "@/hooks/useDeleteChannelModal";
 
 interface ChannelOptionsProps {
     channelId: string;
-    creatorId: string;
+    inviteCode: string;
+    isCreator: boolean;
 }
 
 const ChannelOptions = ({
     channelId,
-    creatorId
+    inviteCode,
+    isCreator
 }: ChannelOptionsProps) => {
     const router = useRouter();
-    const currentUser = useCurrentUser();
-    const isSameUser = currentUser?.id === creatorId;
-    const { open, setChannelId } = useDeleteChannelModal();
+    const { open: openInviteMemberModal } = useInviteMemberModal();
+    const { open: openDeleteChannelModal, setChannelId } = useDeleteChannelModal();
 
     return (
         <DropdownMenu>
@@ -45,15 +47,19 @@ const ChannelOptions = ({
                     <LinkIcon className="size-4 mr-2" />
                     Copy link
                 </DropdownMenuItem>
-                {isSameUser && (
+                {isCreator && (
                     <>
+                        <DropdownMenuItem onClick={() => openInviteMemberModal(channelId, inviteCode)}>
+                            <UserPlus className="size-4 mr-2" />
+                            Invite
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => router.push(`/topics/${channelId}/edit`)}>
                             <Pencil className="size-4 mr-2" />
                             Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => {
                             setChannelId(channelId);
-                            open();
+                            openDeleteChannelModal();
                         }}>
                             <Trash2 className="size-4 mr-2" />
                             Delete

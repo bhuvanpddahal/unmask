@@ -37,7 +37,7 @@ const PostHeader = ({
     isBookmarked
 }: PostHeaderProps) => {
     const currentUser = useCurrentUser();
-    const isSameUser = currentUser?.id === creatorId;
+    const isCreator = currentUser?.id === creatorId;
     const isSignedIn = !!(currentUser && currentUser.id);
     const isEdited = new Date(updatedAt) > new Date(createdAt);
     const dateTitle = `Posted on ${format(createdAt, "PPp")}${isEdited ? "\nLast edited on " + format(updatedAt, "PPp") : ""}`;
@@ -84,7 +84,7 @@ const PostHeader = ({
                     />
                     <PostOptions
                         postId={postId}
-                        isSameUser={isSameUser}
+                        isCreator={isCreator}
                         creatorUsername={creatorUsername}
                         creatorImage={creatorImage}
                         title={title}

@@ -1,6 +1,7 @@
 import SigninModal from "./SigninModal";
 import DeletePostModal from "./DeletePostModal";
 import DeleteReplyModal from "./DeleteReplyModal";
+import InviteMemberModal from "./InviteMemberModal";
 import DeleteChannelModal from "./DeleteChannelModal";
 import DeleteCommentModal from "./DeleteCommentModal";
 
@@ -12,6 +13,7 @@ const Modals = () => {
             <DeleteReplyModal />
             <DeletePostModal />
             <DeleteChannelModal />
+            <InviteMemberModal />
         </>
     );
 };
