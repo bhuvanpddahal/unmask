@@ -21,7 +21,9 @@ const ChannelInvitationPage = ({
                 <h1 className="font-semibold text-lg text-zinc-800 dark:text-zinc-200">
                     Invitation
                 </h1>
-                <ChannelInvitationContent inviteCode={inviteCode} />
+                <ChannelInvitationContent
+                    inviteCode={decodeURIComponent(inviteCode)}
+                />
                 <footer className="text-xs text-zinc-500 text-center dark:text-zinc-400">
                     © {(new Date()).getFullYear()} Unmask, Inc. Privacy and Terms
                 </footer>
