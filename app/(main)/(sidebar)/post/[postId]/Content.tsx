@@ -54,8 +54,8 @@ const PostDetailsContent = ({
             <Image
                 src="/error.svg"
                 alt="Error"
-                height={100}
-                width={100}
+                height={50}
+                width={50}
             />
             <p className="text-sm font-medium text-zinc-400">
                 {data?.error || "Something went wrong"}

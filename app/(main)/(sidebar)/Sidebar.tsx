@@ -10,7 +10,7 @@ const Sidebar = () => {
     const pathname = usePathname();
 
     return (
-        <aside className="w-[260px] h-[calc(100vh-60px)] sticky top-[60px] p-4 pr-0 hidden lg:block">
+        <aside className="shrink-0 w-[260px] h-[calc(100vh-60px)] sticky top-[60px] p-4 pr-0 hidden lg:block">
             <ul className="space-y-1.5">
                 {sidebarItems.map((item) => {
                     const isActive = item.href === "/"

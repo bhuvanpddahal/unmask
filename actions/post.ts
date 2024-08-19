@@ -522,7 +522,7 @@ export const editPost = async (payload: UpsertPostPayload) => {
         if (!post) return { error: "Post not found" };
         if (post.creatorId !== session.user.id) return { error: "Unpermitted" };
 
-        let imageUrl: string | undefined = undefined;
+        let imageUrl: string | null = null;
         if (image) imageUrl = (await cloudinary.uploader.upload(image, { overwrite: false })).secure_url;
 
         await db.post.update({

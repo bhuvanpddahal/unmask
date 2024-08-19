@@ -78,7 +78,8 @@ const CommentInput = ({
                     isPending && "opacity-50 pointer-events-none cursor-not-allowed"
                 )
             }
-        }
+        },
+        immediatelyRender: false
     });
 
     if (!editor) return null;

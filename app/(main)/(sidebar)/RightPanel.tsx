@@ -1,11 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import Link from "next/link";
 
 const RightPanel = () => {
     const router = useRouter();
@@ -17,7 +17,7 @@ const RightPanel = () => {
     if (pathname === "/topics") return null;
 
     return (
-        <div className="hidden xl:block sticky top-[60px] h-fit w-[330px] p-4 pl-0">
+        <div className="hidden xl:block shrink-0 sticky top-[60px] h-fit w-[346px] p-4 pl-0">
             <Card className="p-4">
                 <div className="text-zinc-500 dark:text-zinc-400 text-sm font-semibold tracking-tight mb-2">
                     For You

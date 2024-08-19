@@ -158,9 +158,9 @@ const PostForm = ({
                         control={form.control}
                         name="image"
                         render={() => (
-                            <FormItem className="relative mt-12">
+                            <FormItem className="mt-12">
                                 {form.getValues("image") && (
-                                    <>
+                                    <div className={cn("relative", isPending && "opacity-50 cursor-not-allowed pointer-events-none")}>
                                         <div
                                             className="bg-border absolute bottom-full right-0 p-1 rounded-t-md cursor-pointer hover:bg-accent"
                                             onClick={() => {
@@ -171,10 +171,7 @@ const PostForm = ({
                                             <X className="size-5" />
                                         </div>
                                         <FormLabel>
-                                            <div className={cn(
-                                                "relative h-[300px] w-full border rounded-md rounded-se-none cursor-pointer overflow-hidden",
-                                                isPending && "opacity-50 pointer-events-none cursor-not-allowed"
-                                            )}>
+                                            <div className="relative h-[300px] w-full border rounded-md rounded-se-none cursor-pointer overflow-hidden">
                                                 <Image
                                                     src={form.getValues("image") || ""}
                                                     alt="Image"
@@ -183,7 +180,7 @@ const PostForm = ({
                                                 />
                                             </div>
                                         </FormLabel>
-                                    </>
+                                    </div>
                                 )}
                                 <FormControl>
                                     <Input
