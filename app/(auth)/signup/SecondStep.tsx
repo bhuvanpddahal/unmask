@@ -99,7 +99,7 @@ const SecondStep = ({
                     disabled={isConfirmLoading || isResendLoading}
                 >
                     {Array.from({ length: VERIFICATION_TOKEN_LENGTH }, (_, index) => (
-                        <InputOTPGroup>
+                        <InputOTPGroup key={index}>
                             <InputOTPSlot index={index} />
                         </InputOTPGroup>
                     ))}

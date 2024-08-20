@@ -25,7 +25,7 @@ const ChannelInvitationContent = ({
         };
 
         acceptChannelInvitation();
-    }, []);
+    }, [inviteCode, router]);
 
     if (error) return (
         <div className="py-6 flex flex-col items-center justify-center gap-y-1">
