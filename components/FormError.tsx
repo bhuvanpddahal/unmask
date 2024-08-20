@@ -9,7 +9,7 @@ interface FormErrorProps {
 
 const FormError = ({
     message,
-    className
+    className = ""
 }: FormErrorProps) => {
     if (!message) return null;
 

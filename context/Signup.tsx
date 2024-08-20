@@ -37,6 +37,7 @@ export const SignupProvider = ({
     const [email, setEmail] = useState(initialValues.email);
     const [password, setPassword] = useState(initialValues.password);
     const [username, setUsername] = useState(initialValues.username);
+    
     const values = {
         email,
         setEmail,
@@ -45,6 +46,7 @@ export const SignupProvider = ({
         username,
         setUsername
     };
+
     return (
         <Provider value={values}>
             {children}

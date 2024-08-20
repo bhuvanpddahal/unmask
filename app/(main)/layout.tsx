@@ -10,7 +10,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             <Navbar />
             {children}
         </main>
-    )
+    );
 };
 
 export default MainLayout;

@@ -1,8 +1,10 @@
 import { Metadata } from "next";
+import { ChannelType } from "@prisma/client";
 
 import TopicChannels from "./TopicChannels";
 import NewChannelButton from "./NewChannelButton";
 import TopicChannelsWrapper from "./TopicChannelsWrapper";
+import { channelTypes } from "@/constants";
 import { Separator } from "@/components/ui/Separator";
 
 export const metadata: Metadata = {
@@ -28,36 +30,14 @@ const TopicsPage = () => {
                 Topic Channels
             </h2>
             <div className="space-y-8 mt-3">
-                <TopicChannelsWrapper topic="ACADEMICS AND LEARNING">
-                    <TopicChannels type="academics" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="CAREER AND JOB SEARCH">
-                    <TopicChannels type="career" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="PERSONAL DEVELOPMENT">
-                    <TopicChannels type="personal_development" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="CAMPUS LIFE">
-                    <TopicChannels type="campus_life" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="GENERAL INTERESTS">
-                    <TopicChannels type="general" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="TECHNOLOGIES">
-                    <TopicChannels type="technology" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="INDUSTRIES">
-                    <TopicChannels type="industry" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="CREATIVE ARTS">
-                    <TopicChannels type="creative_arts" />
-                </TopicChannelsWrapper>
-                <TopicChannelsWrapper topic="SOCIAL ISSUES">
-                    <TopicChannels type="social_issues" />
-                </TopicChannelsWrapper>
+                {Object.entries(channelTypes).map(([key, value]) => (
+                    <TopicChannelsWrapper key={key} topic={value}>
+                        <TopicChannels type={key as ChannelType} />
+                    </TopicChannelsWrapper>
+                ))}
             </div>
         </div>
-    )
+    );
 };
 
 export default TopicsPage;

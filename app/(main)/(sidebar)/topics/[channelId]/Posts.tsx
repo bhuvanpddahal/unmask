@@ -116,7 +116,7 @@ const Posts = ({
                                 viewsCount={post._count.views}
                                 lastPostRef={index === posts.length - 1 ? ref : undefined}
                             />
-                        )
+                        );
                     })}
                     {isFetchingNextPage && (
                         Array.from({ length: 3 }, (_, index) => (

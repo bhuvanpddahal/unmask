@@ -108,7 +108,7 @@ const PostDetailsContent = ({
             </Card>
             <CommentInput postId={postId} />
         </div>
-    )
+    );
 };
 
 export default PostDetailsContent;

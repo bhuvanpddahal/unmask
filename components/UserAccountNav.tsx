@@ -65,7 +65,7 @@ const UserAccountNav = () => {
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 };
 
 export default UserAccountNav;

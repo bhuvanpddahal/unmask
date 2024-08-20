@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import authConfig from "./auth.config";
 import { db } from "@/lib/db";
-import { getUserById, getUserForSession } from "./lib/queries/user";
+import { getUserById, getUserForSession } from "@/lib/queries/user";
 
 export const {
     handlers: { GET, POST },

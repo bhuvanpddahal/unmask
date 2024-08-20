@@ -18,6 +18,7 @@ import {
 import { useSignup } from "@/context/Signup";
 import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
+import { VERIFICATION_TOKEN_LENGTH } from "@/constants";
 import { resendToken, verifyEmail } from "@/actions/auth";
 
 interface SecondStepProps {
@@ -92,29 +93,16 @@ const SecondStep = ({
             </p>
             <div className="flex justify-center mt-4 mb-5">
                 <InputOTP
-                    maxLength={6}
+                    maxLength={VERIFICATION_TOKEN_LENGTH}
                     value={value}
                     onChange={setValue}
                     disabled={isConfirmLoading || isResendLoading}
                 >
-                    <InputOTPGroup>
-                        <InputOTPSlot index={0} />
-                    </InputOTPGroup>
-                    <InputOTPGroup>
-                        <InputOTPSlot index={1} />
-                    </InputOTPGroup>
-                    <InputOTPGroup>
-                        <InputOTPSlot index={2} />
-                    </InputOTPGroup>
-                    <InputOTPGroup>
-                        <InputOTPSlot index={3} />
-                    </InputOTPGroup>
-                    <InputOTPGroup>
-                        <InputOTPSlot index={4} />
-                    </InputOTPGroup>
-                    <InputOTPGroup>
-                        <InputOTPSlot index={5} />
-                    </InputOTPGroup>
+                    {Array.from({ length: VERIFICATION_TOKEN_LENGTH }, (_, index) => (
+                        <InputOTPGroup>
+                            <InputOTPSlot index={index} />
+                        </InputOTPGroup>
+                    ))}
                 </InputOTP>
             </div>
 

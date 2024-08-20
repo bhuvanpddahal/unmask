@@ -81,7 +81,7 @@ const Post = ({
                 viewsCount={viewsCount}
             />
         </Card>
-    )
+    );
 };
 
 export default Post;

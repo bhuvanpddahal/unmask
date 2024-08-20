@@ -28,7 +28,7 @@ const UserProfilePage = () => {
                 <ThemePreference />
             </div>
         </div>
-    )
+    );
 };
 
 export default UserProfilePage;

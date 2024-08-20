@@ -12,7 +12,7 @@ const NoSidebarLayout = ({ children }: NoSidebarLayoutProps) => {
             </div>
             <Footer />
         </>
-    )
+    );
 };
 
 export default NoSidebarLayout;

@@ -45,7 +45,7 @@ const SortBy = ({
                 </SelectContent>
             </Select>
         </div>
-    )
+    );
 };
 
 export default SortBy;

@@ -1,10 +1,4 @@
 import {
-    Briefcase,
-    DollarSign,
-    Home,
-    Star
-} from "lucide-react";
-import {
     RiInbox2Fill,
     RiInbox2Line,
     RiMoneyDollarBoxFill,
@@ -15,6 +9,11 @@ import { BsGrid, BsGridFill } from "react-icons/bs";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { BiBriefcase, BiSolidBriefcase } from "react-icons/bi";
 import { HiRectangleStack, HiOutlineRectangleStack } from "react-icons/hi2";
+
+/**
+ * The length of the verification code that is used to verify email of users
+ */
+export const VERIFICATION_TOKEN_LENGTH = 6;
 
 /**
  * The expiry time of verification token in minutes
@@ -32,7 +31,7 @@ export const POSTS_PER_PAGE = 20;
 export const COMMENTS_PER_PAGE = 10;
 
 /**
- * The number of replies displayed in a single page
+ * The number of replies displayed initially in a single comment
  */
 export const REPLIES_PER_PAGE = 2;
 

@@ -107,7 +107,7 @@ const PollResult = ({
             </DrawerContent>
         </Drawer>
 
-    )
+    );
 };
 
 export default PollResult;

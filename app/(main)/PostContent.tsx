@@ -53,7 +53,7 @@ const PostContent = ({
                 </div>
             )}
         </CardContent>
-    )
+    );
 };
 
 export default PostContent;

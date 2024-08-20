@@ -39,7 +39,7 @@ const ChannelDetailsContent = ({
             <AdBanner />
             <PostsLoader sort={sort} />
         </div>
-    )
+    );
     if (!data || data.error) return (
         <div className="py-20 flex flex-col items-center justify-center gap-y-1">
             <Image
@@ -52,7 +52,7 @@ const ChannelDetailsContent = ({
                 {data?.error || "Something went wrong"}
             </p>
         </div>
-    )
+    );
 
     const isFollowed = data.channel?.follows[0] && data.channel.follows[0].followerId === user?.id;
     const canViewPosts = data.channel?.visibility === "public" || isFollowed;

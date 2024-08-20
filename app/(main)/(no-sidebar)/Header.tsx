@@ -16,7 +16,7 @@ const Header = ({
                 {description}
             </p>
         </header>
-    )
+    );
 };
 
 export default Header;

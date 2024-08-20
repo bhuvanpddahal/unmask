@@ -126,11 +126,11 @@ const Posts = () => {
             )}
             <ul className="space-y-5">
                 {posts.map((post, index) => {
-                    const pollVotesCount = post.poll?.options.reduce((acc, option) => {
-                        return acc + option._count.votes;
-                    }, 0);
                     const repliesCount = post.comments.reduce((acc, comment) => {
                         return acc + comment._count.replies;
+                    }, 0);
+                    const pollVotesCount = post.poll?.options.reduce((acc, option) => {
+                        return acc + option._count.votes;
                     }, 0);
                     const commentsCount = post.comments.length + repliesCount;
                     const isLiked = post.likes[0] && post.likes[0].likerId === user?.id;

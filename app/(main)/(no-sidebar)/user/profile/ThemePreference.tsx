@@ -40,7 +40,7 @@ const ThemePreference = () => {
                 <SystemMode />
             </div>
         </div>
-    )
+    );
 };
 
 export default ThemePreference;

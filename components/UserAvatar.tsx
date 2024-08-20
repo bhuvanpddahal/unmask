@@ -15,7 +15,7 @@ interface UserAvatarProps {
 const UserAvatar = ({
     image,
     username,
-    className
+    className = ""
 }: UserAvatarProps) => {
     return (
         <Avatar
@@ -29,7 +29,7 @@ const UserAvatar = ({
                 )}
             </AvatarFallback>
         </Avatar>
-    )
+    );
 };
 
 export default UserAvatar;

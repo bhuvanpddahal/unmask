@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 import { ChannelType } from "@prisma/client";
@@ -12,7 +13,6 @@ import { useToast } from "@/hooks/useToast";
 import { CHANNELS_PER_PAGE } from "@/constants";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { getTopicChannels } from "@/actions/channel";
-import Image from "next/image";
 
 interface TopicChannelsProps {
     type: ChannelType;

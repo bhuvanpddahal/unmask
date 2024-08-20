@@ -111,7 +111,7 @@ const Comments = ({
 
     if (!isValidSort(sort)) return notFound();
     if (isLoading) return <CommentsLoader sort={sort} />
-    if (!comments) return <div>Error</div>
+    if (!comments) return <div className="text-center text-sm text-destructive font-medium py-3">❌ Error: No comments</div>
 
     return (
         <div className="p-4">

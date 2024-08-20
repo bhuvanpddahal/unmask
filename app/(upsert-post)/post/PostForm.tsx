@@ -286,7 +286,7 @@ const PostForm = ({
                 </div>
             </form>
         </Form>
-    )
+    );
 };
 
 export default PostForm;

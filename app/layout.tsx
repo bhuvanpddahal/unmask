@@ -22,7 +22,7 @@ export const metadata: Metadata = {
         title: "Unmask",
         description: "Unmask is a safe space to share your experiences, thoughts, and feelings - completely anonymously. Whether you want to celebrate a victory, vent about a frustration, or simply connect with others who understand, Unmask provides a supportive and judgement-free community.",
         images: [
-            `${baseUrl}/logo.svg`,
+            `${baseUrl}/logo-light.svg`,
             `${baseUrl}/thumbnail.png`
         ]
     },

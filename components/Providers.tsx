@@ -18,7 +18,7 @@ const Providers = ({ children, session }: ProvidersProps) => {
                 {children}
             </QueryClientProvider>
         </SessionProvider>
-    )
+    );
 };
 
 export default Providers;

@@ -9,7 +9,7 @@ interface FormSuccessProps {
 
 const FormSuccess = ({
     message,
-    className
+    className = ""
 }: FormSuccessProps) => {
     if (!message) return null;
 

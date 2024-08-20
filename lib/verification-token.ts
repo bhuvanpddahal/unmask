@@ -1,23 +1,25 @@
 import crypto from "crypto";
 
+import {
+    TOKEN_EXPIRY_TIME_IN_MIN,
+    VERIFICATION_TOKEN_LENGTH
+} from "@/constants";
 import { db } from "./db";
-import { TOKEN_EXPIRY_TIME_IN_MIN } from "@/constants";
 import { getVerificationTokenByEmail } from "./queries/verification-token";
 
 function generateCode() {
-    // Generate a random string (longer to ensure enough numbers)
-    const buffer = crypto.randomBytes(4); // 4 bytes for more options
-    const hex = buffer.toString("hex").toUpperCase();
+    let code = "";
 
-    // Filter out non-numeric characters
-    let code = hex.replace(/\D/g, "");
+    do {
+        // Generate a random string (longer to ensure enough numbers)
+        const buffer = crypto.randomBytes(4); // 4 bytes for more options
+        const hex = buffer.toString("hex").toUpperCase();
 
-    // If code is less than 6 digits, repeat until a valid code is found
-    while (code.length < 6) {
-        code += generateCode().slice(0, 6 - code.length); // Append digits from additional generations
-    }
+        // Filter out non-numeric characters and add it to the code
+        code += hex.replace(/\D/g, "");
+    } while (code.length < VERIFICATION_TOKEN_LENGTH);
 
-    return code.slice(0, 6); // Truncate to ensure exactly 6 digits
+    return code.slice(0, VERIFICATION_TOKEN_LENGTH); // Truncate to ensure exactly the required digits
 }
 
 export const generateVerificationToken = async (email: string) => {

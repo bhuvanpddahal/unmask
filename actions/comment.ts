@@ -3,16 +3,14 @@
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import {
+    CommentIdPayload,
+    CommentIdValidator,
     CommentOnPostPayload,
     CommentOnPostValidator,
-    DeleteCommentPayload,
-    DeleteCommentValidator,
     EditCommentPayload,
     EditCommentValidator,
     GetCommentsPayload,
-    GetCommentsValidator,
-    LikeOrUnlikeCommentPayload,
-    LikeOrUnlikeCommentValidator
+    GetCommentsValidator
 } from "@/lib/validators/comment";
 
 export const getComments = async (payload: GetCommentsPayload) => {
@@ -174,9 +172,9 @@ export const editComment = async (payload: EditCommentPayload) => {
     }
 };
 
-export const deleteComment = async (payload: DeleteCommentPayload) => {
+export const deleteComment = async (payload: CommentIdPayload) => {
     try {
-        const validatedFields = DeleteCommentValidator.safeParse(payload);
+        const validatedFields = CommentIdValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
 
         const session = await auth();
@@ -205,9 +203,9 @@ export const deleteComment = async (payload: DeleteCommentPayload) => {
     }
 };
 
-export const likeOrUnlikeComment = async (payload: LikeOrUnlikeCommentPayload) => {
+export const likeOrUnlikeComment = async (payload: CommentIdPayload) => {
     try {
-        const validatedFields = LikeOrUnlikeCommentValidator.safeParse(payload);
+        const validatedFields = CommentIdValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const session = await auth();

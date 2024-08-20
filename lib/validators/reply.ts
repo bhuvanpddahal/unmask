@@ -10,7 +10,7 @@ export const EditReplyValidator = z.object({
     editedReply: z.string().min(3)
 });
 
-export const DeleteReplyValidator = z.object({
+export const ReplyIdValidator = z.object({
     replyId: z.string()
 });
 
@@ -21,12 +21,7 @@ export const GetMoreRepliesValidator = z.object({
     repliesPerPage: z.number()
 });
 
-export const LikeOrUnlikeReplyValidator = z.object({
-    replyId: z.string()
-});
-
 export type ReplyOnCommentPayload = z.infer<typeof ReplyOnCommentValidator>;
 export type EditReplyPayload = z.infer<typeof EditReplyValidator>;
-export type DeleteReplyPayload = z.infer<typeof DeleteReplyValidator>;
+export type ReplyIdPayload = z.infer<typeof ReplyIdValidator>;
 export type GetMoreRepliesPayload = z.infer<typeof GetMoreRepliesValidator>;
-export type LikeOrUnlikeReplyPayload = z.infer<typeof LikeOrUnlikeReplyValidator>;

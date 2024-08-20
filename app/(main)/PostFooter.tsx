@@ -71,7 +71,7 @@ const PostFooter = ({
                 <ShareButton postId={postId} />
             </div>
         </CardFooter>
-    )
+    );
 };
 
 export default PostFooter;

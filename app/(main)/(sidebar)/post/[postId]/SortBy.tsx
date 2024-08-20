@@ -18,7 +18,7 @@ interface SortByProps {
 const SortBy = ({
     sort,
     postId,
-    className
+    className = ""
 }: SortByProps) => {
     const router = useRouter();
 
@@ -49,7 +49,7 @@ const SortBy = ({
                 </SelectContent>
             </Select>
         </div>
-    )
+    );
 };
 
 export default SortBy;

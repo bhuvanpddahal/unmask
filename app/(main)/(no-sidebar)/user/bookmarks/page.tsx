@@ -18,7 +18,7 @@ const UserBookmarksPage = () => {
                 <Bookmarks />
             </div>
         </div>
-    )
+    );
 };
 
 export default UserBookmarksPage;

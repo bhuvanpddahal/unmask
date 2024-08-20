@@ -85,7 +85,7 @@ const PostHeader = ({
                 />
             </div>
         </CardHeader>
-    )
+    );
 };
 
 export default PostHeader;

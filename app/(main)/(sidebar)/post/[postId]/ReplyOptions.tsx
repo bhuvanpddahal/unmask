@@ -79,7 +79,7 @@ const ReplyOptions = ({
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
-    )
+    );
 };
 
 export default ReplyOptions;

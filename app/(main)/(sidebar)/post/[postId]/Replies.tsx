@@ -98,7 +98,7 @@ const Replies = ({
                         updatedAt={reply.updatedAt}
                         initialIsLiked={isLiked}
                     />
-                )
+                );
             })}
             {(!enabled && totalReplies > replies.length) && (
                 <Button
@@ -126,7 +126,7 @@ const Replies = ({
                         updatedAt={reply.updatedAt}
                         initialIsLiked={isLiked}
                     />
-                )
+                );
             })}
             {isLoading && (
                 [...new Array(Math.min(3, remainingReplies))].map((_, index) => (
@@ -149,7 +149,7 @@ const Replies = ({
                 )
             )}
         </ul>
-    )
+    );
 };
 
 export default Replies;

@@ -62,7 +62,7 @@ const BookmarkHeader = ({
                 {!isPending && <X className="size-4" />}
             </Button>
         </div>
-    )
+    );
 };
 
 export default BookmarkHeader;

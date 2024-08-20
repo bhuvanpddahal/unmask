@@ -171,7 +171,7 @@ const UserBookmarksContent = () => {
                                 className="flex-1 border-none rounded-t-none shadow-none transition-colors hover:bg-slate-50 dark:hover:bg-slate-950 hover:shadow-none"
                             />
                         </div>
-                    )
+                    );
                 })}
                 {isFetchingNextPage && (
                     Array.from({ length: 2 }, (_, index) => (
@@ -183,7 +183,7 @@ const UserBookmarksContent = () => {
                 )}
             </ul>
         </>
-    )
+    );
 };
 
 export default UserBookmarksContent;

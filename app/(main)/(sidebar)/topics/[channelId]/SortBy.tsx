@@ -18,7 +18,7 @@ interface SortByProps {
 const SortBy = ({
     channelId = "",
     sort,
-    className
+    className = ""
 }: SortByProps) => {
     const router = useRouter();
 
@@ -47,7 +47,7 @@ const SortBy = ({
                 </SelectContent>
             </Select>
         </div>
-    )
+    );
 };
 
 export default SortBy;

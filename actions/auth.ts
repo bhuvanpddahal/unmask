@@ -24,9 +24,8 @@ import { auth, signIn } from "@/auth";
 import { hashEmail } from "@/lib/utils";
 import { sendVerificationEmail } from "@/lib/mail";
 import { getUserByEmail } from "@/lib/queries/user";
-import { generateVerificationToken } from "@/lib/token";
+import { generateVerificationToken } from "@/lib/verification-token";
 import { getVerificationTokenByEmail } from "@/lib/queries/verification-token";
-import { User } from "@prisma/client";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

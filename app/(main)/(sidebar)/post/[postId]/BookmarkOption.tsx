@@ -66,7 +66,7 @@ const BookmarkOption = ({
                 isBookmarked && "text-primary fill-primary"
             )} />
         </div>
-    )
+    );
 };
 
 export default BookmarkOption;

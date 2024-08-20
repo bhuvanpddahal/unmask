@@ -18,16 +18,11 @@ export const EditCommentValidator = z.object({
     editedComment: z.string().min(3)
 });
 
-export const DeleteCommentValidator = z.object({
-    commentId: z.string()
-});
-
-export const LikeOrUnlikeCommentValidator = z.object({
+export const CommentIdValidator = z.object({
     commentId: z.string()
 });
 
 export type GetCommentsPayload = z.infer<typeof GetCommentsValidator>;
 export type CommentOnPostPayload = z.infer<typeof CommentOnPostValidator>;
 export type EditCommentPayload = z.infer<typeof EditCommentValidator>;
-export type DeleteCommentPayload = z.infer<typeof DeleteCommentValidator>;
-export type LikeOrUnlikeCommentPayload = z.infer<typeof LikeOrUnlikeCommentValidator>;
+export type CommentIdPayload = z.infer<typeof CommentIdValidator>;

@@ -3,14 +3,12 @@
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import {
-    DeleteReplyPayload,
-    DeleteReplyValidator,
     EditReplyPayload,
     EditReplyValidator,
     GetMoreRepliesPayload,
     GetMoreRepliesValidator,
-    LikeOrUnlikeReplyPayload,
-    LikeOrUnlikeReplyValidator,
+    ReplyIdPayload,
+    ReplyIdValidator,
     ReplyOnCommentPayload,
     ReplyOnCommentValidator
 } from "@/lib/validators/reply";
@@ -81,9 +79,9 @@ export const editReply = async (payload: EditReplyPayload) => {
     }
 };
 
-export const deleteReply = async (payload: DeleteReplyPayload) => {
+export const deleteReply = async (payload: ReplyIdPayload) => {
     try {
-        const validatedFields = DeleteReplyValidator.safeParse(payload);
+        const validatedFields = ReplyIdValidator.safeParse(payload);
         if (!validatedFields.success) return { error: "Invalid fields" };
 
         const session = await auth();
@@ -165,9 +163,9 @@ export const getMoreReplies = async (payload: GetMoreRepliesPayload) => {
     }
 };
 
-export const likeOrUnlikeReply = async (payload: LikeOrUnlikeReplyPayload) => {
+export const likeOrUnlikeReply = async (payload: ReplyIdPayload) => {
     try {
-        const validatedFields = LikeOrUnlikeReplyValidator.safeParse(payload);
+        const validatedFields = ReplyIdValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const session = await auth();
